@@ -22,6 +22,7 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
+  TK_NUMBER,
 
   /* TODO: Add more token types */
 
@@ -35,13 +36,19 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-
+  {"\\*",'*'},          // multiply
+  {"/",'/'},            // divide
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
+  {"\\-", '-'},         // minus
+  {"\\d+", TK_NUMBER},  // number
+  {"[0-9]+",TK_NUMBER}, // number
+  {"\\(", '('},         // left parenthese
+  {"\\)", ')'},         // right parenthese
   {"==", TK_EQ},        // equal
 };
 
-#define NR_REGEX ARRLEN(rules)
+#define NR_REGEX ARRLEN(rules)  //return the lenth of the rules
 
 static regex_t re[NR_REGEX] = {};
 
@@ -80,8 +87,8 @@ static bool make_token(char *e) {
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
-      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
-        char *substr_start = e + position;
+      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {/* rm_eo :Byte offset from string's start to substring's end.  */
+        char *substr_start = e + position;                                        ///* rm_so:  Byte offset from string's start to substring's start.  */
         int substr_len = pmatch.rm_eo;
 
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
@@ -94,9 +101,23 @@ static bool make_token(char *e) {
          * of tokens, some extra actions should be performed.
          */
 
+        if(rules[i].token_type == TK_NOTYPE){//when thr token is space, then exit this circle
+          break;
+        }
+
+        tokens[nr_token].type = rules[i].token_type;
+
         switch (rules[i].token_type) {
+          case TK_NUMBER:
+          case TK_EQ:
+            assert(substr_len <= 32);
+            memset(tokens[nr_token].str,0,sizeof(tokens[nr_token].str));
+            memcpy(tokens[nr_token].str,rules[i].regex,substr_len);
+          break;
           default: TODO();
         }
+
+        nr_token ++;
 
         break;
       }

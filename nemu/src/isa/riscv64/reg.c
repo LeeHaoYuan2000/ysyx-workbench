@@ -24,6 +24,20 @@ const char *regs[] = {
 };
 
 void isa_reg_display() {
+  //int i = 0;
+  //for(;i < 32 ; i++){
+  //  printf("%s:\t 0x%08lx\n",regs[i],cpu.gpr[i]);
+  //}
+
+    printf("General reg: ----------------------------------------------------------- \n");
+    int i;
+    for(i = 0 ; i < 32 ; i++) {
+      printf("%-3s :0x%08lx |  ", regs[i], cpu.gpr[i]);
+      if ((i+1)%4 == 0)
+        printf("\n");
+    }
+    printf("Special reg: ----------------------------------------------------------- \n");
+    printf("$pc :0x%08lx\n\n", cpu.pc);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {

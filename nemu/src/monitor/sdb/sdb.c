@@ -18,6 +18,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/vaddr.h>
+
 
 static int is_batch_mode = false;
 
@@ -54,6 +56,12 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args);
+
+static int cmd_info(char *args);
+
+static int cmd_x(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -62,12 +70,77 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si","Run the program step by step", cmd_si},
+  { "info","Display the status of regisiters and watch points", cmd_info},
+  { "x","Display the value of the particular addr", cmd_x}
   /* TODO: Add more commands */
-
 };
 
 #define NR_CMD ARRLEN(cmd_table)
+
+static int cmd_x(char *args){
+  char *num = strtok(NULL," ");
+  char *addr = strtok(NULL," ");
+
+  int lenth = 0;
+  int addrNumber;
+  int i,j = 0;
+
+  sscanf(num,"%d",&lenth);
+  sscanf(addr,"%x)",&addrNumber);
+
+  if(addr == NULL){
+    printf("Please input the number crrectlly");
+    return 0;
+  }
+  for(i = 0;i < lenth ;i++){
+    if(j % 4 == 0){
+      printf("0x%x: ",addrNumber);
+    }
+    j++;
+    printf("0x%8lx   ",vaddr_read(addrNumber,4));
+
+    addrNumber = addrNumber + 4;
+
+    if(j%4 == 0){
+      printf("\n");
+    }
+  }
+  return 0;
+}
+
+static int cmd_info(char *args){
+  char *arg = strtok(NULL," ");
+  if(arg == NULL){
+    printf("Please input parameter\n");
+    printf("e.g. info r :Display the status of regisiters\n");
+    printf("e.g. info w :Display the status of watch points\n");
+    return 0;//
+  }
+  else {
+    if(strcmp(arg,"r") == 0){
+      isa_reg_display();
+    }
+  }
+
+  return 0;
+}
+
+static int cmd_si(char *args){
+  char *arg = strtok(NULL,"");
+  int i = 0;//
+
+  if(arg == NULL){//if there not any number behind the "si",then only run it onece
+    cpu_exec(1);
+  }
+  else {
+    sscanf(arg,"%d",&i);
+    for(;i > 0 ; i--){
+      cpu_exec(1);
+    }
+  }
+  return 0;
+}
 
 static int cmd_help(char *args) {
   /* extract the first argument */
