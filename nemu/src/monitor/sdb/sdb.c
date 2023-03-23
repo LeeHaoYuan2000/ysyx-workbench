@@ -55,12 +55,12 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
-
 static int cmd_si(char *args);
-
 static int cmd_info(char *args);
-
 static int cmd_x(char *args);
+static int cmd_p(char *args);
+static int cmd_d(char *args);
+static int cmd_w(char *args);
 
 static struct {
   const char *name;
@@ -72,7 +72,10 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si","Run the program step by step", cmd_si},
   { "info","Display the status of regisiters and watch points", cmd_info},
-  { "x","Display the value of the particular addr", cmd_x}
+  { "x","Display the value of the particular addr", cmd_x},
+  { "p","display the value of EXPR", cmd_p},
+  { "w","set the watchpoint",cmd_w},
+  { "d","delete the watchpointe",cmd_d}
   /* TODO: Add more commands */
 };
 
@@ -163,6 +166,23 @@ static int cmd_help(char *args) {
     printf("Unknown command '%s'\n", arg);
   }
   return 0;
+}
+
+static int cmd_p(char *args){//calculate the value of EXPR
+    bool *success;
+    //uint32_t val;
+    //printf("%s\n",args);
+
+    if(args == NULL){
+      printf("please input the right expr!");
+    }
+
+  printf("result = %ld \n",expr(args,success));
+  return 0;
+}
+
+static int cmd_d(char *args){//Delete the watch point
+
 }
 
 void sdb_set_batch_mode() {

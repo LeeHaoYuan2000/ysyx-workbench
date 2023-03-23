@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <string.h>
 
+uint32_t buf_pointer;
+
 // this should be enough
 static char buf[65536] = {};
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
@@ -31,8 +33,64 @@ static char *code_format =
 "  return 0; "
 "}";
 
+
+
+static void gen_num(){
+  srand(time(NULL));
+   buf[buf_pointer] = rand()%9;
+   buf_pointer++;
+}
+
+static void gen(char ch){
+    if(ch == '('){
+      buf[buf_pointer] = '(';
+    }
+    else if(ch == ')')
+       buf[buf_pointer] = ')';
+    else{
+      assert(0);
+    }
+   buf_pointer ++;
+}
+
+static void gen_rand_op(){
+  srand(time(NULL));
+  switch (rand() % 4)
+  {
+  case 0:
+    buf[buf_pointer] = '+'; break;
+  case 1:
+    buf[buf_pointer] = '-'; break;
+  case 2:
+    buf[buf_pointer] = '*'; break;
+  case 3:
+    buf[buf_pointer] = '/'; break;
+  default:
+    printf("erros in gen_rand_op");  break;
+  }
+
+  buf_pointer ++;
+}
+
+static uint32_t choose(uint32_t i){
+  srand(time(NULL));
+  return rand() % i;
+}
+
 static void gen_rand_expr() {
-  buf[0] = '\0';
+  switch (choose(3))
+  {
+  case 0:
+      gen_num();
+    break;
+  case 1:
+      gen('('); gen_rand_expr(); gen(')');
+  break;
+  default:
+      gen_rand_expr(); gen_rand_op();gen_rand_expr();
+    break;
+  }
+  //buf[buf_pointer] = '\0';
 }
 
 int main(int argc, char *argv[]) {
@@ -44,6 +102,7 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    buf_pointer = 0;
     gen_rand_expr();
 
     sprintf(code_buf, code_format, buf);
@@ -60,7 +119,7 @@ int main(int argc, char *argv[]) {
     assert(fp != NULL);
 
     int result;
-    fscanf(fp, "%d", &result);
+    fscanf(fp, "%d", &result); 
     pclose(fp);
 
     printf("%u %s\n", result, buf);
