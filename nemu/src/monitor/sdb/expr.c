@@ -99,6 +99,7 @@ static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
+  
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -127,10 +128,10 @@ static bool make_token(char *e) {
           break;
         }
 
-        switch (rules[i].token_type)
+        switch (rules[i].token_type) //判断当前的减号和乘号的类型
         {
         case '-':
-          if(i == 0){
+          if(nr_token == 0){
              tokens[nr_token].type = NEG;
            }
           else{
@@ -155,7 +156,33 @@ static bool make_token(char *e) {
             tokens[nr_token].type = rules[i].token_type;
               break;
           }
-        }
+        } 
+          break;
+
+          case '*':
+            if(nr_token == 0){
+               tokens[nr_token].type = POINTER;
+            }
+            else {
+              switch (tokens[nr_token-1].type)
+              {
+                case '+':
+                tokens[nr_token].type = POINTER;
+                break;
+                case '-':
+                tokens[nr_token].type = POINTER;
+                break;
+                case '*':
+                tokens[nr_token].type = POINTER;
+                break;
+                case '/':
+                tokens[nr_token].type = POINTER;
+                break;
+              default:
+              tokens[nr_token].type = rules[i].token_type;
+                break;
+              }
+            }
           break;
         default:
           tokens[nr_token].type = rules[i].token_type;
@@ -165,18 +192,24 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
           case Decimal:
-            memset(tokens[nr_token].str,0,substr_len);  
+            memset(tokens[nr_token].str,'\0',128);  
             strncpy(tokens[nr_token].str,&e[position-substr_len],substr_len);
+
+            printf("Decimal = %s \n",tokens[nr_token].str);
           break ;
+
           case Hex:
-          break;
-          case Reg:
-            memset(tokens[nr_token].str,0,substr_len);  
+            memset(tokens[nr_token].str,'\0',128);  
             strncpy(tokens[nr_token].str,&e[position-substr_len],substr_len);
-            printf("%s %dhh\n",tokens[nr_token].str,tokens[nr_token].type);
+            printf("Hex = %s \n",tokens[nr_token].str);
           break;
-          default: //TODO()
-          ;
+
+          case Reg:
+            memset(tokens[nr_token].str,'\0',128);  
+            strncpy(tokens[nr_token].str,&e[position-substr_len],substr_len);
+            printf("Reg = %s \n",tokens[nr_token].str);
+          break;
+          default: //TODO();
         }
         nr_token ++;
         break;
@@ -185,12 +218,6 @@ static bool make_token(char *e) {
 
     }
     
-     int cnt;
-     for(cnt = 0; cnt < nr_token;cnt ++){
-       printf("%d: %s\n",tokens[cnt].type,tokens[cnt].str);
-     }
-
-    printf("nr_tokens = %d    %s\n",nr_token,tokens[nr_token-1].str);
 
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
@@ -221,7 +248,10 @@ uint32_t eval(int p,int q){//calculate all the expression
          sscanf(tokens[p].str,"%d",&result);
           return result;
         break;
-
+        case Hex:
+          sscanf(tokens[p].str,"%x",&result);
+          return result;
+        break;
         case Reg:
         char strReg[32];
         while(cnt <= 31){
@@ -255,7 +285,7 @@ uint32_t eval(int p,int q){//calculate all the expression
     int result = 0;
     OP = dominant_operator(p,q);
     int val1;
-    if(tokens[OP].type == NEG){
+    if(tokens[OP].type == NEG || tokens[OP].type == POINTER){
          val1 = 0;
          printf("this is neg3\n");
     }
@@ -281,6 +311,9 @@ uint32_t eval(int p,int q){//calculate all the expression
         return val1 || val2;
       case NEG:
         return -val2;
+      break;
+      case POINTER:
+        return vaddr_read(val2,4);
       break;
       case '+':
         return result = (val1 + val2);
@@ -410,14 +443,18 @@ int dominant_operator(int p, int q){
           }
         break;
 
+        case POINTER:
+        if(priorty<=3){
+              priorty = 3;
+              opoint = i;
+          }
+        break;
+
       default:
         break;
       }
     }
   }
-
-  //printf("doPlace : %d\n",opoint);
-
   return opoint;
 }
 

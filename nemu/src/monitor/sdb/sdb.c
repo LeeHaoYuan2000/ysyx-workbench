@@ -60,7 +60,7 @@ static int cmd_info(char *args);
 static int cmd_x(char *args);
 static int cmd_p(char *args);
 static int cmd_d(char *args);
-static int cmd_w(char *args);
+//static int cmd_w(char *args);
 
 static struct {
   const char *name;
@@ -74,8 +74,8 @@ static struct {
   { "info","Display the status of regisiters and watch points", cmd_info},
   { "x","Display the value of the particular addr", cmd_x},
   { "p","display the value of EXPR", cmd_p},
-  { "w","set the watchpoint",cmd_w},
-  { "d","delete the watchpointe",cmd_d}
+  //{ "w","set the watchpoint",cmd_w},
+  //{ "d","delete the watchpointe",cmd_d}
   /* TODO: Add more commands */
 };
 
@@ -181,9 +181,9 @@ static int cmd_p(char *args){//calculate the value of EXPR
   return 0;
 }
 
-static int cmd_d(char *args){//Delete the watch point
+// static int cmd_d(char *args){//Delete the watch point
 
-}
+// }
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;
