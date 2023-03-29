@@ -17,18 +17,18 @@
 
 #define NR_WP 32
 
-typedef struct watchpoint {
-  int NO;
-  struct watchpoint *next;
-  /* TODO: Add more members if necessary */
-  char expr[128];
-  int val;
-  int old_val;
-  bool changed;
-} WP;
+// typedef struct watchpoint {
+//   int NO;
+//   struct watchpoint *next;
+//   char expr[128];
+//   int val;
+//   int old_val;
+//   bool changed;
+// } WP;
 
-static WP wp_pool[NR_WP] = {};
-static WP *head = NULL, *free_ = NULL;
+ static WP wp_pool[NR_WP] = {};
+static WP *head;
+static WP *free_;
 
 void init_wp_pool() {
   int i;
@@ -47,6 +47,7 @@ WP* new_wp(){//get a new watchpointe node
   WP* WP_buf;
   if(free_ == NULL){
     printf("there no avaliable watchpoint\n");
+    return NULL;
   }
   else {
     WP_buf = free_;
@@ -54,6 +55,27 @@ WP* new_wp(){//get a new watchpointe node
   }
 
   return WP_buf;
+}
+
+void addWPHead(WP* addWP){
+    addWP->next = head;
+    head = addWP;
+}
+
+void deleteWP(int n){
+  WP* WP_buf;
+  WP_buf = head;
+  if(n<32 && n >=0){
+
+    while(WP_buf->NO != n){
+      WP_buf = WP_buf->next;
+    }
+    free_wp(WP_buf);
+  }
+
+  else{
+    printf("Please input the right number\n");
+  }
 }
 
 void free_wp(WP *wp){
@@ -64,23 +86,24 @@ void free_wp(WP *wp){
   }
   else{
     if(head_buf == wp){
-      head ->next = wp->next;
+      head = wp->next;
       wp->next = free_;
       free_ = wp;
     }
     else {
-      while(head_buf->next != wp || head_buf->next != NULL){
+      while(head_buf->next != wp && head_buf->next != NULL){
         head_buf = head_buf->next;
     }
     WP* buffer;
-    if(head_buf == NULL){
-      assert(0);//there no such watchpoint
-    }
-    else{
-      buffer == head_buf->next->next;
-      buffer->next->next = free_;
-      free_ = buffer->next;
-    }
+      if(head_buf->next == NULL){
+        printf("there is no such a watchpoint\n");
+      }
+      else {
+        buffer = head_buf->next->next;
+        head_buf->next->next = free_;
+        free_ = head_buf->next;
+        head_buf->next = buffer;
+      }
     }
   }
 }
@@ -88,12 +111,21 @@ void free_wp(WP *wp){
 void print_wp(){
   WP* wp_node;
   wp_node = head;
+
+  if(head == NULL)
+  {
+      printf("NOOO !!!\n");
+  }
+  else {
+      printf("Yesss !!!\n");
+  }
   while(wp_node != NULL){
-    printf("WatchPoint NO.%d  expr:%s val:",wp_node->NO,wp_node->expr);
+    printf("WatchPoint NO.%d  expr:%s val:%d\n",wp_node->NO,wp_node->expr,wp_node->val);
+    wp_node = wp_node->next;
   }
 }
 
-void check_wp(){
+bool check_wp(){
   WP* head_buf;
   head_buf = head;
   bool* success;
@@ -103,10 +135,13 @@ void check_wp(){
     head_buf->val = expr(head_buf->expr,success);
     if(head_buf->old_val != head_buf->val){
       head_buf->changed = 1;
+      head_buf->old_val = head_buf->val;
+      printf("watchpoint changed: NO.%d   expr:%s   val:%d\n",head_buf->NO,head_buf->expr,head_buf->val);
       change = true;
     }
     else{
       head_buf->changed = 0;
+      change = false;
     }
     head_buf = head_buf->next;
   }

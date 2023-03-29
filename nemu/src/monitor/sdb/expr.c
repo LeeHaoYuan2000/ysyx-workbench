@@ -207,7 +207,6 @@ static bool make_token(char *e) {
           case Reg:
             memset(tokens[nr_token].str,'\0',128);  
             strncpy(tokens[nr_token].str,&e[position-substr_len],substr_len);
-            printf("Reg = %s \n",tokens[nr_token].str);
           break;
           default: //TODO();
         }
@@ -287,11 +286,9 @@ uint32_t eval(int p,int q){//calculate all the expression
     int val1;
     if(tokens[OP].type == NEG || tokens[OP].type == POINTER){
          val1 = 0;
-         printf("this is neg3\n");
     }
     else {
          val1 = eval(p,OP - 1);
-         printf("not neg  p:%d OP:%d\n",p,OP);
     }
     
     int val2 = eval(OP + 1,q);
@@ -458,9 +455,6 @@ int dominant_operator(int p, int q){
   return opoint;
 }
 
-
-
-
 word_t expr(char *e, bool *success) {
   word_t val;
 
@@ -470,11 +464,5 @@ word_t expr(char *e, bool *success) {
   }
   val = eval(0,nr_token - 1);
 
-  printf("in function expr\n");
-  printf("%ld \n",val);
-
-  //*success = true;
-  /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
   return val;
 }

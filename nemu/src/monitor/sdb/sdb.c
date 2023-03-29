@@ -19,6 +19,7 @@
 #include <readline/history.h>
 #include "sdb.h"
 #include <memory/vaddr.h>
+//#include <monitor/watchpoint.h>
 
 
 static int is_batch_mode = false;
@@ -60,7 +61,8 @@ static int cmd_info(char *args);
 static int cmd_x(char *args);
 static int cmd_p(char *args);
 static int cmd_d(char *args);
-//static int cmd_w(char *args);
+static int cmd_w(char *args);
+
 
 static struct {
   const char *name;
@@ -74,12 +76,45 @@ static struct {
   { "info","Display the status of regisiters and watch points", cmd_info},
   { "x","Display the value of the particular addr", cmd_x},
   { "p","display the value of EXPR", cmd_p},
-  //{ "w","set the watchpoint",cmd_w},
-  //{ "d","delete the watchpointe",cmd_d}
+  { "w","set the watchpoint",cmd_w},
+  { "d","delete the watchpoint",cmd_d}
   /* TODO: Add more commands */
 };
 
 #define NR_CMD ARRLEN(cmd_table)
+
+static int cmd_d(char *args){
+  char *number = strtok(NULL,"");
+  int WPNumber;
+  WP* WP_buf;
+  sscanf(number,"%d",&WPNumber);
+  deleteWP(WPNumber);
+  return 0;
+}
+
+static int cmd_w(char *args){
+    char *exprWP = strtok(NULL," ");
+    WP* newWP;
+    bool *success;
+    if(expr == NULL){
+      printf("Please input the right expr");
+      return 0;
+    }
+
+    newWP = new_wp();
+    if(newWP == NULL){
+      return 0;
+    }
+    else {
+      strcpy(newWP->expr,exprWP);
+      newWP->val = expr(newWP->expr,success);
+      newWP->old_val = newWP->val;
+      addWPHead(newWP);
+      printf("add a new WP\n");
+    }
+
+  return 0;
+}
 
 static int cmd_x(char *args){
   char *num = strtok(NULL," ");
@@ -123,6 +158,9 @@ static int cmd_info(char *args){
   else {
     if(strcmp(arg,"r") == 0){
       isa_reg_display();
+    }
+    else if(strcmp(arg,"w") == 0){//show all the value of watchpoint
+          print_wp();
     }
   }
 
@@ -170,8 +208,6 @@ static int cmd_help(char *args) {
 
 static int cmd_p(char *args){//calculate the value of EXPR
     bool *success;
-    //uint32_t val;
-    //printf("%s\n",args);
 
     if(args == NULL){
       printf("please input the right expr!");
@@ -180,10 +216,6 @@ static int cmd_p(char *args){//calculate the value of EXPR
   printf("result = %ld \n",expr(args,success));
   return 0;
 }
-
-// static int cmd_d(char *args){//Delete the watch point
-
-// }
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;
