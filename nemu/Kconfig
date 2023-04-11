@@ -213,3 +213,18 @@ config RT_CHECK
   default y
 
 endmenu
+
+choice
+  prompt "WatchPoint Change"
+  default disable
+config WP_disable
+  bool "0"
+config WP_enable
+  bool "1"
+endchoice
+
+config WATCHPOINT
+  string
+  default 0 if WP_disable
+  default 1 if WP_enable
+  default n
