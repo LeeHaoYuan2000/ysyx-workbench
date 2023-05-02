@@ -2,9 +2,9 @@
 # DESCRIPTION: Verilator output: Makefile for building Verilated archive or executable
 #
 # Execute this makefile from the object directory:
-#    make -f VaddPC.mk
+#    make -f VRegPC.mk
 
-default: VaddPC__ALL.a
+default: VRegPC
 
 ### Constants...
 # Perl executable (from $PERL)
@@ -30,9 +30,9 @@ VM_SC_TARGET_ARCH = linux
 
 ### Vars...
 # Design prefix (from --prefix)
-VM_PREFIX = VaddPC
+VM_PREFIX = VRegPC
 # Module prefix (from --prefix)
-VM_MODPREFIX = VaddPC
+VM_MODPREFIX = VRegPC
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 
@@ -41,15 +41,28 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
+	tb_Reg \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
+	./csrc \
 
 
 ### Default rules...
 # Include list of all generated classes
-include VaddPC_classes.mk
+include VRegPC_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
+
+### Executable rules... (from --exe)
+VPATH += $(VM_USER_DIR)
+
+tb_Reg.o: ./csrc/tb_Reg.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+
+### Link rules... (from --exe)
+VRegPC: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
+	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
+
 
 # Verilated -*- Makefile -*-

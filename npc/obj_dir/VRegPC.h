@@ -5,28 +5,30 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VADDPC_H_
-#define VERILATED_VADDPC_H_  // guard
+#ifndef VERILATED_VREGPC_H_
+#define VERILATED_VREGPC_H_  // guard
 
-#include "verilated_heavy.h"
+#include "verilated.h"
 
-class VaddPC__Syms;
-class VaddPC___024root;
+class VRegPC__Syms;
+class VRegPC___024root;
+class VerilatedVcdC;
 
 // This class is the main interface to the Verilated model
-class VaddPC VL_NOT_FINAL {
+class VRegPC VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    VaddPC__Syms* const vlSymsp;
+    VRegPC__Syms* const vlSymsp;
 
   public:
 
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
+    VL_IN8(&clk,0,0);
     VL_IN8(&rst,0,0);
-    VL_IN64(&PC,63,0);
-    VL_IN8(&adder,2,0);
+    VL_IN8(&wen,0,0);
+    VL_IN64(&data,63,0);
     VL_OUT64(&out,63,0);
 
     // CELLS
@@ -35,19 +37,19 @@ class VaddPC VL_NOT_FINAL {
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    VaddPC___024root* const rootp;
+    VRegPC___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit VaddPC(VerilatedContext* contextp, const char* name = "TOP");
-    explicit VaddPC(const char* name = "TOP");
+    explicit VRegPC(VerilatedContext* contextp, const char* name = "TOP");
+    explicit VRegPC(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~VaddPC();
+    virtual ~VRegPC();
   private:
-    VL_UNCOPYABLE(VaddPC);  ///< Copying not allowed
+    VL_UNCOPYABLE(VRegPC);  ///< Copying not allowed
 
   public:
     // API METHODS
@@ -60,11 +62,20 @@ class VaddPC VL_NOT_FINAL {
     void eval_end_step() {}
     /// Simulation complete, run final blocks.  Application must call on completion.
     void final();
-    /// Return current simulation context for this model.
-    /// Used to get to e.g. simulation time via contextp()->time()
-    VerilatedContext* contextp() const;
+    /// Are there scheduled events to handle?
+    bool eventsPending();
+    /// Returns time at next time slot. Aborts if !eventsPending()
+    uint64_t nextTimeSlot();
+    /// Trace signals in the model; called by application code
+    void trace(VerilatedVcdC* tfp, int levels, int options = 0);
     /// Retrieve name of this model instance (as passed to constructor).
     const char* name() const;
+
+    // Abstract methods from VerilatedModel
+    const char* hierName() const override final;
+    const char* modelName() const override final;
+    unsigned threads() const override final;
+    std::unique_ptr<VerilatedTraceConfig> traceConfig() const override final;
 } VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
 
 #endif  // guard
