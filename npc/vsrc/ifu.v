@@ -1,7 +1,7 @@
 module ifu(
     input  [63:0] PCAddr,
     input  [31:0] instr,
-    output [63:0] ramAddr,
+    output [63:0] ramAddr, //将PC的地址传入存储器中
     output [4:0] rs1Addr,
     output [4:0] rs2Addr,
     output [4:0] rdAddr,
