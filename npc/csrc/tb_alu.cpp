@@ -5,12 +5,12 @@
 #include "verilated_vcd_c.h"
 
 int main (void){
-    Verilated *context = new Verilated;
+    VerilatedContext *context = new VerilatedContext;
     Valu *alu = new Valu(context);
     VerilatedVcdC *wave = new VerilatedVcdC;
 
     context->traceEverOn(true);
-    alu->tracd(wave,5);
+    alu->trace(wave,5);
     wave->open("wave_alu.vcd");
 
     unsigned long long value1 = 0;
@@ -18,15 +18,15 @@ int main (void){
     int i = 20;
     while(i){
 
-        value1 += 2;
-        value2 += 1;
+        value1 += 153;
+        value2 += 229;
 
         alu->adder1 = value1;
         alu->adder2 = value2;
 
         alu->eval();
         wave->dump(context->time());
-        copntext->timeInc(10);
+        context->timeInc(10);
 
         i--;
     }

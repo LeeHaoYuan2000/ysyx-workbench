@@ -2,50 +2,49 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See VRegPC.mk for the caller.
+# See Vtop.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
 VM_C11 = 1
-# Timing enabled?  0/1
-VM_TIMING = 0
 # Coverage output mode?  0/1 (from --coverage)
 VM_COVERAGE = 0
 # Parallel builds?  0/1 (from --output-split)
 VM_PARALLEL_BUILDS = 0
+# Threaded output mode?  0/1/N threads (from --threads)
+VM_THREADS = 0
 # Tracing output mode?  0/1 (from --trace/--trace-fst)
 VM_TRACE = 1
-# Tracing output mode in VCD format?  0/1 (from --trace)
-VM_TRACE_VCD = 1
 # Tracing output mode in FST format?  0/1 (from --trace-fst)
 VM_TRACE_FST = 0
+# Tracing threaded output mode?  0/1/N threads (from --trace-thread)
+VM_TRACE_THREADS = 0
+# Separate FST writer thread? 0/1 (from --trace-fst with --trace-thread > 0)
+VM_TRACE_FST_WRITER_THREAD = 0
 
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-	VRegPC \
-	VRegPC___024root__DepSet_h4397258b__0 \
-	VRegPC___024root__DepSet_h98a0e6f6__0 \
+	Vtop \
+	Vtop___024root \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-	VRegPC___024root__Slow \
-	VRegPC___024root__DepSet_h98a0e6f6__0__Slow \
+	Vtop___024root__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-	VRegPC__Trace__0 \
+	Vtop__Trace \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-	VRegPC__Syms \
-	VRegPC__Trace__0__Slow \
+	Vtop__Syms \
+	Vtop__Trace__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \
 	verilated \
 	verilated_vcd_c \
-	verilated_threads \
 
 # Global classes, need linked once per executable, non-fast-path, compile with low/medium optimization
 VM_GLOBAL_SLOW += \

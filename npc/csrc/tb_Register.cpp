@@ -5,9 +5,9 @@
 #include <..//obj_dir//VRegister.h>
 
 int main(void){
-    Verilated *context = new Verilated;
+    VerilatedContext *context = new VerilatedContext;
     VRegister *reg = new VRegister(context);
-    VerilatedvcdC *wave = new VerilatedVcdC;
+    VerilatedVcdC *wave = new VerilatedVcdC;
 
     context->traceEverOn(true);
     reg ->trace(wave,5);
@@ -23,6 +23,10 @@ int main(void){
         reg->rdAddr = i;
         reg->dataBack = (long long)i;
         i++;
+
+        reg->eval();
+        wave->dump(context->time());
+        context->timeInc(5);
     }
 
     i =0;
@@ -35,6 +39,10 @@ int main(void){
 
         reg->rs1Addr = i;
         reg->rs2Addr = (i+1)%32;
+
+        reg->eval();
+        wave->dump(context->time());
+        context->timeInc(5);
 
         i++;
     }

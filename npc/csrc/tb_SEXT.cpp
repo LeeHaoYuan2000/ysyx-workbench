@@ -15,19 +15,21 @@ int main (void){
     wave->open("wave_SEXT.vcd");
     unsigned int value = 0b00000000000;
     sext->imms = value;
-    int i = 20;
+    int i = 30;
     while(i){
 
-        if(i>10){
-            value += 0b00000000010;
+        if(i>20){
+            value += 0b000000000001;
         }
         else{
-            value += 0b01000000000;
+            value += 0b001000000000;
         }
         sext->imms = value;
 
+        context->timeInc(5);
+
         sext->eval();
-        wave->dump(context->time);
+        wave->dump(context->time());
         context->timeInc(5);
         i--;
     }

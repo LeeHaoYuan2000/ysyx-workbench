@@ -8,7 +8,7 @@ module addPC (
 //reg [63:0] outReg;
 
 /* verilator lint_off WIDTH */
-assign out[63:0] = rst ? 64'h0:PC[63:0] + adder[2:0];
+assign out[63:0] = rst ? 64'h0000_0000_8000_0000:PC[63:0] + adder[2:0];
 
 
 endmodule
