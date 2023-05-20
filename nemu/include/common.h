@@ -24,8 +24,10 @@
 #include <generated/autoconf.h>
 #include <macro.h>
 
-#ifdef CONFIG_TARGET_AM
+#ifdef CONFIG_TARGET_AMb
+//#include</home/ubuntu/ysyx-workbench/abstract-machine/klib/include/klib.h>
 #include <klib.h>
+//#include <stdlib.h>
 #else
 #include <assert.h>
 #include <stdlib.h>

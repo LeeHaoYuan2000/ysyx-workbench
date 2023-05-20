@@ -1,7 +1,8 @@
 #ifndef KLIB_H__
 #define KLIB_H__
 
-#include <am.h>
+#include </home/ubuntu/ysyx-workbench/abstract-machine/am/include/am.h>
+//#include <am.h>
 #include <stddef.h>
 #include <stdarg.h>
 

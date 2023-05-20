@@ -84,8 +84,9 @@ CFLAGS   += -O2 -MMD -Wall -Werror $(INCFLAGS) \
             -D__PLATFORM__=$(PLATFORM) -D__PLATFORM_$(shell echo $(PLATFORM) | tr a-z A-Z | tr - _) \
             -DARCH_H=\"arch/$(ARCH).h\" \
             -fno-asynchronous-unwind-tables -fno-builtin -fno-stack-protector \
-            -Wno-main -U_FORTIFY_SOURCE
-CXXFLAGS +=  $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
+            -Wno-main -U_FORTIFY_SOURCE \
+			-D CONFIG_TARGET_AM 
+CXXFLAGS +=  $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions -D CONFIG_TARGET_AM
 ASFLAGS  += -MMD $(INCFLAGS)
 LDFLAGS  += -z noexecstack
 
@@ -142,7 +143,7 @@ $(ARCHIVE): $(OBJS)
 ## 6. Miscellaneous
 
 ### Build order control
-image: image-dep
+image: image-dep   
 archive: $(ARCHIVE)
 image-dep: $(OBJS) am $(LIBS)
 	@echo \# Creating image [$(ARCH)]
