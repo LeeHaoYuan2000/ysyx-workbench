@@ -16,7 +16,10 @@
 #include <cpu/cpu.h>
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
+#include <cpu/iringbuf.h>
 #include <locale.h>
+
+iringbuf *buf;
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -49,6 +52,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->snpc = pc;
   isa_exec_once(s);
   cpu.pc = s->dnpc;
+
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
@@ -77,10 +81,15 @@ static void exec_once(Decode *s, vaddr_t pc) {
 
 static void execute(uint64_t n) {
   Decode s;
+
+    InitBuf();
+
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
+    addBuf(&s);
     trace_and_difftest(&s, cpu.pc);
+
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }
@@ -96,6 +105,7 @@ static void statistic() {
 }
 
 void assert_fail_msg() {
+  outputRingBuf();
   isa_reg_display();
   statistic();
 }
@@ -128,5 +138,9 @@ void cpu_exec(uint64_t n) {
           nemu_state.halt_pc);
       // fall through
     case NEMU_QUIT: statistic();
+
+    //outputRingBuf(buf);  //use to test the iringbuf
+   
+    break;
   }
 }

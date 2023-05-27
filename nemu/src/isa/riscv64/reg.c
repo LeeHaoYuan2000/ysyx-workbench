@@ -32,12 +32,12 @@ void isa_reg_display() {
     printf("General reg: ----------------------------------------------------------- \n");
     int i;
     for(i = 0 ; i < 32 ; i++) {
-      printf("%-3s :0x%08lx |  ", regs[i], cpu.gpr[i]);
+      printf("%-3s :0x%016lx |  ", regs[i], cpu.gpr[i]);
       if ((i+1)%4 == 0)
         printf("\n");
     }
     printf("Special reg: ----------------------------------------------------------- \n");
-    printf("$pc :0x%08lx\n\n", cpu.pc);
+    printf("$pc :0x%016lx\n\n", cpu.pc);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {

@@ -5,34 +5,95 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-void num2str(char str[32],int num){
-  char strRv[32];
+void num2str(char *str,int num){
+  int i = 0;
+  char strbuf[32];
   if(num == 0){
-    str[0] = '0';
+    str[0] = 48;
     str[1] = '\0';
   }
-  else{
-    int i = 0;
-    int pos = 0;
+  else if(num > 0){
+    int cnt = 0;
+    int bit = 0;
     while(num != 0){
-      i = num % 10;
+      bit = num % 10;
       num = num / 10;
-      strRv[pos] = 48 + i;
-      pos++;
+      strbuf[cnt] = 48 + bit;
+      cnt++; 
     }
-
-    str[pos] = '\0';
-    i = pos;
-
-    while(pos){
-      str[i-pos] = strRv[pos - 1];
-      pos--;
+    
+    while(cnt != 0){
+      str[i] = strbuf[cnt-1];
+      cnt--;
+      i++;
     }
   }
+  else{
+    num = -num;
+    int cnt = 0;
+    int bit = 0;
+
+    while(num != 0){
+      bit = num % 10;
+      num = num /10;
+      strbuf[cnt] = 48 + bit;
+      cnt++;
+    }
+
+    while(cnt != 0){
+      if(i == 0){
+        str[i] = '-';
+      }
+      else{
+        str[i] = strbuf[cnt-1];
+        cnt--;
+      }
+      i++;
+    }
+  }
+  str[i] = '\0';
 }
 
 int printf(const char *fmt, ...) {
-  panic("Not implemented");
+  va_list arg;
+	va_start(arg, fmt);
+ 
+	while (*fmt)
+	{
+		char ret = *fmt;
+		if (ret == '%')
+		{
+			switch (*++fmt)
+			{
+			case 'c':
+			{
+						char ch = va_arg(arg, int);
+						putch(ch);
+						break;
+			}
+			case 's':
+			{
+						char *pc = va_arg(arg, char *);
+						while (*pc)
+						{
+							putch(*pc);
+							pc++;
+						}
+						break;
+			}
+			default:
+				break;
+			}
+		}
+		else
+		{
+			putch(*fmt);
+		}
+		fmt++;
+	}
+	va_end(arg);
+  //panic("Not implemented");
+  return 1;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
@@ -69,9 +130,10 @@ int sprintf(char *out, const char *fmt, ...) {
         case 'd':
           int posD = 0;
           char str[32];
-          num2str(str,va_arg(ar,int));
-          while(str[posD] != '\0'){
-            *out = *str;
+          int number = va_arg(ar,int);
+          num2str(str,number);
+          while(str[posD] != '\0'){ 
+            *out = str[posD];
             posD++;
             out++;
             lenth++;
@@ -85,6 +147,7 @@ int sprintf(char *out, const char *fmt, ...) {
       }
     }
   }
+  *out = '\0';
   va_end(ar);
   
   return lenth;

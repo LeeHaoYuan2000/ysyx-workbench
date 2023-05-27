@@ -6,6 +6,8 @@
 #include <stddef.h>
 #include <stdarg.h>
 
+#define __NATIVE_USE_KLIB__ //link the library to the klib
+
 #ifdef __cplusplus
 extern "C" {
 #endif
