@@ -13,3 +13,4 @@ module Reg #(WIDTH = 1, RESET_VAL = 0) (
     else if (wen) dout <= din;
   end
 endmodule
+

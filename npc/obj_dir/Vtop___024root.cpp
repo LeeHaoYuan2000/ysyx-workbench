@@ -14,6 +14,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__1(Vtop___024root* vlSelf) {
     // Body
     vlSelf->top__DOT__PC_Wire = ((IData)(vlSelf->rst)
                                   ? 0x80000000ULL : vlSelf->top__DOT__PC_Next_Wire);
+    vlSelf->PC_Test = vlSelf->top__DOT__PC_Wire;
     vlSelf->top__DOT__PC_Next_Wire = (4ULL + vlSelf->top__DOT__PC_Wire);
 }
 

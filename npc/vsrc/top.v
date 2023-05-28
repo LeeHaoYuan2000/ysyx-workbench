@@ -18,4 +18,7 @@ module top(
 
     wire [63:0]PC_Wire;
     wire [63:0]PC_Next_Wire;
+
+    assign PC_Test = PC_Wire;
 endmodule
+

@@ -1,14 +1,14 @@
- #include <stdio.h>
- #include <stdlib.h>
- #include <verilated.h>
- #include <verilated_vcd_c.h>
- #include <..\obj_dir\Vtop.h>
+#include <verilated.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "verilated_vcd_c.h"
+#include "..//obj_dir//Vtop.h"
 
- int main(int argc, char** argv, char** env){
+ int main (int argc,char **,char **env){
 	//-------------init----------------//
-	VerilatedContext* contextP = new Verilated; 
+	VerilatedContext* contextP = new VerilatedContext;
 	VerilatedVcdC* wave = new VerilatedVcdC;
-	Vtop* top = new Vtop;
+	Vtop* top = new Vtop(contextP);
 	contextP->traceEverOn(true);
 	top->trace(wave,5);
 	wave->open("top.vcd");
@@ -16,18 +16,20 @@
 	top->rst = 1;
 	int i = 20;
 	//-----------------------------------
-	contextp->timeInc(5);
+	contextP->timeInc(5);
 	while(i--){
-		top->clk = ~top->clk;
-		top-eval();
-		wave->dump(contextp->time());
+		top->clk ^= 1;
+		contextP->timeInc(2);
+		top->eval();
+		wave->dump(contextP->time());
 	}
 
-	top->final();
+	//top->final();
 	wave->close();
 	delete wave;
 	delete top;
-	delete contextp;
-	return 0;
+	delete contextP;
+
+	return 1;
  }
 
