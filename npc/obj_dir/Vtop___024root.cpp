@@ -7,25 +7,44 @@
 
 //==========
 
-VL_INLINE_OPT void Vtop___024root___sequent__TOP__1(Vtop___024root* vlSelf) {
+VL_INLINE_OPT void Vtop___024root___sequent__TOP__5(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__1\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__5\n"); );
     // Body
     vlSelf->top__DOT__PC_Wire = ((IData)(vlSelf->rst)
                                   ? 0x80000000ULL : vlSelf->top__DOT__PC_Next_Wire);
+}
+
+VL_INLINE_OPT void Vtop___024root___sequent__TOP__7(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__7\n"); );
+    // Body
     vlSelf->PC_Test = vlSelf->top__DOT__PC_Wire;
+}
+
+VL_INLINE_OPT void Vtop___024root___sequent__TOP__8(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__8\n"); );
+    // Body
     vlSelf->top__DOT__PC_Next_Wire = (4ULL + vlSelf->top__DOT__PC_Wire);
 }
+
+void Vtop___024root____Vthread_0(void* voidSelf, bool even_cycle);
+void Vtop___024root____Vthread_1(void* voidSelf, bool even_cycle);
 
 void Vtop___024root___eval(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval\n"); );
     // Body
-    if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
-        Vtop___024root___sequent__TOP__1(vlSelf);
-    }
+    vlSymsp->__Vm_even_cycle = !vlSymsp->__Vm_even_cycle;
+    vlSymsp->__Vm_threadPoolp->workerp(0)->addTask(&Vtop___024root____Vthread_0, vlSelf, vlSymsp->__Vm_even_cycle);
+    Vtop___024root____Vthread_1(vlSelf, vlSymsp->__Vm_even_cycle);
+    Verilated::mtaskId(0);
+    vlSelf->__Vm_mtaskstate_final.waitUntilUpstreamDone(vlSymsp->__Vm_even_cycle);
     // Final
     vlSelf->__Vclklast__TOP__clk = vlSelf->clk;
 }
@@ -62,3 +81,36 @@ void Vtop___024root___eval_debug_assertions(Vtop___024root* vlSelf) {
         Verilated::overWidthError("rst");}
 }
 #endif  // VL_DEBUG
+
+void Vtop___024root____Vthread_0(void* voidSelf, bool even_cycle) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vthread_0\n"); );
+    // Body
+    Vtop___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vtop___024root*>(voidSelf);
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    Verilated::mtaskId(4);
+    if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
+        Vtop___024root___sequent__TOP__5(vlSelf);
+    }
+    Verilated::endOfThreadMTask(vlSymsp->__Vm_evalMsgQp);
+    vlSelf->__Vm_mtaskstate_6.signalUpstreamDone(even_cycle);
+    Verilated::mtaskId(7);
+    if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
+        Vtop___024root___sequent__TOP__8(vlSelf);
+    }
+    Verilated::endOfThreadMTask(vlSymsp->__Vm_evalMsgQp);
+    vlSelf->__Vm_mtaskstate_final.signalUpstreamDone(even_cycle);
+}
+
+void Vtop___024root____Vthread_1(void* voidSelf, bool even_cycle) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vthread_1\n"); );
+    // Body
+    Vtop___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vtop___024root*>(voidSelf);
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    vlSelf->__Vm_mtaskstate_6.waitUntilUpstreamDone(even_cycle);
+    Verilated::mtaskId(6);
+    if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
+        Vtop___024root___sequent__TOP__7(vlSelf);
+    }
+    Verilated::endOfThreadMTask(vlSymsp->__Vm_evalMsgQp);
+    vlSelf->__Vm_mtaskstate_final.signalUpstreamDone(even_cycle);
+}

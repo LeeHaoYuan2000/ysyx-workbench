@@ -15,11 +15,30 @@
 	top->clk = 0;
 	top->rst = 1;
 	int i = 20;
+	
 	//-----------------------------------
-	contextP->timeInc(5);
+	contextP->timeInc(1);
+	top->clk = 1;
+	top->eval();
+	wave->dump(contextP->time());
+	contextP->timeInc(1);
+	top->clk = 0;
+	top->rst = 1;
+	top->eval();
+	wave->dump(contextP->time());
+	contextP->timeInc(1);
+	top->clk = 1;
+	top->rst = 1;
+	top->eval();
+	wave->dump(contextP->time());
+	contextP->timeInc(1);
+	top->clk = 1;
+	top->rst = 0;
+	top->eval();
+	wave->dump(contextP->time());
 	while(i--){
 		top->clk ^= 1;
-		contextP->timeInc(2);
+		contextP->timeInc(1);
 		top->eval();
 		wave->dump(contextP->time());
 	}

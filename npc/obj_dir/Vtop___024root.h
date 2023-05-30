@@ -6,6 +6,7 @@
 #define VERILATED_VTOP___024ROOT_H_  // guard
 
 #include "verilated_heavy.h"
+#include "verilated_threads.h"
 
 //==========
 
@@ -19,16 +20,18 @@ VL_MODULE(Vtop___024root) {
   public:
 
     // PORTS
-    VL_IN8(clk,0,0);
     VL_IN8(rst,0,0);
     VL_OUT64(PC_Test,63,0);
+    VL_IN8(clk,0,0);
 
     // LOCAL SIGNALS
-    QData/*63:0*/ top__DOT__PC_Wire;
     QData/*63:0*/ top__DOT__PC_Next_Wire;
+    QData/*63:0*/ top__DOT__PC_Wire;
 
     // LOCAL VARIABLES
     CData/*0:0*/ __Vclklast__TOP__clk;
+    VlMTaskVertex __Vm_mtaskstate_6;
+    VlMTaskVertex __Vm_mtaskstate_final;
 
     // INTERNAL VARIABLES
     Vtop__Syms* vlSymsp;  // Symbol table

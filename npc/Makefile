@@ -1,29 +1,39 @@
 
 
-#Find the src file
-Verilog_file += $(shell find vsrc -name "*.v") #find all the Verilog file
-Verilog_file += $(shell find vsrc/Example -name "*.v") #find all the Verilog file
-Verilog_file += $(shell find vsrc/PC -name "*.v") #find all the Verilog file
-#Verilog_file += $(shell find vsrc/IFU -name "*.v") #find all the Verilog file
-Cpp_file += $(shell find csrc -name "*.cpp") #find cpp file in the folder
+# 1.files info:
+CSRC +=  $(shell find $(abspath ./csrc) -name "*.cpp")
+VSRC +=  $(shell find $(abspath ./vsrc) -name "*.v" -or -name "*.sv")
+TOP_MODULE := top
+SEARCHPATH := $(abspath ./vsrc)
+
+# 2.verilator flags:
+VERILATOR_FLAGS += -I${SEARCHPATH}
+VERILATOR_FLAGS += --top ${TOP_MODULE}
+VERILATOR_FLAGS +=  --cc --trace --exe --build --threads 2 -j 8
+#VERILATOR_FLAGS += -Wno-fatal		# only print lint warning, but not terminate compile.
+#VERILATOR_FLAGS += -Wno-UNUSED 		# close <unused> warning.
 
 show:
-	@echo $(Verilog_file)
+	@echo $(SEARCHPATH)
 
-compile:
-	@verilator  $(Verilog_file) --cc  
-	@verilator -cc --trace --Wall $(Verilog_file) --exe $(Cpp_file)
-	@make -j -C obj_dir -f Vtop.mk Vtop
-	@./obj_dir/Vtop
+compile:${CSRC} ${VSRC}
+	@verilator ${VERILATOR_FLAGS}  ${VSRC} ${CSRC}
+#	verilator -cc --trace --Wall $(Verilog_file) --exe $(Cpp_file)
+#	make -j -C obj_dir -f Vtop.mk Vtop
 
+  
 clean:
-	rm -rf obj_dir
+	rm -rf obj_dir top.vcd
 all:
 	@echo "Write this Makefile by your self."
 
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by your self."
+	@./obj_dir/Vtop
+
+gtkwave:
+	gtkwave $(shell find -name "*.vcd")
 
 .PHONY: clean all show compile
 
