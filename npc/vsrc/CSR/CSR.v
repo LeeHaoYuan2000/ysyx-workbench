@@ -34,7 +34,7 @@ always@(posedge clk) begin
     else if(Control)
         begin
             case(RD)
-            5'd0 :Zero <= RD_Back[63:0];  5'd1 :ra <= RD_Back[63:0];  5'd2 :sp <= RD_Back[63:0];  5'd3 :gp  <= RD_Back[63:0];
+            5'd0 :Zero <= 64'd0        ;  5'd1 :ra <= RD_Back[63:0];  5'd2 :sp <= RD_Back[63:0];  5'd3 :gp  <= RD_Back[63:0];
             5'd4 :tp   <= RD_Back[63:0];  5'd5 :t0 <= RD_Back[63:0];  5'd6 :t1 <= RD_Back[63:0];  5'd7 :t2  <= RD_Back[63:0];
             5'd8 :s0   <= RD_Back[63:0];  5'd9 :s1 <= RD_Back[63:0];  5'd10:a0 <= RD_Back[63:0];  5'd11:a1  <= RD_Back[63:0];
             5'd12:a2   <= RD_Back[63:0];  5'd13:a3 <= RD_Back[63:0];  5'd14:a4 <= RD_Back[63:0];  5'd15:a5  <= RD_Back[63:0];
