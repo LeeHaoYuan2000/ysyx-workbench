@@ -5,7 +5,7 @@ module CSR(
     input [4:0] RS2,
     input [4:0] RD,
     input [63:0] RD_Back,
-    input Control, //Write Back enable
+    input Enable_Control, //Write Back enable
     output [63:0] RS1_Reg,
     output [63:0] RS2_Reg
 );

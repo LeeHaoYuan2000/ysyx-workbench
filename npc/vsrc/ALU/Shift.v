@@ -5,17 +5,17 @@
 //64 位逻辑左移动 shift_control = 3'b100
 //64 位算术右移    shift_control = 3'b101
 
-`define ArithRight32   3'b000
-`define LogicalRight32 3'b001
-`define LogicalLeft32  3'b010
-`define LogicalRight64 3'b011
-`define LogicalLeft64  3'b100
-`define ArithRight64   3'b101
+`define ArithRight32   4'b000
+`define LogicalRight32 4'b001
+`define LogicalLeft32  4'b010
+`define LogicalRight64 4'b011
+`define LogicalLeft64  4'b100
+`define ArithRight64   4'b101
 
 module Shift(
     input  [63:0] src1,
     input  [63:0] src2,
-    input  [2:0]  shift_control,
+    input  [3:0]  shift_control,
     output reg [63:0] shift_out
 );
 

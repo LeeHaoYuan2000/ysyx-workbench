@@ -34,6 +34,10 @@ void CLK::ClkExeOnece(){
     top->clk = ~top->clk;
     top->eval();
     wave->dump(context->time);
+    context->timeInc(1);
+    top->clk = ~top->clk;
+    top->eval();
+    wave->dump(context->time);
 
 }
 void CLK::CloseWaveForm(){
