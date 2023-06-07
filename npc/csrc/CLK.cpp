@@ -2,20 +2,32 @@
 #include <iostream>
 #include <verilated.h>
 #include <verilated_vcd_c.h>
-#include <npc/csrc/include/CLK.h>
+#include </home/ubuntu/ysyx-workbench/npc/csrc/include/CLK.h>
+
+//#define Trace_on
+
+void CLK::InitTop(Vtop *inputTop){
+    top = inputTop;
+}
 
 void CLK::setWaveForm(){
     context = new VerilatedContext;
-    wave  = new VerilatedVcdC;
     top = new Vtop(context);
 
-    context->traceEverOn(true);
-    top->trace(wave,5);
-    wave->open("top.vcd");
+    #ifdef Trace_on
+        wave  = new VerilatedVcdC;
+        context->traceEverOn(true);
+        top->trace(wave,5);
+        wave->open("top.vcd");
+    #endif
+
     top->clk = 0;
     top->rst = 1;
     top->eval();
-    wave->dump(context->time());
+
+    #ifdef Trace_on
+        wave->dump(context->time());
+    #endif
 }
 
 void CLK::rstOn(){
@@ -24,25 +36,50 @@ void CLK::rstOn(){
         context->timeInc(1);
         top->clk = ~top->clk;
         top->rst = 1;
-        top->eval();
-        wave->dump(context->time);
+        top->eval(); 
+    #ifdef Trace_on
+        wave->dump(context->time());
+    #endif
+
     }
     top->rst = 0;
+    top->instr_in = getInstr(top->PC_Test);
+    top->eval();
+    printf("%016lx\t %08x\n",top->PC_Test,top->instr_out);
 }
-void CLK::ClkExeOnece(){
+void CLK::ClkFlipOnce(){
     context->timeInc(1);
     top->clk = ~top->clk;
     top->eval();
-    wave->dump(context->time);
+
     context->timeInc(1);
     top->clk = ~top->clk;
     top->eval();
-    wave->dump(context->time);
+    top->instr_in = getInstr(top->PC_Test);
+    top->eval();
+
+    #ifdef Trace_on
+        wave->dump(context->time());
+    #endif
+
+    printf("%016lx\t %08x\n",top->PC_Test,top->instr_out);
 
 }
 void CLK::CloseWaveForm(){
-    wave->close();
+    
     delete top;
-    delete wave;
+    #ifdef Trace_on
+        wave->close();
+        delete wave;
+    #endif
     delete context;
+}
+
+unsigned int getInstr(unsigned long PCAdderss){
+    if(((PCAdderss-0x0000000080000000)/4)%2){
+        return 0x01c50513;
+    }
+    else{
+        return 0x00050513;
+    }
 }

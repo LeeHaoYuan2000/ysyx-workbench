@@ -4,16 +4,20 @@
 `define IMMJ 3'd4
 `define IMMB 3'd5
 
-// `define Alu_Adder 4'd0
-// `define Alu_Mul   4'd1
-// `define Alu_Div   4'd2   //for div and rem instructions
-// `define Alu_Shift 4'd3
-// `define Alu_LS    4'd4
+`define MUX_Adder    4'd0
+`define MUX_Shift    4'd1
+`define MUX_Compare  4'd2
+`define MUX_DIV      4'd3
+`define MUX_Logic    4'd4
+`define MUX_MUL      4'd5
+`define auipc        4'd6
+`define lui          4'd7
+
 
 
 module ControUnit(
-    input [31:0] instr,
-    output ALU_Control,
+    input  [31:0] instr,
+    output [3:0]ALU_Control,
     output [2:0] SEXT_Control
 );
 wire [6:0] instr_6_0;
@@ -151,15 +155,35 @@ wire ALU_LS       = (ld | lw | lbu | lh | lhu | sd | sw | sb | sh);
 wire ALU_LogicOpt = (andi | xori | _or | _and);
 wire ALU_Branch   = (bne | beq | bge | blt | bltu);
 wire ALU_Jump     = (jal | jalr);
+wire ALU_auipc    = (auipc);
+wire ALU_lui      = (lui);
 
+wire func_signal = {ALU_Adder    , ALU_Mul    , ALU_Div,
+                    ALU_Compare  , ALU_Shift  , ALU_LS,
+                    ALU_LogicOpt , ALU_Branch , ALU_Jump,
+                    ALU_auipc    , ALU_lui};
 
+MuxKeyWithDefault #(11,11,4) func_choose (SEXT_Control,func_signal,4'd15,{
+    11'd1000_0000_000,MUX_Adder,
+    11'd0100_0000_000,MUX_MUL,
+    11'd0010_0000_000,MUX_DIV,
+    11'd0001_0000_000,MUX_Compare,
+    11'd0000_1000_000,MUX_Shift,
+    11'd0000_0100_000,MUX_Adder,
+    11'd0000_0010_000,MUX_Logic,
+    11'd0000_0001_000,MUX_Compare,
+    11'd0000_0000_100,MUX_Adder,
+    11'd0000_0000_010,auipc,
+    11'd0000_0000_001,lui
+}); 
+   
 
 MuxKeyWithDefault #(5,5,3) CU_ImmType (SEXT_Control,{TypeI,TypeU,TypeS,TypeJ,TypeB},3'd1,{
-    5'd10000,IMMI,
-    5'd01000,IMMU,
-    5'd00100,IMMS,
-    5'd00010,IMMJ,
-    5'd00001,IMMB
+    5'b10000,IMMI,
+    5'b01000,IMMU,
+    5'b00100,IMMS,
+    5'b00010,IMMJ,
+    5'b00001,IMMB
 }); 
 
 

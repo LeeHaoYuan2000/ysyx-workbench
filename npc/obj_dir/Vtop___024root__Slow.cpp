@@ -12,7 +12,7 @@ void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf);
 
 Vtop___024root::Vtop___024root(const char* _vcname__)
     : VerilatedModule(_vcname__)
-    , __Vm_mtaskstate_6(1U), __Vm_mtaskstate_final(2U)
+    , __Vm_mtaskstate_8(1U), __Vm_mtaskstate_final(2U)
  {
     // Reset structure values
     Vtop___024root___ctor_var_reset(this);
@@ -31,8 +31,9 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___settle__TOP__1\n"); );
     // Body
-    vlSelf->PC_Test = vlSelf->top__DOT__PC_Wire;
+    vlSelf->instr_out = vlSelf->instr_in;
     vlSelf->top__DOT__PC_Next_Wire = (4ULL + vlSelf->top__DOT__PC_Wire);
+    vlSelf->PC_Test = vlSelf->top__DOT__PC_Wire;
 }
 
 void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
@@ -64,6 +65,8 @@ void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     // Body
     vlSelf->clk = VL_RAND_RESET_I(1);
     vlSelf->rst = VL_RAND_RESET_I(1);
+    vlSelf->instr_in = VL_RAND_RESET_I(32);
+    vlSelf->instr_out = VL_RAND_RESET_I(32);
     vlSelf->PC_Test = VL_RAND_RESET_Q(64);
     vlSelf->top__DOT__PC_Wire = VL_RAND_RESET_Q(64);
     vlSelf->top__DOT__PC_Next_Wire = VL_RAND_RESET_Q(64);

@@ -2,7 +2,7 @@ module Adder(
     input [63:0]src1,
     input [63:0]src2,
     input [3:0]control,  // 0 is src1 + src2, 1 is src1 - src2
-    output [63:0] result_out,
+    output [63:0] result_out
 );
 
     wire [63:0] resultAdd  = src1[63:0] + src2[63:0];

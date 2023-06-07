@@ -3,51 +3,21 @@
 #include <stdlib.h>
 #include "verilated_vcd_c.h"
 #include "..//obj_dir//Vtop.h"
+#include </home/ubuntu/ysyx-workbench/npc/csrc/include/CLK.h>
 
  int main (int argc,char **,char **env){
-	//-------------init----------------//
-	VerilatedContext* contextP = new VerilatedContext;
-	VerilatedVcdC* wave = new VerilatedVcdC;
-	Vtop* top = new Vtop(contextP);
-	contextP->traceEverOn(true);
-	top->trace(wave,5);
-	wave->open("top.vcd");
-	top->clk = 0;
-	top->rst = 1;
+	CLK *clock = new CLK;
+	Vtop *top;
+	clock->InitTop(top);
+	clock->setWaveForm();
+	clock->rstOn();
+
 	int i = 20;
-	
-	//-----------------------------------
-	contextP->timeInc(1);
-	top->clk = 1;
-	top->eval();
-	wave->dump(contextP->time());
-	contextP->timeInc(1);
-	top->clk = 0;
-	top->rst = 1;
-	top->eval();
-	wave->dump(contextP->time());
-	contextP->timeInc(1);
-	top->clk = 1;
-	top->rst = 1;
-	top->eval();
-	wave->dump(contextP->time());
-	contextP->timeInc(1);
-	top->clk = 1;
-	top->rst = 0;
-	top->eval();
-	wave->dump(contextP->time());
 	while(i--){
-		top->clk ^= 1;
-		contextP->timeInc(1);
-		top->eval();
-		wave->dump(contextP->time());
+		clock->ClkFlipOnce();
 	}
 
-	//top->final();
-	wave->close();
-	delete wave;
-	delete top;
-	delete contextP;
+	clock->CloseWaveForm();
 
 	return 1;
  }

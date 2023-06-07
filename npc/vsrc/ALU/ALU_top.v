@@ -4,7 +4,8 @@
 `define MUX_DIV      4'd3
 `define MUX_Logic    4'd4
 `define MUX_MUL      4'd5
-`define lui          4'd6
+`define auipc        4'd6
+`define lui          4'd7
 
 module ALU_top(
     input [63:0] src1,
@@ -70,7 +71,8 @@ MuxKeyWithDefault #(7,4,64) Adder_mux (result_out,func_control,64'd0,{
     MUX_Compare , Compare_out,
     MUX_DIV     , DIV_out,    
     MUX_Logic   , Logic_out,  
-    MUX_MUL     , MUL_out,    
+    MUX_MUL     , MUL_out,
+    auipc       ,    
     lui         , src2        
 }); 
 

@@ -41,11 +41,12 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
+	CLK \
 	testbench \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
-	/home/leehy/Desktop/ysyx-workbench/npc/csrc \
+	/home/ubuntu/ysyx-workbench/npc/csrc \
 
 
 ### Default rules...
@@ -57,7 +58,9 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-testbench.o: /home/leehy/Desktop/ysyx-workbench/npc/csrc/testbench.cpp
+CLK.o: /home/ubuntu/ysyx-workbench/npc/csrc/CLK.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+testbench.o: /home/ubuntu/ysyx-workbench/npc/csrc/testbench.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)

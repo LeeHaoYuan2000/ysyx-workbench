@@ -7,21 +7,21 @@
 
 //==========
 
-VL_INLINE_OPT void Vtop___024root___sequent__TOP__5(Vtop___024root* vlSelf) {
+VL_INLINE_OPT void Vtop___024root___combo__TOP__2(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__5\n"); );
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___combo__TOP__2\n"); );
+    // Body
+    vlSelf->instr_out = vlSelf->instr_in;
+}
+
+VL_INLINE_OPT void Vtop___024root___sequent__TOP__6(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__6\n"); );
     // Body
     vlSelf->top__DOT__PC_Wire = ((IData)(vlSelf->rst)
                                   ? 0x80000000ULL : vlSelf->top__DOT__PC_Next_Wire);
-}
-
-VL_INLINE_OPT void Vtop___024root___sequent__TOP__7(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__7\n"); );
-    // Body
-    vlSelf->PC_Test = vlSelf->top__DOT__PC_Wire;
 }
 
 VL_INLINE_OPT void Vtop___024root___sequent__TOP__8(Vtop___024root* vlSelf) {
@@ -30,6 +30,14 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__8(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__8\n"); );
     // Body
     vlSelf->top__DOT__PC_Next_Wire = (4ULL + vlSelf->top__DOT__PC_Wire);
+}
+
+VL_INLINE_OPT void Vtop___024root___sequent__TOP__9(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___sequent__TOP__9\n"); );
+    // Body
+    vlSelf->PC_Test = vlSelf->top__DOT__PC_Wire;
 }
 
 void Vtop___024root____Vthread_0(void* voidSelf, bool even_cycle);
@@ -87,12 +95,12 @@ void Vtop___024root____Vthread_0(void* voidSelf, bool even_cycle) {
     // Body
     Vtop___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vtop___024root*>(voidSelf);
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    Verilated::mtaskId(4);
+    Verilated::mtaskId(5);
     if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
-        Vtop___024root___sequent__TOP__5(vlSelf);
+        Vtop___024root___sequent__TOP__6(vlSelf);
     }
     Verilated::endOfThreadMTask(vlSymsp->__Vm_evalMsgQp);
-    vlSelf->__Vm_mtaskstate_6.signalUpstreamDone(even_cycle);
+    vlSelf->__Vm_mtaskstate_8.signalUpstreamDone(even_cycle);
     Verilated::mtaskId(7);
     if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
         Vtop___024root___sequent__TOP__8(vlSelf);
@@ -106,10 +114,13 @@ void Vtop___024root____Vthread_1(void* voidSelf, bool even_cycle) {
     // Body
     Vtop___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vtop___024root*>(voidSelf);
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    vlSelf->__Vm_mtaskstate_6.waitUntilUpstreamDone(even_cycle);
-    Verilated::mtaskId(6);
+    Verilated::mtaskId(1);
+    Vtop___024root___combo__TOP__2(vlSelf);
+    Verilated::endOfThreadMTask(vlSymsp->__Vm_evalMsgQp);
+    vlSelf->__Vm_mtaskstate_8.waitUntilUpstreamDone(even_cycle);
+    Verilated::mtaskId(8);
     if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
-        Vtop___024root___sequent__TOP__7(vlSelf);
+        Vtop___024root___sequent__TOP__9(vlSelf);
     }
     Verilated::endOfThreadMTask(vlSymsp->__Vm_evalMsgQp);
     vlSelf->__Vm_mtaskstate_final.signalUpstreamDone(even_cycle);

@@ -20,9 +20,11 @@ VL_MODULE(Vtop___024root) {
   public:
 
     // PORTS
-    VL_IN8(rst,0,0);
-    VL_OUT64(PC_Test,63,0);
     VL_IN8(clk,0,0);
+    VL_IN8(rst,0,0);
+    VL_IN(instr_in,31,0);
+    VL_OUT(instr_out,31,0);
+    VL_OUT64(PC_Test,63,0);
 
     // LOCAL SIGNALS
     QData/*63:0*/ top__DOT__PC_Next_Wire;
@@ -30,7 +32,7 @@ VL_MODULE(Vtop___024root) {
 
     // LOCAL VARIABLES
     CData/*0:0*/ __Vclklast__TOP__clk;
-    VlMTaskVertex __Vm_mtaskstate_6;
+    VlMTaskVertex __Vm_mtaskstate_8;
     VlMTaskVertex __Vm_mtaskstate_final;
 
     // INTERNAL VARIABLES
