@@ -1,23 +1,7 @@
-`define IMMI 3'd1
-`define IMMU 3'd2 
-`define IMMS 3'd3
-`define IMMJ 3'd4
-`define IMMB 3'd5
-
-`define MUX_Adder    4'd0
-`define MUX_Shift    4'd1
-`define MUX_Compare  4'd2
-`define MUX_DIV      4'd3
-`define MUX_Logic    4'd4
-`define MUX_MUL      4'd5
-`define auipc        4'd6
-`define lui          4'd7
-
-
 
 module ControUnit(
     input  [31:0] instr,
-    output [3:0]ALU_Control,
+    output [3:0] ALU_Control,
     output [2:0] SEXT_Control
 );
 wire [6:0] instr_6_0;
@@ -158,23 +142,41 @@ wire ALU_Jump     = (jal | jalr);
 wire ALU_auipc    = (auipc);
 wire ALU_lui      = (lui);
 
-wire func_signal = {ALU_Adder    , ALU_Mul    , ALU_Div,
+wire [10:0]func_signal = {ALU_Adder    , ALU_Mul    , ALU_Div,
                     ALU_Compare  , ALU_Shift  , ALU_LS,
                     ALU_LogicOpt , ALU_Branch , ALU_Jump,
                     ALU_auipc    , ALU_lui};
 
-MuxKeyWithDefault #(11,11,4) func_choose (SEXT_Control,func_signal,4'd15,{
-    11'd1000_0000_000,MUX_Adder,
-    11'd0100_0000_000,MUX_MUL,
-    11'd0010_0000_000,MUX_DIV,
-    11'd0001_0000_000,MUX_Compare,
-    11'd0000_1000_000,MUX_Shift,
-    11'd0000_0100_000,MUX_Adder,
-    11'd0000_0010_000,MUX_Logic,
-    11'd0000_0001_000,MUX_Compare,
-    11'd0000_0000_100,MUX_Adder,
-    11'd0000_0000_010,auipc,
-    11'd0000_0000_001,lui
+wire [2:0] IMMI = 3'd1;
+wire [2:0] IMMU = 3'd2; 
+wire [2:0] IMMS = 3'd3;
+wire [2:0] IMMJ = 3'd4;
+wire [2:0] IMMB = 3'd5;
+
+
+wire [3:0] MUX_Adder    = 4'd0;
+wire [3:0] MUX_Shift    = 4'd1;
+wire [3:0] MUX_Compare  = 4'd2;
+wire [3:0] MUX_DIV      = 4'd3;
+wire [3:0] MUX_Logic    = 4'd4;
+wire [3:0] MUX_MUL      = 4'd5;
+wire [3:0] _auipc        = 4'd6;
+wire [3:0] _lui          = 4'd7; 
+
+
+
+MuxKeyWithDefault #(11,11,4) func_choose (ALU_Control,func_signal,4'd15,{
+    11'b1000_0000_000,MUX_Adder,
+    11'b0100_0000_000,MUX_MUL,
+    11'b0010_0000_000,MUX_DIV,
+    11'b0001_0000_000,MUX_Compare,
+    11'b0000_1000_000,MUX_Shift,
+    11'b0000_0100_000,MUX_Adder,
+    11'b0000_0010_000,MUX_Logic,
+    11'b0000_0001_000,MUX_Compare,
+    11'b0000_0000_100,MUX_Adder,
+    11'b0000_0000_010,_auipc,
+    11'b0000_0000_001,_lui
 }); 
    
 

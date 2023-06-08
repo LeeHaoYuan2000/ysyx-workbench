@@ -1,10 +1,12 @@
 module top(
     input clk,
     input rst,
+    
     input [31:0] instr_in,
-    output [31:0] instr_out,
+    output [63:0] SEXT_result,
     output [63:0] PC_Test
 );
+    assign PC_Test = PC_Wire;
     wire [63:0]PC_Wire;
     wire [63:0]PC_Next_Wire;
 
@@ -24,9 +26,24 @@ module top(
         .PC_IN(PC_Wire),
         .Instr_IN(instr_in),
         .PC_OUT(PC_Test),
-        .Instr_OUT(instr_out)
+        .Instr_OUT(instruction)
     );
 
+    wire [31:0] instruction;
+    wire [2:0]  SEXT_Control;
+    wire [3:0]  ALU_Control_wire;
+
+    ControUnit HY_CU(
+        .instr(instruction),
+        .ALU_Control(ALU_Control_wire),
+        .SEXT_Control(SEXT_Control)
+    );
+
+    SEXT Sign_Extend(
+    .Instr(instruction),
+    .ControlUnit(SEXT_Control),
+    .SEXT_Out(SEXT_result)
+    );
 
 
 endmodule

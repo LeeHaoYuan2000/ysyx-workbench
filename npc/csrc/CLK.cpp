@@ -45,7 +45,7 @@ void CLK::rstOn(){
     top->rst = 0;
     top->instr_in = getInstr(top->PC_Test);
     top->eval();
-    printf("%016lx\t %08x\n",top->PC_Test,top->instr_out);
+    printf("%016lx\t %016lx\n",top->PC_Test,top->SEXT_result);
 }
 void CLK::ClkFlipOnce(){
     context->timeInc(1);
@@ -62,7 +62,7 @@ void CLK::ClkFlipOnce(){
         wave->dump(context->time());
     #endif
 
-    printf("%016lx\t %08x\n",top->PC_Test,top->instr_out);
+    printf("%016lx\t %016lx\n",top->PC_Test,top->SEXT_result);
 
 }
 void CLK::CloseWaveForm(){
@@ -80,6 +80,6 @@ unsigned int getInstr(unsigned long PCAdderss){
         return 0x01c50513;
     }
     else{
-        return 0x00050513;
+        return 0x00022517;
     }
 }
