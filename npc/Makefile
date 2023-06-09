@@ -9,7 +9,7 @@ SEARCHPATH := $(abspath ./vsrc)
 # 2.verilator flags:
 VERILATOR_FLAGS += -I${SEARCHPATH}
 VERILATOR_FLAGS += --top ${TOP_MODULE}
-VERILATOR_FLAGS +=  --cc --trace --exe --build --threads 2 -j 8
+VERILATOR_FLAGS +=  --cc --trace --exe --build  -j 8  #--threads 2
 #VERILATOR_FLAGS += -Wno-fatal		# only print lint warning, but not terminate compile.
 #VERILATOR_FLAGS += -Wno-UNUSED 		# close <unused> warning.
 

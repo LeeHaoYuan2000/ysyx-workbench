@@ -9,7 +9,6 @@
 #define VERILATED_VTOP_H_  // guard
 
 #include "verilated_heavy.h"
-#include "verilated_threads.h"
 
 class Vtop__Syms;
 class Vtop___024root;
@@ -33,6 +32,9 @@ class Vtop VL_NOT_FINAL {
     VL_IN(&instr_in,31,0);
     VL_OUT64(&SEXT_result,63,0);
     VL_OUT64(&PC_Test,63,0);
+    VL_OUT8(&SEXT_Control_out,2,0);
+    VL_OUT64(&RS1_OUTPUT,63,0);
+    VL_OUT64(&RS2_OUTPUT,63,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.

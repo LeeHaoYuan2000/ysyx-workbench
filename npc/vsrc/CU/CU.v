@@ -115,7 +115,7 @@ wire ebreak = (instr[31:0] == 32'b0000000_00001_00000_000_00000_11100_11);
 wire TypeI = (addi | addiw | sltiu | slli |
             srli | srai | srliw | slliw |
             sraiw |ld |lw | lbu |lh |lhu|
-            andi | xori | jal |jalr);
+            andi | xori | jalr);
             
 wire TypeU = (auipc | lui);
 

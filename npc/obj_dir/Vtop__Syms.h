@@ -24,8 +24,6 @@ class Vtop__Syms final : public VerilatedSyms {
     bool __Vm_activity = false;  ///< Used by trace routines to determine change occurred
     uint32_t __Vm_baseCode = 0;  ///< Used by trace routines when tracing multiple models
     bool __Vm_didInit = false;
-    VlThreadPool* const __Vm_threadPoolp;
-    bool __Vm_even_cycle = false;
 
     // MODULE INSTANCE STATE
     Vtop___024root                 TOP;

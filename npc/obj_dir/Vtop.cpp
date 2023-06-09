@@ -15,6 +15,9 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , instr_in{vlSymsp->TOP.instr_in}
     , SEXT_result{vlSymsp->TOP.SEXT_result}
     , PC_Test{vlSymsp->TOP.PC_Test}
+    , SEXT_Control_out{vlSymsp->TOP.SEXT_Control_out}
+    , RS1_OUTPUT{vlSymsp->TOP.RS1_OUTPUT}
+    , RS2_OUTPUT{vlSymsp->TOP.RS2_OUTPUT}
     , rootp{&(vlSymsp->TOP)}
 {
 }
@@ -61,7 +64,7 @@ static void _eval_initial_loop(Vtop__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = Vtop___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ubuntu/ysyx-workbench/npc/vsrc/top.v", 1, "",
+            VL_FATAL_MT("/home/ubuntu/ysyx-workbench/npc/vsrc/top.v", 2, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -92,14 +95,13 @@ void Vtop::eval_step() {
             Verilated::debug(1);
             __Vchange = Vtop___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ubuntu/ysyx-workbench/npc/vsrc/top.v", 1, "",
+            VL_FATAL_MT("/home/ubuntu/ysyx-workbench/npc/vsrc/top.v", 2, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
             __Vchange = Vtop___024root___change_request(&(vlSymsp->TOP));
         }
     } while (VL_UNLIKELY(__Vchange));
-    Verilated::endOfEval(vlSymsp->__Vm_evalMsgQp);
 }
 
 //============================================================

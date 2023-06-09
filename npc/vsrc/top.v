@@ -1,10 +1,14 @@
+/* verilator lint_off UNOPTTHREADS */
 module top(
     input clk,
     input rst,
     
     input [31:0] instr_in,
     output [63:0] SEXT_result,
-    output [63:0] PC_Test
+    output [63:0] PC_Test,
+    output [2:0]  SEXT_Control_out,
+    output [63:0] RS1_OUTPUT,
+    output [63:0] RS2_OUTPUT
 );
     assign PC_Test = PC_Wire;
     wire [63:0]PC_Wire;
@@ -29,9 +33,13 @@ module top(
         .Instr_OUT(instruction)
     );
 
+
     wire [31:0] instruction;
     wire [2:0]  SEXT_Control;
     wire [3:0]  ALU_Control_wire;
+    assign SEXT_Control_out = SEXT_Control;
+
+
 
     ControUnit HY_CU(
         .instr(instruction),
@@ -40,10 +48,23 @@ module top(
     );
 
     SEXT Sign_Extend(
-    .Instr(instruction),
-    .ControlUnit(SEXT_Control),
-    .SEXT_Out(SEXT_result)
+        .Instr(instruction),
+        .ControlUnit(SEXT_Control),
+        .SEXT_Out(SEXT_result)
     );
+
+
+    CSR HY_RegFile(
+    .clk(clk),
+    .rst(rst),
+    .RS1(instruction[19:15]),
+    .RS2(instruction[24:20]),
+    .RD(instruction[11:7]),
+    .RD_Back(64'd1),
+    .Enable_Control(1'd0), //Write Back enable
+    .RS1_Reg(RS1_OUTPUT),
+    .RS2_Reg(RS2_OUTPUT)
+);
 
 
 endmodule

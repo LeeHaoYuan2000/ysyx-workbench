@@ -8,14 +8,12 @@
 // FUNCTIONS
 Vtop__Syms::~Vtop__Syms()
 {
-    delete __Vm_threadPoolp;
 }
 
 Vtop__Syms::Vtop__Syms(VerilatedContext* contextp, const char* namep,Vtop* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp(modelp)
-    , __Vm_threadPoolp(new VlThreadPool(_vm_contextp__, 1, 0))
     // Setup module instances
     , TOP(namep)
 {
