@@ -72,9 +72,9 @@ MuxKeyWithDefault #(7,4,64) Adder_mux (result_out,func_control,64'd0,{
     MUX_DIV     , DIV_out,    
     MUX_Logic   , Logic_out,  
     MUX_MUL     , MUL_out,
-    auipc       ,    
+    auipc       , Adder_out   
     lui         , src2        
-}); 
+});
 
 
 endmodule

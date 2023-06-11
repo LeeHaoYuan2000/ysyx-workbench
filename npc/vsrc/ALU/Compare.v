@@ -23,7 +23,7 @@ assign non_eq_unsigned   = (src1   != src2);
 assign eq_unsigned       = (src1   == src2);
 assign more_eq_signed    = (S_src1 >= S_src2);
 assign less_signed       = (S_src1 <  S_src2);
-assign less_unsigned     = (srd1   <  src2);
+assign less_unsigned     = (src1   <  src2);
 
 always@(*)begin
     case (Compare_Control)

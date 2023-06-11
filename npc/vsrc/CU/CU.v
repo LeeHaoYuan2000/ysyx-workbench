@@ -1,8 +1,19 @@
 
 module ControUnit(
     input  [31:0] instr,
+    input  Branch_Yes_No, //1 for branch , 0 for npc
+
     output [3:0] ALU_Control,
-    output [2:0] SEXT_Control
+    output [3:0] Inside_Control,
+    output [2:0] SEXT_Control,
+
+    output RegWriteEnable, //1 for enable ,0 for disable
+    //数据通路控制
+    output C_RS1_PC, //0 RS1  , 1 PC
+    output C_RS2_imm, //0 Rs2  , 1 imm
+    output C_ALU_MEM, //0 ALU  , 1 MEM
+    output C_ALU_NPC_In, //0 ALU , 1 NPC
+    output [1:0] C_NPC_Branch_Jump, // 0 is NPC, 1 is Branch and jal , 2 is jalr 
 );
 wire [6:0] instr_6_0;
 wire [2:0] instr_14_12;
@@ -70,7 +81,6 @@ wire slt    = Match_6_0_0110011 & Match_14_12_010 & Match_31_25_0000000;
 wire sraw   = Match_6_0_0111011 & Match_14_12_101 & Match_31_25_0100000;
 wire sllw   = Match_6_0_0111011 & Match_14_12_001 & Match_31_25_0000000;
 wire srlw   = Match_6_0_0111011 & Match_14_12_101 & Match_31_25_0000000; 
-//wire srli   = Match_6_0_0010011 & Match_14_12_101 & Match_31_25_0000000; 
 wire slli   = Match_6_0_0010011 & Match_14_12_001 & Match_31_26_000000; 
 wire srli   = Match_6_0_0010011 & Match_14_12_101 & Match_31_26_000000; 
 wire srai   = Match_6_0_0010011 & Match_14_12_101 & Match_31_26_010000; 
@@ -111,6 +121,7 @@ wire lui    = Match_6_0_0110111 ;
 wire ebreak = (instr[31:0] == 32'b0000000_00001_00000_000_00000_11100_11);
 
 
+
 //Instruction types
 wire TypeI = (addi | addiw | sltiu | slli |
             srli | srai | srliw | slliw |
@@ -142,19 +153,51 @@ wire ALU_Jump     = (jal | jalr);
 wire ALU_auipc    = (auipc);
 wire ALU_lui      = (lui);
 
-wire [10:0]func_signal = {ALU_Adder    , ALU_Mul    , ALU_Div,
-                    ALU_Compare  , ALU_Shift  , ALU_LS,
-                    ALU_LogicOpt , ALU_Branch , ALU_Jump,
-                    ALU_auipc    , ALU_lui};
+// The Inner Control of the ALU
+wire ALUInternal_Control_0 = (addi | add | mulw | divw | sraw | sraiw | andi | _and | bne |
+                             ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc);
 
-wire [2:0] IMMI = 3'd1;
+wire ALUInternal_Control_1 = (sub  | mul | remw);
+wire ALUInternal_Control_2 = (addiw | add | sllw | slliw | _or | bge);
+wire ALUInternal_Control_3 = (subw | slt | srli | blt);
+wire ALUInternal_Control_4 = (sltiu | sltu | slli | bltu);
+wire ALUInternal_Control_5 = (srai);
+
+
+wire ALU_Choose_imm = (addi | addiw | sltiu | slli | srli | srai | srliw | slliw | sraiw |
+                       ld | lw | lbu | lh | lhu | sd | sw | sb | sh | andi | xori | auipc | lui);
+
+wire ALU_Choose_PC  = (auipc);
+
+
+assign RegWriteEnable = ~(jal | jalr);//1 for enable ,0 for disable
+assign C_ALU_MEM = (ld | lw | lbu | in | lhu | sd | sw | sb | sh);
+assign C_ALU_NPC_In = (jal | jalr) //将NPC 写入到 寄存器中
+assign C_RS2_imm = ALU_Choose_imm;
+assign C_RS1_PC  = ALU_Choose_PC;
+
+assign C_NPC_Branch_Jump[0] = ((bne | beq | bge | blt | bltu ) & Branch_Yes_No) | jalr;
+assign C_NPC_Branch_Jump[1] = (jalr);
+
+
+
+wire [10:0]func_signal = {ALU_Adder    , ALU_Mul    , ALU_Div,
+                          ALU_Compare  , ALU_Shift  , ALU_LS,
+                          ALU_LogicOpt , ALU_Branch , ALU_Jump,
+                          ALU_auipc    , ALU_lui};
+
+wire [5:0] ALU_inside_signal = {ALUInternal_Control_0 , ALUInternal_Control_1,
+                                ALUInternal_Control_2 , ALUInternal_Control_3,
+                                ALUInternal_Control_4 , ALUInternal_Control_5};
+
+wire [2:0] IMMI = 3'd1;   //SEXT Control Code 
 wire [2:0] IMMU = 3'd2; 
 wire [2:0] IMMS = 3'd3;
 wire [2:0] IMMJ = 3'd4;
 wire [2:0] IMMB = 3'd5;
 
 
-wire [3:0] MUX_Adder    = 4'd0;
+wire [3:0] MUX_Adder    = 4'd0; //Alu Control code
 wire [3:0] MUX_Shift    = 4'd1;
 wire [3:0] MUX_Compare  = 4'd2;
 wire [3:0] MUX_DIV      = 4'd3;
@@ -163,7 +206,22 @@ wire [3:0] MUX_MUL      = 4'd5;
 wire [3:0] _auipc        = 4'd6;
 wire [3:0] _lui          = 4'd7; 
 
+wire [3:0] Inside_0 = 4'd0;
+wire [3:0] Inside_1 = 4'd1;
+wire [3:0] Inside_2 = 4'd2;
+wire [3:0] Inside_3 = 4'd3;
+wire [3:0] Inside_4 = 4'd4;
+wire [3:0] Inside_5 = 4'd5;
 
+
+MuxKeyWithDefault #(6,6,4) ALU_Inside_choose (Inside_Control,ALU_inside_signal,4'd15,{
+    6'b10_0000,Inside_0,
+    6'b01_0000,Inside_1,
+    6'b00_1000,Inside_2,
+    6'b00_0100,Inside_3,
+    6'b00_0010,Inside_4,
+    6'b00_0001,Inside_5
+}); 
 
 MuxKeyWithDefault #(11,11,4) func_choose (ALU_Control,func_signal,4'd15,{
     11'b1000_0000_000,MUX_Adder,
