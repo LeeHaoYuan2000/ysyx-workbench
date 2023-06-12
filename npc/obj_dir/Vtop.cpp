@@ -18,6 +18,13 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , SEXT_Control_out{vlSymsp->TOP.SEXT_Control_out}
     , RS1_OUTPUT{vlSymsp->TOP.RS1_OUTPUT}
     , RS2_OUTPUT{vlSymsp->TOP.RS2_OUTPUT}
+    , ALU_Result{vlSymsp->TOP.ALU_Result}
+    , WriteBack_Enable_result{vlSymsp->TOP.WriteBack_Enable_result}
+    , C_RS1_PC_Connector_result{vlSymsp->TOP.C_RS1_PC_Connector_result}
+    , C_RS2_imm_Connector_result{vlSymsp->TOP.C_RS2_imm_Connector_result}
+    , C_ALU_MEM_Connector_result{vlSymsp->TOP.C_ALU_MEM_Connector_result}
+    , C_ALU_NPC_In_Connector_result{vlSymsp->TOP.C_ALU_NPC_In_Connector_result}
+    , C_NPC_Branch_Jump_Connector_result{vlSymsp->TOP.C_NPC_Branch_Jump_Connector_result}
     , rootp{&(vlSymsp->TOP)}
 {
 }

@@ -35,6 +35,13 @@ class Vtop VL_NOT_FINAL {
     VL_OUT8(&SEXT_Control_out,2,0);
     VL_OUT64(&RS1_OUTPUT,63,0);
     VL_OUT64(&RS2_OUTPUT,63,0);
+    VL_OUT64(&ALU_Result,63,0);
+    VL_OUT8(&WriteBack_Enable_result,0,0);
+    VL_OUT8(&C_RS1_PC_Connector_result,0,0);
+    VL_OUT8(&C_RS2_imm_Connector_result,0,0);
+    VL_OUT8(&C_ALU_MEM_Connector_result,0,0);
+    VL_OUT8(&C_ALU_NPC_In_Connector_result,0,0);
+    VL_OUT8(&C_NPC_Branch_Jump_Connector_result,1,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.

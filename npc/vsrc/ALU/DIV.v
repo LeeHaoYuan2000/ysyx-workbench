@@ -15,8 +15,8 @@ wire signed [31:0] divw = S_src1 / S_src2;
 wire signed [31:0] remw = S_src1 % S_src2;
 
 MuxKeyWithDefault #(2,4,64) DIV (result_out,control,64'd0,{
-    4'd0 , {{32{divw}},divw[31:0]},
-    4'd1 , {{32{remw}},remw[31:0]}
-}); 
+    4'd0 , {{32{divw[31]}},divw[31:0]},
+    4'd1 , {{32{remw[31]}},remw[31:0]}
+});
 
 endmodule

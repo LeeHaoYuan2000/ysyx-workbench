@@ -1,11 +1,3 @@
-`define MUX_Adder    4'd0
-`define MUX_Shift    4'd1
-`define MUX_Compare  4'd2
-`define MUX_DIV      4'd3
-`define MUX_Logic    4'd4
-`define MUX_MUL      4'd5
-`define auipc        4'd6
-`define lui          4'd7
 
 module ALU_top(
     input [63:0] src1,
@@ -14,6 +6,15 @@ module ALU_top(
     input [3:0]  inner_control,
     output [63:0] result_out
 );
+
+parameter MUX_Adder   = 4'd0;
+parameter MUX_Shift   = 4'd1;
+parameter MUX_Compare = 4'd2;
+parameter MUX_DIV     = 4'd3;
+parameter MUX_Logic   = 4'd4;
+parameter MUX_MUL     = 4'd5;
+parameter auipc       = 4'd6;
+parameter lui         = 4'd7;
 
 wire [63:0] Adder_out;
 wire [63:0] Shift_out;
@@ -65,14 +66,14 @@ DIV ALU_DIV(
     .result_out(DIV_out)
     );
 
-MuxKeyWithDefault #(7,4,64) Adder_mux (result_out,func_control,64'd0,{
+MuxKeyWithDefault #(8,4,64) Adder_mux (result_out,func_control,64'd0,{
     MUX_Adder   , Adder_out,  
     MUX_Shift   , Shift_out, 
     MUX_Compare , Compare_out,
     MUX_DIV     , DIV_out,    
     MUX_Logic   , Logic_out,  
     MUX_MUL     , MUL_out,
-    auipc       , Adder_out   
+    auipc       , Adder_out,   
     lui         , src2        
 });
 

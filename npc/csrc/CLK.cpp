@@ -42,13 +42,19 @@ void CLK::rstOn(){
     #ifdef Trace_on
         wave->dump(context->time());
     #endif
-
     }
     top->rst = 0;
     top->instr_in = getInstr(top->PC_Test);
     top->eval();
-    printf("%016lx\t %08x\t %016lx\t %d\n",top->PC_Test,top->instr_in,top->SEXT_result,top->SEXT_Control_out);
+    printf("%016lx\t %08x\t %ld\t %d\n",top->PC_Test,top->instr_in,top->SEXT_result,top->SEXT_Control_out);
     printf("RS1: %ld\t RS2:%ld\n",top->RS1_OUTPUT,top->RS2_OUTPUT);
+    printf("ALU_Result: %ld\n",top->ALU_Result);
+    printf("-----------------Control Signale----------------\n");
+    printf("Write_Back: %d    \n",top->WriteBack_Enable_result);
+    printf("RS1 or PC: %d\t RS2 or imm:%d\n",top->C_RS1_PC_Connector_result,top->C_RS2_imm_Connector_result);
+    printf("ALU or MEM:%d\t ALU or NPC:%d\n",top->C_ALU_MEM_Connector_result,top->C_ALU_NPC_In_Connector_result);
+    printf("NPC or Branch or Jump : %d\n",top->C_NPC_Branch_Jump_Connector_result);
+    printf("-----------------Control Signale----------------\n");
 }
 void CLK::ClkFlipOnce(){
     context->timeInc(1);
@@ -65,8 +71,15 @@ void CLK::ClkFlipOnce(){
         wave->dump(context->time());
     #endif
 
-    printf("%016lx\t %08x\t %016lx\t %d\n",top->PC_Test,top->instr_in,top->SEXT_result,top->SEXT_Control_out);
+    printf("%016lx\t %08x\t %ld\t %d\n",top->PC_Test,top->instr_in,top->SEXT_result,top->SEXT_Control_out);
     printf("RS1: %ld\t RS2:%ld\n",top->RS1_OUTPUT,top->RS2_OUTPUT);
+    printf("ALU_Result: %ld \n",top->ALU_Result);
+    printf("-----------------Control Signale----------------\n");
+    printf("Write_Back: %d    \n",top->WriteBack_Enable_result);
+    printf("RS1 or PC: %d\t RS2 or imm:%d\n",top->C_RS1_PC_Connector_result,top->C_RS2_imm_Connector_result);
+    printf("ALU or MEM:%d\t ALU or NPC:%d\n",top->C_ALU_MEM_Connector_result,top->C_ALU_NPC_In_Connector_result);
+    printf("NPC or Branch or Jump : %d\n",top->C_NPC_Branch_Jump_Connector_result);
+    printf("-----------------Control Signale----------------\n");
 
 }
 void CLK::CloseWaveForm(){
@@ -86,13 +99,13 @@ unsigned int getInstr(unsigned long PCAdderss){
     switch (result)
     {
     case 0:
-        return 0b00000001111011101000000000111011;
+        return 0x037787b3; //mul
         break;
     case 1:
-        return 0b00000001111111110000000000111011; 
+        return 0x02c787bb; //mulw
         break;
     case 2:
-        return 0b00000000000011111000000000111011; 
+        return 0x0125053b; //addw 
         break;
     case 3:
         return 0b00000001101111010000000000111011; 
