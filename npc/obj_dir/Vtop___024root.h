@@ -40,6 +40,7 @@ VL_MODULE(Vtop___024root) {
     struct {
         CData/*2:0*/ top__DOT__SEXT_Control;
         CData/*3:0*/ top__DOT__ALU_Control_wire;
+        CData/*0:0*/ top__DOT__WriteBack_Enable;
         CData/*1:0*/ top__DOT__C_NPC_Branch_Jump_Connector;
         CData/*3:0*/ top__DOT__Insider_Control_Connector;
         CData/*0:0*/ top__DOT__HY_CU__DOT__Match_31_25_0100000;
@@ -84,6 +85,7 @@ VL_MODULE(Vtop___024root) {
         CData/*0:0*/ top__DOT__HY_CU__DOT__blt;
         CData/*0:0*/ top__DOT__HY_CU__DOT__bltu;
         CData/*0:0*/ top__DOT__HY_CU__DOT__jalr;
+        CData/*0:0*/ top__DOT__HY_CU__DOT__ALU_Choose_imm;
         CData/*5:0*/ top__DOT__HY_CU__DOT__ALU_inside_signal;
         CData/*3:0*/ top__DOT__HY_CU__DOT__ALU_Inside_choose__DOT__i0__DOT__lut_out;
         CData/*0:0*/ top__DOT__HY_CU__DOT__ALU_Inside_choose__DOT__i0__DOT__hit;
@@ -100,10 +102,10 @@ VL_MODULE(Vtop___024root) {
         CData/*0:0*/ top__DOT__HY_ALU_top__DOT__ALU_mul__DOT__MUX_mul__DOT__i0__DOT__hit;
         CData/*0:0*/ top__DOT__HY_ALU_top__DOT__ALU_Logic__DOT__LogicOpt_Mux__DOT__i0__DOT__hit;
         CData/*0:0*/ top__DOT__HY_ALU_top__DOT__ALU_DIV__DOT__DIV__DOT__i0__DOT__hit;
-        CData/*0:0*/ top__DOT__HY_ALU_top__DOT__Adder_mux__DOT__i0__DOT__hit;
-        SData/*10:0*/ top__DOT__HY_CU__DOT__func_signal;
     };
     struct {
+        CData/*0:0*/ top__DOT__HY_ALU_top__DOT__Adder_mux__DOT__i0__DOT__hit;
+        SData/*10:0*/ top__DOT__HY_CU__DOT__func_signal;
         SData/*11:0*/ top__DOT__Sign_Extend__DOT__immS;
         SData/*12:0*/ top__DOT__Sign_Extend__DOT__immB;
         IData/*20:0*/ top__DOT__Sign_Extend__DOT__immJ;
@@ -166,10 +168,10 @@ VL_MODULE(Vtop___024root) {
         QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_mul__DOT__result;
         QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_mul__DOT__MUX_mul__DOT__i0__DOT__lut_out;
         QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_Logic__DOT__LogicOpt_Mux__DOT__i0__DOT__lut_out;
-        QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_Shift__DOT__buffer;
-        QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_Shift__DOT__buffer1;
     };
     struct {
+        QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_Shift__DOT__buffer;
+        QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_Shift__DOT__buffer1;
         QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_Shift__DOT__buffer2;
         QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_Shift__DOT__buffer3;
         QData/*63:0*/ top__DOT__HY_ALU_top__DOT__ALU_Shift__DOT__buffer4;

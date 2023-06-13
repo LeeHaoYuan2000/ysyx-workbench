@@ -24,6 +24,14 @@ parameter MUX_Output_PC  = 1'b1;
 parameter MUX_Output_RS2 = 1'b0;
 parameter MUX_Output_imm = 1'b1;
 
+
+    assign WriteBack_Enable_result              = WriteBack_Enable;
+    assign C_RS1_PC_Connector_result            = C_RS1_PC_Connector;
+    assign C_RS2_imm_Connector_result           = C_RS2_imm_Connector;
+    assign C_ALU_MEM_Connector_result           = C_ALU_MEM_Connector;
+    assign C_ALU_NPC_In_Connector_result        = C_ALU_NPC_In_Connector;
+    assign C_NPC_Branch_Jump_Connector_result    = C_NPC_Branch_Jump_Connector;
+
     assign PC_Test = PC_Wire;
     wire [63:0]PC_Wire;
     wire [63:0]PC_Next_Wire;

@@ -99,16 +99,16 @@ unsigned int getInstr(unsigned long PCAdderss){
     switch (result)
     {
     case 0:
-        return 0x037787b3; //mul
+        return 0x00f57533; //and
         break;
     case 1:
-        return 0x02c787bb; //mulw
+        return 0xfe8990e3; //bne
         break;
     case 2:
-        return 0x0125053b; //addw 
+        return 0x05448263; //beq
         break;
     case 3:
-        return 0b00000001101111010000000000111011; 
+        return 0x00e6d663; //bge
         break;
     case 4:
         return 0b00000001110011011000000000111011; 
