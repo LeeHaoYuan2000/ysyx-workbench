@@ -141,7 +141,7 @@ wire TypeR = (addw | subw | add | sub |
              sltu | slt | sraw | sllw |
              srlw | _or | _and );
 
-wire ALU_Adder    = (addi | addiw | addw | subw | add | sub);
+wire ALU_Adder    = (addi | addiw | addw | subw | add | sub | jalr);
 wire ALU_Mul      = (mulw | mul);
 wire ALU_Div      = (divw | remw);
 wire ALU_Compare  = (sltiu | sltu | slt);
@@ -155,28 +155,28 @@ wire ALU_lui      = (lui);
 
 // The Inner Control of the ALU
 wire ALUInternal_Control_0 = (addi | add | mulw | divw | sraw | sraiw | andi | _and | bne |
-                             ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc);
+                             ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc | jal);
 
 wire ALUInternal_Control_1 = (sub  | mul | remw | xori);
 wire ALUInternal_Control_2 = (addiw | add | sllw | slliw | _or | bge);
 wire ALUInternal_Control_3 = (subw | slt | srli | blt);
-wire ALUInternal_Control_4 = (sltiu | sltu | slli | bltu);
+wire ALUInternal_Control_4 = (sltiu | sltu | slli | bltu | jalr);
 wire ALUInternal_Control_5 = (srai);
 
 
 wire ALU_Choose_imm = (addi | addiw | sltiu | slli | srli | srai | srliw | slliw | sraiw |
-                       ld | lw | lbu | lh | lhu | sd | sw | sb | sh | andi | xori | auipc | lui);
+                       ld | lw | lbu | lh | lhu | sd | sw | sb | sh | andi | xori | auipc | lui | jal |jalr);
 
-wire ALU_Choose_PC  = (auipc);
+wire ALU_Choose_PC  = (auipc | jal | jalr);
 
 
-assign RegWriteEnable = ~(jal | jalr);//1 for enable ,0 for disable
+assign RegWriteEnable = ~(bne | beq | bge | blt | bltu);//1 for enable ,0 for disable
 assign C_ALU_MEM = (ld | lw | lbu | lh | lhu | sd | sw | sb | sh);
 assign C_ALU_NPC_In = (jal | jalr); //将NPC 写入到 寄存器中
 assign C_RS2_imm = ALU_Choose_imm;
 assign C_RS1_PC  = ALU_Choose_PC;
 
-assign C_NPC_Branch_Jump[0] = ((bne | beq | bge | blt | bltu ) & Branch_Yes_No) | jalr;
+assign C_NPC_Branch_Jump[0] = ((bne | beq | bge | blt | bltu ) & Branch_Yes_No) | jal;
 assign C_NPC_Branch_Jump[1] = (jalr);
 
 
