@@ -13,7 +13,8 @@ module ControUnit(
     output C_RS2_imm, //0 Rs2  , 1 imm
     output C_ALU_MEM, //0 ALU  , 1 MEM
     output C_ALU_NPC_In, //0 ALU , 1 NPC
-    output [1:0] C_NPC_Branch_Jump // 0 is NPC, 1 is Branch and jal , 2 is jalr 
+    output [1:0] C_NPC_Branch_Jump, // 0 is NPC, 1 is Branch and jal , 2 is jalr
+    output [3:0] MEM_Ctrl
 );
 wire [6:0] instr_6_0;
 wire [2:0] instr_14_12;
@@ -170,7 +171,7 @@ wire ALU_Choose_imm = (addi | addiw | sltiu | slli | srli | srai | srliw | slliw
 wire ALU_Choose_PC  = (auipc | jal | jalr);
 
 
-assign RegWriteEnable = ~(bne | beq | bge | blt | bltu);//1 for enable ,0 for disable
+assign RegWriteEnable = ~(bne | beq | bge | blt | bltu | sd | sw | sb | sh);//1 for enable ,0 for disable
 assign C_ALU_MEM = (ld | lw | lbu | lh | lhu | sd | sw | sb | sh);
 assign C_ALU_NPC_In = (jal | jalr); //将NPC 写入到 寄存器中
 assign C_RS2_imm = ALU_Choose_imm;
@@ -244,7 +245,15 @@ MuxKeyWithDefault #(5,5,3) CU_ImmType (SEXT_Control,{TypeI,TypeU,TypeS,TypeJ,Typ
     5'b00100,IMMS,
     5'b00010,IMMJ,
     5'b00001,IMMB
-}); 
+});
+
+MuxKeyWithDefault #(5,5,3) CU_ImmType (SEXT_Control,{TypeI,TypeU,TypeS,TypeJ,TypeB},3'd1,{
+    5'b10000,IMMI,
+    5'b01000,IMMU,
+    5'b00100,IMMS,
+    5'b00010,IMMJ,
+    5'b00001,IMMB
+});
 
 
 

@@ -25,6 +25,8 @@ parameter MUX_Output_RS2 = 1'b0;
 parameter MUX_Output_imm = 1'b1;
 
 
+
+
     assign WriteBack_Enable_result              = WriteBack_Enable;
     assign C_RS1_PC_Connector_result            = C_RS1_PC_Connector;
     assign C_RS2_imm_Connector_result           = C_RS2_imm_Connector;
@@ -35,6 +37,7 @@ parameter MUX_Output_imm = 1'b1;
     assign PC_Test = PC_Wire;
     wire [63:0]PC_Wire;
     wire [63:0]PC_Next_Wire;
+    wire [63:0]PC_Next_Next;
 
     PC_Adder pc_adder (
         PC_Wire[63:0],
@@ -93,16 +96,24 @@ parameter MUX_Output_imm = 1'b1;
     .RS1(instruction[19:15]),
     .RS2(instruction[24:20]),
     .RD(instruction[11:7]),
-    .RD_Back(64'd1),
-    .Enable_Control(1'd0), //Write Back enable
+    .RD_Back(Write_Back_Reg),
+    .Enable_Control(WriteBack_Enable), //Write Back enable
     .RS1_Reg(RS1_Connector),
     .RS2_Reg(RS2_Connector)
+);
+
+MEM HY_MEM(
+    .MEM_Address(ALU_Result_Connector),
+    .Data_Write(RS2_Connector),
+    .Ctrl();
+    .MEM_Data_out(MEM_Result_Connector)
 );
 
 wire [63:0] RS1_Connector;
 wire [63:0] RS2_Connector;
 wire [63:0] MUX_Reg_PC_2ALU_Result;
 wire [63:0] MUX_Reg_imm_2ALU_Result;
+wire [63:0] MUX_ALU_MEM_Result
 assign RS1_OUTPUT = RS1_Connector;
 assign RS2_OUTPUT = RS2_Connector;
 
@@ -123,7 +134,36 @@ MuxKeyWithDefault #(2,1,64) MUX_Reg_PC_2ALU (MUX_Reg_PC_2ALU_Result, C_RS1_PC_Co
 MuxKeyWithDefault #(2,1,64) MUX_RS2_imm_2ALU (MUX_Reg_imm_2ALU_Result, C_RS2_imm_Connector , 64'd0 ,{
     MUX_Output_RS2 , RS2_Connector,
     MUX_Output_imm , SEXT_Connector
-}); 
+});
+
+parameter MUX_Output_ALU = 1'b0;
+parameter MUX_Output_MEM = 1'b1;
+
+parameter MUX_Output_PC  = 1'b1;
+
+parameter MUX_NPC    = 2'd0;
+parameter MUX_Branch = 2'd1;
+parameter MUX_Jump   = 2'd2;
+
+wire [63:0] MEM_Result_Connector;
+wire [63:0] Write_Back_Reg;
+
+MuxKeyWithDefault #(2,1,64) MUX_ALU_MEM (MUX_ALU_MEM_Result, C_ALU_MEM_Connector , 64'd0 ,{
+    MUX_Output_ALU , ALU_Result_Connector,
+    MUX_Output_MEM , MEM_Result_Connector
+});
+
+MuxKeyWithDefault #(2,1,64) MUX_PC_ALU (Write_Back_Reg, C_ALU_NPC_In_Connector , 64'd0 ,{
+    MUX_Output_ALU , MUX_ALU_MEM_Result,
+    MUX_Output_PC , PC_Next_Wire
+});
+
+MuxKeyWithDefault #(3,2,64) MUX_NPC_Branch_Jump (PC_Next_Next, C_NPC_Branch_Jump_Connector , 64'd0 ,{
+    MUX_NPC , MUX_ALU_MEM_Result,
+    MUX_Branch , PC_Next_Wire,
+    MUX_Jump , ALU_Result_Connector
+});
+
 
 wire [63:0] ALU_Result_Connector;
 wire [3:0]  Insider_Control_Connector;
