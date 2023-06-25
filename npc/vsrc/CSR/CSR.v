@@ -1,3 +1,38 @@
+import “DPI-C” function void set_gpr_zero(input logic [63:0] register);
+import “DPI-C” function void set_gpr_ra  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_sp  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_gp  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_tp  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_t0  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_t1  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_t2  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s0  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s1  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_a0  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_a1  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_a2  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_a3  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_a4  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_a5  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_a6  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_a7  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s2  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s3  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s4  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s5  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s6  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s7  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s8  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s9  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s10 (input logic [63:0] register);
+import “DPI-C” function void set_gpr_s11 (input logic [63:0] register);
+import “DPI-C” function void set_gpr_t3  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_t4  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_t5  (input logic [63:0] register);
+import “DPI-C” function void set_gpr_t6  (input logic [63:0] register);
+
+
+
 /* verilator lint_off UNOPTTHREADS */
 module CSR(
     input clk,
@@ -11,6 +46,19 @@ module CSR(
     output [63:0] RS2_Reg
 );
 
+initial begin
+        set_gpr_zero(Zero); set_gpr_ra(ra);   set_gpr_sp(sp);   set_gpr_gp(gp)  
+        set_gpr_tp(tp);   set_gpr_t0(t0);   set_gpr_t1(t1);    set_gpr_t2(t2);
+        set_gpr_s0(s0);   set_gpr_s1(s1);   set_gpr_a0(a0);    set_gpr_a1(a1);
+        set_gpr_a2(a2);   set_gpr_a3(a3);   set_gpr_a4(a4);    set_gpr_a5(a5);
+        set_gpr_a6(a6);   set_gpr_a7(a7);   set_gpr_s2(s2);    set_gpr_s3(s3);
+        set_gpr_s4(s4);   set_gpr_s5(s5);   set_gpr_s6(s6);    set_gpr_s7(s7);  
+        set_gpr_s8(s8);   set_gpr_s9(s9);   set_gpr_s10(s10);  set_gpr_s11(s11) 
+        set_gpr_t3(t3);   set_gpr_t4(t4);   set_gpr_t5(t5);    set_gpr_t6(t6)  
+end
+
+
+
 reg [63:0] Zero ; reg [63:0] ra ; reg [63:0] sp  ; reg [63:0] gp  ;
 reg [63:0] tp   ; reg [63:0] t0 ; reg [63:0] t1  ; reg [63:0] t2  ;
 reg [63:0] s0   ; reg [63:0] s1 ; reg [63:0] a0  ; reg [63:0] a1  ;
@@ -23,14 +71,6 @@ reg [63:0] t3   ; reg [63:0] t4 ; reg [63:0] t5  ; reg [63:0] t6  ;
 always@(posedge clk) begin
     if(rst)
         begin
-            // Zero <= 64'd0;  ra <= 64'd0;  sp <= 64'd0;  gp  <= 64'd0;
-            // tp   <= 64'd0;  t0 <= 64'd0;  t1 <= 64'd0;  t2  <= 64'd0;
-            // s0   <= 64'd0;  s1 <= 64'd0;  a0 <= 64'd0;  a1  <= 64'd0;
-            // a2   <= 64'd0;  a3 <= 64'd0;  a4 <= 64'd0;  a5  <= 64'd0;
-            // a6   <= 64'd0;  a7 <= 64'd0;  s2 <= 64'd0;  s3  <= 64'd0;
-            // s4   <= 64'd0;  s5 <= 64'd0;  s6 <= 64'd0;  s7  <= 64'd0;
-            // s8   <= 64'd0;  s9 <= 64'd0;  s10<= 64'd0;  s11 <= 64'd0;
-            // t3   <= 64'd0;  t4 <= 64'd0;  t5 <= 64'd0;  t6  <= 64'd0;
 
             Zero <= 64'd0;  ra <= 64'd1;  sp <= 64'd2;  gp  <= 64'd3;
             tp   <= 64'd4;  t0 <= 64'd5;  t1 <= 64'd6;  t2  <= 64'd7;
@@ -78,14 +118,6 @@ MuxKeyWithDefault #(32,5,64) RS2_Out (RS2_Reg,RS2,64'd0,{
     5'd24,{s8[63:0]   },5'd25,{s9[63:0]} ,5'd26, {s10[63:0]},5'd27, {s11[63:0]},
     5'd28,{t3[63:0]   },5'd29,{t4[63:0]} ,5'd30, {t5[63:0] },5'd31, {t6[63:0] }
 
-    // 32'd0 ,Zero,32'd1 ,ra ,32'd2 ,sp ,32'd3 ,gp,
-    // 32'd4 ,tp  ,32'd5 ,t0 ,32'd6 ,t1 ,32'd7 ,t2,
-    // 32'd8 ,s0  ,32'd9 ,s1 ,32'd10,a0 ,32'd11,a1,
-    // 32'd12,a2  ,32'd13,a3 ,32'd14,a4 ,32'd15,a5,
-    // 32'd16,a6  ,32'd17,a7 ,32'd18,s2 ,32'd19,s3,
-    // 32'd20,s4  ,32'd21,s5 ,32'd22,s6 ,32'd23,s7,
-    // 32'd24,s8  ,32'd25,s9 ,32'd26,s10,32'd27,s11,
-    // 32'd28,t3  ,32'd29,t4 ,32'd30,t5 ,32'd31,t6
 });
 
 

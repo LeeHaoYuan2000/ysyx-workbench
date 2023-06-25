@@ -46,18 +46,27 @@ endif
 ## 2. General Compilation Targets
 
 ### Create the destination directory (`build/$ARCH`)
+### WORK_DIR=/home/ubuntu/ysyx-workbench/am-kernels/tests/cpu-tests
+### DST_DIR=/home/ubuntu/ysyx-workbench/am-kernels/tests/cpu-tests/build/riscv64-nemu
+### ARCH = riscv64-nemu
 WORK_DIR  = $(shell pwd)
 DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
 
+
+
 ### Compilation targets (a binary image or archive)
-IMAGE_REL = build/$(NAME)-$(ARCH)
+### IMAGE_REL=build/dummy-riscv64-nemu
+### ARCHIVE=/home/ubuntu/ysyx-workbench/am-kernels/tests/cpu-tests/build/dummy-riscv64-nemu.a
+IMAGE_REL = build/$(NAME)-$(ARCH)   
 IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
 
 ### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
-OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
-LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
+### OBJS    =/home/ubuntu/ysyx-workbench/am-kernels/tests/cpu-tests/build/riscv64-nemu/tests/dummy.o
+### LINKAGE =/home/ubuntu/ysyx-workbench/am-kernels/tests/cpu-tests/build/riscv64-nemu/tests/dummy.o
+OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))   
+LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions  ### 去掉重复的libs并按字母排序 LIBS=am klib
 LINKAGE   = $(OBJS) \
   $(addsuffix -$(ARCH).a, $(join \
     $(addsuffix /build/, $(addprefix $(AM_HOME)/, $(LIBS))), \
@@ -147,7 +156,11 @@ image: image-dep
 archive: $(ARCHIVE)
 image-dep: $(OBJS) am $(LIBS)
 	@echo \# Creating image [$(ARCH)]
-.PHONY: image image-dep archive run $(LIBS)
+
+showVar:
+	@echo ARCHS=$(ARCHS) ARCH_SPLIT=$(ARCH_SPLIT)  WORK_DIR=$(WORK_DIR)  
+	@echo DST_DIR=$(DST_DIR)  IMAGE_REL=$(IMAGE_REL)  ARCHIVE=$(ARCHIVE) OBJS=$(OBJS)  LIBS=$(LIBS) LINKAGE=$(LINKAGE)
+.PHONY: image image-dep archive run showVar $(LIBS)
 
 ### Clean a single project (remove `build/`)
 clean:

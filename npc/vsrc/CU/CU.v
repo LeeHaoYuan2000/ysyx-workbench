@@ -214,6 +214,11 @@ wire [3:0] Inside_3 = 4'd3;
 wire [3:0] Inside_4 = 4'd4;
 wire [3:0] Inside_5 = 4'd5;
 
+assign MEM_Ctrl[0]    = (lhu | lw | sw | sb);
+assign MEM_Ctrl[1]    = (lbu | Lw | sh);
+assign MEM_Ctrl[2]    = (lh);
+assign MEM_Ctrl[3]    = (sd | sw | sb | sh);
+
 
 MuxKeyWithDefault #(6,6,4) ALU_Inside_choose (Inside_Control,ALU_inside_signal,4'd15,{
     6'b10_0000,Inside_0,
