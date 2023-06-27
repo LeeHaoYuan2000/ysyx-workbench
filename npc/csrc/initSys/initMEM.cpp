@@ -30,6 +30,18 @@ extern "C" void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
 
 }
 
+void MEMRead(uint64_t raddr,uint64_t* rdata){
+    pmem_read(raddr,rdata);
+}
+
+void MEMWrite(uint64_t waddr,uint64_t wdata, uint8_t wmask){
+    pmem_write(waddr,wdata,wmask);
+}
+
+uint8_t* getMEMAddr(){
+    return Memory;
+} 
+
 void initMEM(){
     Memory = (uint8_t*)malloc(MEM_Size);
 }

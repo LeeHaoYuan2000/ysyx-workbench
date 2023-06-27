@@ -50,7 +50,7 @@ static long load_img() {
     return 4096; // built-in image size
   }
 
-  FILE *fp = fopen(img_file, "rb");
+  FILE *fp = fopen(img_file, "rb");  //"rb 读取一个二进制文件"
   Assert(fp, "Can not open '%s'", img_file);
 
   fseek(fp, 0, SEEK_END);
@@ -77,6 +77,7 @@ static int parse_args(int argc, char *argv[]) {
   };
   int o;
   while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
+    printf("The O = %d \n",o);
     switch (o) {
       case 'b': sdb_set_batch_mode(); break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
