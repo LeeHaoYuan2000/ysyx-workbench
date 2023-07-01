@@ -6,7 +6,7 @@
 
 void initMEM();
 
-int8_t* getMEMAddr();
+uint8_t* getMEMAddr();
 
 void MEMRead(uint64_t raddr,uint64_t* rdata);
 

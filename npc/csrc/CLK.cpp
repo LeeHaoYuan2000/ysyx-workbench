@@ -4,11 +4,17 @@
 #include <verilated_vcd_c.h>
 #include </home/ubuntu/ysyx-workbench/npc/csrc/include/CLK.h>
 
+#include ".//include//initMEM.h"
+
+#include "./include/RegFile.h"
+
 //#define Trace_on
 /* verilator lint_off UNOPTTHREADS */
 
 void CLK::InitTop(Vtop *inputTop){
     top = inputTop;
+
+    printf("是 initTop 里面出问题了吗？\n");
 }
 
 void CLK::setWaveForm(){
@@ -25,6 +31,8 @@ void CLK::setWaveForm(){
     top->clk = 0;
     top->rst = 1;
     top->eval();
+
+    printf("是 setWaveForm里面出问题了吗\n");
 
     #ifdef Trace_on
         wave->dump(context->time());
@@ -44,7 +52,9 @@ void CLK::rstOn(){
     #endif
     }
     top->rst = 0;
+    printf("11\n");
     top->instr_in = getInstr(top->PC_Test);
+    printf("是第一次取指令出错了吗？");
     top->eval();
     printf("%016lx\t %08x\t %ld\t %d\n",top->PC_Test,top->instr_in,top->SEXT_result,top->SEXT_Control_out);
     printf("RS1: %ld\t RS2:%ld\n",top->RS1_OUTPUT,top->RS2_OUTPUT);
@@ -66,6 +76,7 @@ void CLK::ClkFlipOnce(){
     top->eval();
     top->instr_in = getInstr(top->PC_Test);
     top->eval();
+    verilator_stop_check(top,context);
 
     #ifdef Trace_on
         wave->dump(context->time());
@@ -93,29 +104,23 @@ void CLK::CloseWaveForm(){
 }
 
 unsigned int getInstr(unsigned long PCAdderss){
+    printf("%016lx\n",PCAdderss);
+    uint64_t Data_instr = NULL;
+    printf("准备开始取指令了，首先地址为：%016lx\n",PCAdderss);
+    MEMRead(PCAdderss,&Data_instr);
+    printf("让我看看取出来的指令是：%016lx\n",Data_instr);
+    Data_instr = Data_instr & 0x00000000FFFFFFFF; //the Data_instr is 64 bits, the instr is 32 bits
+    return (uint32_t)Data_instr;
+}
 
-    unsigned long result = ((PCAdderss-0x0000000080000000)/4)%6;
 
-    switch (result)
-    {
-    case 0:
-        return 0x00000797; //auipc
-        break;
-    case 1:
-        return 0x00004537; //liu
-        break;
-    case 2:
-        return 0xf81ff0ef; //jal
-        break;
-    case 3:
-        return 0x000780e7; //jalr
-        break;
-    case 4:
-        return 0b00000001110011011000000000111011; 
-        break;
-    
-    default:
-        return 0b00000001110111100000000000111011; //0b0000000 11110 11101 000 000000111011
-        break;                                   
+void verilator_stop_check(Vtop *inputTop,VerilatedContext* context){
+    if(check_ebreak_now()){
+        delete inputTop;
+        #ifdef Trace_on
+            wave->close();
+            delete wave;
+        #endif
+        delete context;
     }
 }

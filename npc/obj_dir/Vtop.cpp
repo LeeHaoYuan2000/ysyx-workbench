@@ -4,6 +4,7 @@
 #include "Vtop.h"
 #include "Vtop__Syms.h"
 #include "verilated_vcd_c.h"
+#include "verilated_dpi.h"
 
 //============================================================
 // Constructors
@@ -25,6 +26,7 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , C_ALU_MEM_Connector_result{vlSymsp->TOP.C_ALU_MEM_Connector_result}
     , C_ALU_NPC_In_Connector_result{vlSymsp->TOP.C_ALU_NPC_In_Connector_result}
     , C_NPC_Branch_Jump_Connector_result{vlSymsp->TOP.C_NPC_Branch_Jump_Connector_result}
+    , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
     , rootp{&(vlSymsp->TOP)}
 {
 }

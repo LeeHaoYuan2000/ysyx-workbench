@@ -1,8 +1,20 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <..\include\iniMEM.h>  
-#include <getopt_core.h>
+#include "..//include//initMEM.h"
+#include "verilated_dpi.h"
+#include "getopt.h"
+///#include <getopt_core.h>
+
+#define no_argument 0
+#define required_argument 1
+
+static char *log_file = NULL;
+static char *diff_so_file = NULL;
+static char *img_file = NULL;
+static int difftest_port = 1234;
+
+static bool is_batch_mode_on = false;
 
 static const uint32_t build_in_img [] = {
   0x00000297,  // auipc t0,0
@@ -15,17 +27,19 @@ static const uint32_t build_in_img [] = {
 static long load_img() {
   if (img_file == NULL) {
     memcpy(getMEMAddr(), build_in_img, sizeof(build_in_img));
-    Log("No image is given. Use the default build-in image.");
+
+    printf("No image is given. Use the default build-in image.\n");
     return 4096; // built-in image size
+    
   }
 else{
     FILE *fp = fopen(img_file, "rb");  //"rb 读取一个二进制文件"
-    Assert(fp, "Can not open '%s'", img_file);
+    //Assert(fp, "Can not open '%s'", img_file);
 
     fseek(fp, 0, SEEK_END);
     long size = ftell(fp);
 
-    Log("The image is %s, size = %ld", img_file, size);
+    printf("The image is %s, size = %ld", img_file, size);
 
     fseek(fp, 0, SEEK_SET);
     int ret = fread(getMEMAddr(), size, 1, fp);
@@ -37,7 +51,11 @@ else{
 
 }
 
-void parse_args(int argc,char *argv[]){
+void sdb_set_batch_mode(){
+  is_batch_mode_on = true;
+}
+
+int parse_args(int argc,char *argv[]){
 
       const struct option table[] = {
     {"batch"    , no_argument      , NULL, 'b'},
@@ -66,7 +84,7 @@ void parse_args(int argc,char *argv[]){
         exit(0);
     }
   }
-
+  return 0;
 }
 
 

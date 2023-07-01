@@ -1,3 +1,4 @@
+import "DPI-C" function void check_ebreak(input logic [7:0]ebreak_reg);
 
 module ControUnit(
     input  [31:0] instr,
@@ -16,6 +17,11 @@ module ControUnit(
     output [1:0] C_NPC_Branch_Jump, // 0 is NPC, 1 is Branch and jal , 2 is jalr
     output [3:0] MEM_Ctrl
 );
+
+initial begin
+    check_ebreak({8{ebreak}});
+end
+
 wire [6:0] instr_6_0;
 wire [2:0] instr_14_12;
 wire [6:0] instr_31_25;
@@ -215,7 +221,7 @@ wire [3:0] Inside_4 = 4'd4;
 wire [3:0] Inside_5 = 4'd5;
 
 assign MEM_Ctrl[0]    = (lhu | lw | sw | sb);
-assign MEM_Ctrl[1]    = (lbu | Lw | sh);
+assign MEM_Ctrl[1]    = (lbu | lw | sh);
 assign MEM_Ctrl[2]    = (lh);
 assign MEM_Ctrl[3]    = (sd | sw | sb | sh);
 
@@ -252,13 +258,13 @@ MuxKeyWithDefault #(5,5,3) CU_ImmType (SEXT_Control,{TypeI,TypeU,TypeS,TypeJ,Typ
     5'b00001,IMMB
 });
 
-MuxKeyWithDefault #(5,5,3) CU_ImmType (SEXT_Control,{TypeI,TypeU,TypeS,TypeJ,TypeB},3'd1,{
-    5'b10000,IMMI,
-    5'b01000,IMMU,
-    5'b00100,IMMS,
-    5'b00010,IMMJ,
-    5'b00001,IMMB
-});
+// MuxKeyWithDefault #(5,5,3) CU_ImmType (SEXT_Control,{TypeI,TypeU,TypeS,TypeJ,TypeB},3'd1,{
+//     5'b10000,IMMI,
+//     5'b01000,IMMU,
+//     5'b00100,IMMS,
+//     5'b00010,IMMJ,
+//     5'b00001,IMMB
+// });
 
 
 

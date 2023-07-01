@@ -2,17 +2,21 @@
 #include <iostream>
 #include <stdlib.h>
 #include <malloc.h>
-#include <..\include\iniMEM.h>
+#include "../include/initMEM.h"
+#include <assert.h>
 
-static uint8_t* Memory;
+uint8_t* Memory;
 
 //use the little endian to store the date
 extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata){
-    uint64_t MEM_addr = raddr & ~0x7ull;
-    uint16_t Data_buf = 0;
+    uint64_t MEM_addr = raddr & ~0x80000000;
+    uint64_t Data_buf = 0;
+
+    printf("Mem_size:%ld\n",sizeof(Memory));
+
     for(int i = 0;i < 8;i++){
-        Data_buf = Data_buf << 8;
-        Data_buf = Data_buf + Memory[MEM_addr + i];
+        Data_buf = Data_buf >> 8;
+        Data_buf = Data_buf + ((uint64_t)*(Memory+MEM_addr + i)<<56);
     }
 
     *rdata = Data_buf;
@@ -30,12 +34,31 @@ extern "C" void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
 
 }
 
+int out_of_address(uint64_t addr){
+    if(addr - 0x80000000 < 0x80000000){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
 void MEMRead(uint64_t raddr,uint64_t* rdata){
-    pmem_read(raddr,rdata);
+    if(out_of_address(raddr)){
+        pmem_read(raddr,rdata);
+    }
+    else{
+        assert(0);        
+    }
 }
 
 void MEMWrite(uint64_t waddr,uint64_t wdata, uint8_t wmask){
+    if(out_of_address(waddr)){
     pmem_write(waddr,wdata,wmask);
+    }
+    else{
+        assert(0);        
+    }
 }
 
 uint8_t* getMEMAddr(){

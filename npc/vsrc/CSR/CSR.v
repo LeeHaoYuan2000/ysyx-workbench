@@ -1,35 +1,35 @@
-import “DPI-C” function void set_gpr_zero(input logic [63:0] register);
-import “DPI-C” function void set_gpr_ra  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_sp  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_gp  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_tp  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_t0  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_t1  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_t2  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s0  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s1  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_a0  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_a1  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_a2  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_a3  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_a4  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_a5  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_a6  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_a7  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s2  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s3  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s4  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s5  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s6  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s7  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s8  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s9  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s10 (input logic [63:0] register);
-import “DPI-C” function void set_gpr_s11 (input logic [63:0] register);
-import “DPI-C” function void set_gpr_t3  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_t4  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_t5  (input logic [63:0] register);
-import “DPI-C” function void set_gpr_t6  (input logic [63:0] register);
+import "DPI-C" function void set_gpr_zero(input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_ra  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_sp  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_gp  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_tp  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_t0  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_t1  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_t2  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s0  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s1  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_a0  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_a1  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_a2  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_a3  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_a4  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_a5  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_a6  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_a7  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s2  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s3  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s4  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s5  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s6  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s7  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s8  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s9  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s10 (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_s11 (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_t3  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_t4  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_t5  (input logic [63:0] gpr);
+import "DPI-C" function void set_gpr_t6  (input logic [63:0] gpr);
 
 
 
@@ -46,15 +46,17 @@ module CSR(
     output [63:0] RS2_Reg
 );
 
-initial begin
-        set_gpr_zero(Zero); set_gpr_ra(ra);   set_gpr_sp(sp);   set_gpr_gp(gp)  
+
+
+initial begin  //initial the function
+        set_gpr_zero(Zero); set_gpr_ra(ra);   set_gpr_sp(sp);   set_gpr_gp(gp);  
         set_gpr_tp(tp);   set_gpr_t0(t0);   set_gpr_t1(t1);    set_gpr_t2(t2);
         set_gpr_s0(s0);   set_gpr_s1(s1);   set_gpr_a0(a0);    set_gpr_a1(a1);
         set_gpr_a2(a2);   set_gpr_a3(a3);   set_gpr_a4(a4);    set_gpr_a5(a5);
         set_gpr_a6(a6);   set_gpr_a7(a7);   set_gpr_s2(s2);    set_gpr_s3(s3);
         set_gpr_s4(s4);   set_gpr_s5(s5);   set_gpr_s6(s6);    set_gpr_s7(s7);  
-        set_gpr_s8(s8);   set_gpr_s9(s9);   set_gpr_s10(s10);  set_gpr_s11(s11) 
-        set_gpr_t3(t3);   set_gpr_t4(t4);   set_gpr_t5(t5);    set_gpr_t6(t6)  
+        set_gpr_s8(s8);   set_gpr_s9(s9);   set_gpr_s10(s10);  set_gpr_s11(s11); 
+        set_gpr_t3(t3);   set_gpr_t4(t4);   set_gpr_t5(t5);    set_gpr_t6(t6);  
 end
 
 

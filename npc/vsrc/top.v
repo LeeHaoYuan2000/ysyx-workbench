@@ -19,10 +19,10 @@ module top(
     output [1:0] C_NPC_Branch_Jump_Connector_result
 );
 
-parameter MUX_Output_RS1 = 1'b0;
-parameter MUX_Output_PC  = 1'b1;
-parameter MUX_Output_RS2 = 1'b0;
-parameter MUX_Output_imm = 1'b1;
+    parameter MUX_Output_RS1 = 1'b0;
+    parameter MUX_Output_PC  = 1'b1;
+    parameter MUX_Output_RS2 = 1'b0;
+    parameter MUX_Output_imm = 1'b1;
 
 
 
@@ -77,7 +77,8 @@ parameter MUX_Output_imm = 1'b1;
         .C_RS2_imm(C_RS2_imm_Connector), //0 Rs2  , 1 imm
         .C_ALU_MEM(C_ALU_MEM_Connector), //0 ALU  , 1 MEM
         .C_ALU_NPC_In(C_ALU_NPC_In_Connector), //0 ALU , 1 NPC
-        .C_NPC_Branch_Jump(C_NPC_Branch_Jump_Connector) // 0 is NPC, 1 is Branch and jal , 2 is jalr 
+        .C_NPC_Branch_Jump(C_NPC_Branch_Jump_Connector), // 0 is NPC, 1 is Branch and jal , 2 is jalr 
+        .MEM_Ctrl(MEM_Ctrl_connector)
     );
 
     SEXT Sign_Extend(
@@ -105,7 +106,7 @@ parameter MUX_Output_imm = 1'b1;
 MEM HY_MEM(
     .MEM_Address(ALU_Result_Connector),
     .Data_Write(RS2_Connector),
-    .Ctrl();
+    .Ctrl(MEM_Ctrl_connector),
     .MEM_Data_out(MEM_Result_Connector)
 );
 
@@ -113,10 +114,12 @@ wire [63:0] RS1_Connector;
 wire [63:0] RS2_Connector;
 wire [63:0] MUX_Reg_PC_2ALU_Result;
 wire [63:0] MUX_Reg_imm_2ALU_Result;
-wire [63:0] MUX_ALU_MEM_Result
+wire [63:0] MUX_ALU_MEM_Result;
 assign RS1_OUTPUT = RS1_Connector;
 assign RS2_OUTPUT = RS2_Connector;
 
+
+wire [3:0] MEM_Ctrl_connector;
 wire WriteBack_Enable;
 wire C_RS1_PC_Connector;
 wire C_RS2_imm_Connector;
@@ -139,7 +142,7 @@ MuxKeyWithDefault #(2,1,64) MUX_RS2_imm_2ALU (MUX_Reg_imm_2ALU_Result, C_RS2_imm
 parameter MUX_Output_ALU = 1'b0;
 parameter MUX_Output_MEM = 1'b1;
 
-parameter MUX_Output_PC  = 1'b1;
+// parameter MUX_Output_PC  = 1'b1;
 
 parameter MUX_NPC    = 2'd0;
 parameter MUX_Branch = 2'd1;

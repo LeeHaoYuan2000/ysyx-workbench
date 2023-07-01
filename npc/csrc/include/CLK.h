@@ -18,4 +18,8 @@ class CLK {
         
 };
 
+void verilator_stop();
+
+void verilator_stop_check(Vtop *inputTop,VerilatedContext* context);
+
 unsigned int getInstr(unsigned long PCAdderss);

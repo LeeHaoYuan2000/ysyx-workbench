@@ -38,6 +38,13 @@ void init_isa() {
   /* Load built-in image. */
   memcpy(guest_to_host(RESET_VECTOR), img, sizeof(img));
 
+  // //确定了在x86中 对于数据的存储为小端存储
+  // for(int i=4;i<8;i++){
+  //   printf("%02x ",*(guest_to_host(RESET_VECTOR)+i));
+  // }
+
+  printf("\n");
+
   /* Initialize this virtual computer system. */
   restart();
 }
