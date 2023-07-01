@@ -5,18 +5,16 @@
 #include "../include/initMEM.h"
 #include <assert.h>
 
-uint8_t* Memory;
+uint8_t Memory[40960];
 
 //use the little endian to store the date
 extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata){
     uint64_t MEM_addr = raddr & ~0x80000000;
     uint64_t Data_buf = 0;
 
-    printf("Mem_size:%ld\n",sizeof(Memory));
-
     for(int i = 0;i < 8;i++){
         Data_buf = Data_buf >> 8;
-        Data_buf = Data_buf + ((uint64_t)*(Memory+MEM_addr + i)<<56);
+        Data_buf = Data_buf + (((uint64_t)Memory[MEM_addr + i])<<56);
     }
 
     *rdata = Data_buf;
@@ -24,7 +22,7 @@ extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata){
 
 
 extern "C" void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
-    uint64_t MEM_addr = waddr & ~0x7ull;
+    uint64_t MEM_addr = waddr &  ~0x80000000;
     uint8_t Data_buf = 0;
     for(int i = 0; i < wmask; i++){
         Data_buf = wdata & 0x00000000000000ff;
@@ -66,7 +64,9 @@ uint8_t* getMEMAddr(){
 } 
 
 void initMEM(){
-    Memory = (uint8_t*)malloc(MEM_Size);
+    //Memory = (uint8_t* )malloc(400);
+
+    printf("Memory Size: %ld\n",sizeof(Memory));
 }
 
 

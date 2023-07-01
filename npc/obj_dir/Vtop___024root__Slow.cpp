@@ -5679,7 +5679,7 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
                                        : 0ULL);
 }
 
-void Vtop___024unit____Vdpiimwrap_check_ebreak_TOP____024unit(CData/*7:0*/ ebreak_reg);
+void Vtop___024unit____Vdpiimwrap_check_ebreak__Vdpioc2_TOP____024unit(const CData/*7:0*/ &ebreak_reg);
 void Vtop___024unit____Vdpiimwrap_set_gpr_zero_TOP____024unit(QData/*63:0*/ gpr);
 void Vtop___024unit____Vdpiimwrap_set_gpr_ra_TOP____024unit(QData/*63:0*/ gpr);
 void Vtop___024unit____Vdpiimwrap_set_gpr_sp_TOP____024unit(QData/*63:0*/ gpr);
@@ -5718,11 +5718,11 @@ void Vtop___024root___initial__TOP__2(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___initial__TOP__2\n"); );
     // Body
-    Vtop___024unit____Vdpiimwrap_check_ebreak_TOP____024unit(
-                                                             (0xffU 
-                                                              & (- (IData)(
-                                                                           (0x100073U 
-                                                                            == vlSelf->instr_in)))));
+    Vtop___024unit____Vdpiimwrap_check_ebreak__Vdpioc2_TOP____024unit(
+                                                                      (0xffU 
+                                                                       & (- (IData)(
+                                                                                (0x100073U 
+                                                                                == vlSelf->instr_in)))));
     Vtop___024unit____Vdpiimwrap_set_gpr_zero_TOP____024unit(vlSelf->top__DOT__HY_RegFile__DOT__Zero);
     Vtop___024unit____Vdpiimwrap_set_gpr_ra_TOP____024unit(vlSelf->top__DOT__HY_RegFile__DOT__ra);
     Vtop___024unit____Vdpiimwrap_set_gpr_sp_TOP____024unit(vlSelf->top__DOT__HY_RegFile__DOT__sp);

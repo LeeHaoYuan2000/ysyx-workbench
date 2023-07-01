@@ -355,12 +355,12 @@ VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t6_TOP____024unit(QData/
     set_gpr_t6(gpr__Vcvt);
 }
 
-extern "C" void check_ebreak(const svLogicVecVal* ebreak_reg);
+extern "C" void check_ebreak(const svOpenArrayHandle ebreak_reg);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_check_ebreak_TOP____024unit(CData/*7:0*/ ebreak_reg) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_check_ebreak_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_check_ebreak__Vdpioc2_TOP____024unit(const CData/*7:0*/ &ebreak_reg) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_check_ebreak__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal ebreak_reg__Vcvt[1];
-    for (size_t ebreak_reg__Vidx = 0; ebreak_reg__Vidx < 1; ++ebreak_reg__Vidx) VL_SET_SVLV_I(8, ebreak_reg__Vcvt + 1 * ebreak_reg__Vidx, ebreak_reg);
-    check_ebreak(ebreak_reg__Vcvt);
+    static const VerilatedVarProps ebreak_reg__Vopenprops(VLVT_UINT8, VLVD_IN, VerilatedVarProps::Packed(), 7, 0);
+    VerilatedDpiOpenVar ebreak_reg__Vopenarray (&ebreak_reg__Vopenprops, &ebreak_reg);
+    check_ebreak(&ebreak_reg__Vopenarray);
 }

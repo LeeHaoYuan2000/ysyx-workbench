@@ -22,6 +22,7 @@ static const uint32_t build_in_img [] = {
   0x0102b503,  // ld  a0,16(t0)
   0x00100073,  // ebreak (used as nemu_trap)
   0xdeadbeef,  // some data
+
 };
 
 static long load_img() {

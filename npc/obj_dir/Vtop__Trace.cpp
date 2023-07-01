@@ -687,69 +687,72 @@ void Vtop___024root__traceChgSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep) 
         tracep->chgBit(oldp+1156,(vlSelf->C_ALU_MEM_Connector_result));
         tracep->chgBit(oldp+1157,(vlSelf->C_ALU_NPC_In_Connector_result));
         tracep->chgCData(oldp+1158,(vlSelf->C_NPC_Branch_Jump_Connector_result),2);
-        tracep->chgCData(oldp+1159,((0x7fU & vlSelf->instr_in)),7);
-        tracep->chgCData(oldp+1160,((7U & (vlSelf->instr_in 
+        tracep->chgCData(oldp+1159,((0xffU & (- (IData)(
+                                                        (0x100073U 
+                                                         == vlSelf->instr_in))))),8);
+        tracep->chgCData(oldp+1160,((0x7fU & vlSelf->instr_in)),7);
+        tracep->chgCData(oldp+1161,((7U & (vlSelf->instr_in 
                                            >> 0xcU))),3);
-        tracep->chgCData(oldp+1161,((vlSelf->instr_in 
-                                     >> 0x19U)),7);
         tracep->chgCData(oldp+1162,((vlSelf->instr_in 
+                                     >> 0x19U)),7);
+        tracep->chgCData(oldp+1163,((vlSelf->instr_in 
                                      >> 0x1aU)),6);
-        tracep->chgBit(oldp+1163,((0x13U == (0x7fU 
+        tracep->chgBit(oldp+1164,((0x13U == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1164,((0x3bU == (0x7fU 
+        tracep->chgBit(oldp+1165,((0x3bU == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1165,((0x33U == (0x7fU 
+        tracep->chgBit(oldp+1166,((0x33U == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1166,((0x1bU == (0x7fU 
+        tracep->chgBit(oldp+1167,((0x1bU == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1167,((3U == (0x7fU & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1168,((0x23U == (0x7fU 
+        tracep->chgBit(oldp+1168,((3U == (0x7fU & vlSelf->instr_in))));
+        tracep->chgBit(oldp+1169,((0x23U == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1169,((0x63U == (0x7fU 
+        tracep->chgBit(oldp+1170,((0x63U == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1170,((0x6fU == (0x7fU 
+        tracep->chgBit(oldp+1171,((0x6fU == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1171,((0x67U == (0x7fU 
+        tracep->chgBit(oldp+1172,((0x67U == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1172,((0x17U == (0x7fU 
+        tracep->chgBit(oldp+1173,((0x17U == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1173,((0x37U == (0x7fU 
+        tracep->chgBit(oldp+1174,((0x37U == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1174,((0x73U == (0x7fU 
+        tracep->chgBit(oldp+1175,((0x73U == (0x7fU 
                                              & vlSelf->instr_in))));
-        tracep->chgBit(oldp+1175,((0U == (7U & (vlSelf->instr_in 
+        tracep->chgBit(oldp+1176,((0U == (7U & (vlSelf->instr_in 
                                                 >> 0xcU)))));
-        tracep->chgBit(oldp+1176,((4U == (7U & (vlSelf->instr_in 
+        tracep->chgBit(oldp+1177,((4U == (7U & (vlSelf->instr_in 
                                                 >> 0xcU)))));
-        tracep->chgBit(oldp+1177,((6U == (7U & (vlSelf->instr_in 
+        tracep->chgBit(oldp+1178,((6U == (7U & (vlSelf->instr_in 
                                                 >> 0xcU)))));
-        tracep->chgBit(oldp+1178,((3U == (7U & (vlSelf->instr_in 
+        tracep->chgBit(oldp+1179,((3U == (7U & (vlSelf->instr_in 
                                                 >> 0xcU)))));
-        tracep->chgBit(oldp+1179,((2U == (7U & (vlSelf->instr_in 
+        tracep->chgBit(oldp+1180,((2U == (7U & (vlSelf->instr_in 
                                                 >> 0xcU)))));
-        tracep->chgBit(oldp+1180,((5U == (7U & (vlSelf->instr_in 
+        tracep->chgBit(oldp+1181,((5U == (7U & (vlSelf->instr_in 
                                                 >> 0xcU)))));
-        tracep->chgBit(oldp+1181,((1U == (7U & (vlSelf->instr_in 
+        tracep->chgBit(oldp+1182,((1U == (7U & (vlSelf->instr_in 
                                                 >> 0xcU)))));
-        tracep->chgBit(oldp+1182,((7U == (7U & (vlSelf->instr_in 
+        tracep->chgBit(oldp+1183,((7U == (7U & (vlSelf->instr_in 
                                                 >> 0xcU)))));
-        tracep->chgBit(oldp+1183,((0U == (vlSelf->instr_in 
+        tracep->chgBit(oldp+1184,((0U == (vlSelf->instr_in 
                                           >> 0x19U))));
-        tracep->chgBit(oldp+1184,((1U == (vlSelf->instr_in 
+        tracep->chgBit(oldp+1185,((1U == (vlSelf->instr_in 
                                           >> 0x19U))));
-        tracep->chgBit(oldp+1185,((0U == (vlSelf->instr_in 
+        tracep->chgBit(oldp+1186,((0U == (vlSelf->instr_in 
                                           >> 0x1aU))));
-        tracep->chgBit(oldp+1186,((0x10U == (vlSelf->instr_in 
+        tracep->chgBit(oldp+1187,((0x10U == (vlSelf->instr_in 
                                              >> 0x1aU))));
-        tracep->chgBit(oldp+1187,((0x100073U == vlSelf->instr_in)));
-        tracep->chgBit(oldp+1188,(((0x17U == (0x7fU 
+        tracep->chgBit(oldp+1188,((0x100073U == vlSelf->instr_in)));
+        tracep->chgBit(oldp+1189,(((0x17U == (0x7fU 
                                               & vlSelf->instr_in)) 
                                    | (0x37U == (0x7fU 
                                                 & vlSelf->instr_in)))));
-        tracep->chgBit(oldp+1189,(((0x6fU == (0x7fU 
+        tracep->chgBit(oldp+1190,(((0x6fU == (0x7fU 
                                               & vlSelf->instr_in)) 
                                    | (IData)(vlSelf->top__DOT__HY_CU__DOT__jalr))));
-        tracep->chgBit(oldp+1190,((((((((((((((((((
+        tracep->chgBit(oldp+1191,((((((((((((((((((
                                                    (((IData)(vlSelf->top__DOT__HY_CU__DOT__addi) 
                                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__add)) 
                                                     | (IData)(vlSelf->top__DOT__HY_CU__DOT__mulw)) 
@@ -772,14 +775,14 @@ void Vtop___024root__traceChgSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep) 
                                                  & vlSelf->instr_in))) 
                                    | (0x6fU == (0x7fU 
                                                 & vlSelf->instr_in)))));
-        tracep->chgSData(oldp+1191,((vlSelf->instr_in 
+        tracep->chgSData(oldp+1192,((vlSelf->instr_in 
                                      >> 0x14U)),12);
-        tracep->chgIData(oldp+1192,((0xfffff000U & vlSelf->instr_in)),32);
-        tracep->chgCData(oldp+1193,((0x1fU & (vlSelf->instr_in 
-                                              >> 0xfU))),5);
+        tracep->chgIData(oldp+1193,((0xfffff000U & vlSelf->instr_in)),32);
         tracep->chgCData(oldp+1194,((0x1fU & (vlSelf->instr_in 
-                                              >> 0x14U))),5);
+                                              >> 0xfU))),5);
         tracep->chgCData(oldp+1195,((0x1fU & (vlSelf->instr_in 
+                                              >> 0x14U))),5);
+        tracep->chgCData(oldp+1196,((0x1fU & (vlSelf->instr_in 
                                               >> 7U))),5);
     }
 }

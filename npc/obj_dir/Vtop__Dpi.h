@@ -14,7 +14,7 @@ extern "C" {
 
     // DPI IMPORTS
     // DPI import at /home/ubuntu/ysyx-workbench/npc/vsrc/CU/CU.v:1:30
-    extern void check_ebreak(const svLogicVecVal* ebreak_reg);
+    extern void check_ebreak(const svOpenArrayHandle ebreak_reg);
     // DPI import at /home/ubuntu/ysyx-workbench/npc/vsrc/MEM/MEM.v:1:30
     extern void pmem_read(long long raddr, long long* rdata);
     // DPI import at /home/ubuntu/ysyx-workbench/npc/vsrc/MEM/MEM.v:2:30

@@ -67,15 +67,20 @@ void CLK::rstOn(){
     printf("-----------------Control Signale----------------\n");
 }
 void CLK::ClkFlipOnce(){
+     printf("是不是这里出错了2 \n");
     context->timeInc(1);
     top->clk = ~top->clk;
     top->eval();
+
+    printf("是不是这里出错了1 \n");
 
     context->timeInc(1);
     top->clk = ~top->clk;
     top->eval();
     top->instr_in = getInstr(top->PC_Test);
+    printf("是不是这里出错了4 \n");
     top->eval();
+    printf("是不是这里出错了5 \n");
     verilator_stop_check(top,context);
 
     #ifdef Trace_on
@@ -110,11 +115,13 @@ unsigned int getInstr(unsigned long PCAdderss){
     MEMRead(PCAdderss,&Data_instr);
     printf("让我看看取出来的指令是：%016lx\n",Data_instr);
     Data_instr = Data_instr & 0x00000000FFFFFFFF; //the Data_instr is 64 bits, the instr is 32 bits
+     printf("运行了吗？3\n");
     return (uint32_t)Data_instr;
 }
 
 
 void verilator_stop_check(Vtop *inputTop,VerilatedContext* context){
+    printf("运行了吗？1\n");
     if(check_ebreak_now()){
         delete inputTop;
         #ifdef Trace_on
@@ -123,4 +130,5 @@ void verilator_stop_check(Vtop *inputTop,VerilatedContext* context){
         #endif
         delete context;
     }
+    printf("运行了吗？2\n");
 }

@@ -149,7 +149,10 @@ extern "C" void set_gpr_t6(const svOpenArrayHandle r){
 };
 
 int check_ebreak_now(){
-    if(*reg_ebreak != 0){
+    reg_ebreak == NULL ? printf("yes it`s  null\n") : printf("it`s not NULL\n");
+
+    printf("ebreak_reg = %d\n",reg_ebreak[0]);
+    if(reg_ebreak[0] != 0){
         if(gpr_a0 == 0){
             printf("Hit Good Trap\n");
             return 1;

@@ -1,4 +1,4 @@
-import "DPI-C" function void check_ebreak(input logic [7:0]ebreak_reg);
+import "DPI-C" function void check_ebreak(input logic [7:0] ebreak_reg[]);
 
 module ControUnit(
     input  [31:0] instr,
@@ -19,7 +19,11 @@ module ControUnit(
 );
 
 initial begin
-    check_ebreak({8{ebreak}});
+    check_ebreak(ebreak_reg);
+end
+reg [7:0] ebreak_reg;
+always @(*) begin
+    ebreak_reg = {8{ebreak}};
 end
 
 wire [6:0] instr_6_0;
