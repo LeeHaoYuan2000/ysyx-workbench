@@ -148,6 +148,10 @@ extern "C" void set_gpr_t6(const svOpenArrayHandle r){
     gpr_t6= (uint64_t *)(((VerilatedDpiOpenVar*)r)->datap());
 };
 
+uint64_t get_a0(){
+    return *gpr_a0;
+}
+
 int check_ebreak_now(){
     reg_ebreak == NULL ? printf("yes it`s  null\n") : printf("it`s not NULL\n");
 

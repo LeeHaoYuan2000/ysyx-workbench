@@ -42,12 +42,10 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-	CLK \
 	RegFile \
 	initMEM \
-	initSystem \
-	loadIMG \
-	testbench \
+	sim_init \
+	sim_main \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -64,17 +62,13 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-CLK.o: /home/ubuntu/ysyx-workbench/npc/csrc/CLK.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 RegFile.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/RegFile.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 initMEM.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/initMEM.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-initSystem.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/initSystem.cpp
+sim_init.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/sim_init.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-loadIMG.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/loadIMG.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-testbench.o: /home/ubuntu/ysyx-workbench/npc/csrc/testbench.cpp
+sim_main.o: /home/ubuntu/ysyx-workbench/npc/csrc/sim_main.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)

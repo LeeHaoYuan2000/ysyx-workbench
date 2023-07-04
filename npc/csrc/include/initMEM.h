@@ -4,12 +4,14 @@
 
 #define MEM_Size 0x80000000
 
-void initMEM();
+void MEM_init();
 
 uint8_t* getMEMAddr();
 
 void MEMRead(uint64_t raddr,uint64_t* rdata);
 
 void MEMWrite(uint64_t waddr,uint64_t wdata, uint8_t wmask);
+
+uint32_t MEMRead_instr(uint64_t raddr);
 
 

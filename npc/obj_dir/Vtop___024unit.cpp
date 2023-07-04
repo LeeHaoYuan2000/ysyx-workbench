@@ -35,324 +35,324 @@ VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(QData/
     pmem_write(waddr__Vcvt, wdata__Vcvt, wmask__Vcvt);
 }
 
-extern "C" void set_gpr_zero(const svLogicVecVal* gpr);
+extern "C" void set_gpr_zero(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_zero_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_zero_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_zero__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_zero__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_zero(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_zero(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_ra(const svLogicVecVal* gpr);
+extern "C" void set_gpr_ra(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_ra_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_ra_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_ra__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_ra__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_ra(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_ra(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_sp(const svLogicVecVal* gpr);
+extern "C" void set_gpr_sp(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_sp_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_sp_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_sp__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_sp__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_sp(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_sp(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_gp(const svLogicVecVal* gpr);
+extern "C" void set_gpr_gp(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_gp_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_gp_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_gp__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_gp__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_gp(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_gp(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_tp(const svLogicVecVal* gpr);
+extern "C" void set_gpr_tp(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_tp_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_tp_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_tp__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_tp__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_tp(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_tp(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_t0(const svLogicVecVal* gpr);
+extern "C" void set_gpr_t0(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t0_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t0_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t0__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t0__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_t0(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_t0(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_t1(const svLogicVecVal* gpr);
+extern "C" void set_gpr_t1(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t1_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t1_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t1__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t1__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_t1(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_t1(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_t2(const svLogicVecVal* gpr);
+extern "C" void set_gpr_t2(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t2_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t2_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t2__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t2__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_t2(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_t2(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s0(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s0(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s0_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s0_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s0__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s0__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s0(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s0(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s1(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s1(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s1_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s1_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s1__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s1__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s1(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s1(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_a0(const svLogicVecVal* gpr);
+extern "C" void set_gpr_a0(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a0_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a0_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a0__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a0__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_a0(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_a0(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_a1(const svLogicVecVal* gpr);
+extern "C" void set_gpr_a1(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a1_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a1_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a1__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a1__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_a1(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_a1(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_a2(const svLogicVecVal* gpr);
+extern "C" void set_gpr_a2(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a2_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a2_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a2__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a2__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_a2(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_a2(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_a3(const svLogicVecVal* gpr);
+extern "C" void set_gpr_a3(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a3_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a3_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a3__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a3__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_a3(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_a3(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_a4(const svLogicVecVal* gpr);
+extern "C" void set_gpr_a4(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a4_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a4_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a4__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a4__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_a4(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_a4(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_a5(const svLogicVecVal* gpr);
+extern "C" void set_gpr_a5(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a5_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a5_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a5__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a5__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_a5(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_a5(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_a6(const svLogicVecVal* gpr);
+extern "C" void set_gpr_a6(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a6_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a6_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a6__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a6__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_a6(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_a6(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_a7(const svLogicVecVal* gpr);
+extern "C" void set_gpr_a7(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a7_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a7_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_a7__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_a7__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_a7(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_a7(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s2(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s2(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s2_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s2_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s2__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s2__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s2(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s2(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s3(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s3(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s3_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s3_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s3__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s3__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s3(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s3(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s4(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s4(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s4_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s4_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s4__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s4__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s4(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s4(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s5(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s5(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s5_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s5_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s5__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s5__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s5(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s5(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s6(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s6(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s6_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s6_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s6__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s6__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s6(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s6(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s7(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s7(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s7_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s7_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s7__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s7__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s7(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s7(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s8(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s8(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s8_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s8_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s8__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s8__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s8(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s8(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s9(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s9(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s9_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s9_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s9__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s9__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s9(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s9(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s10(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s10(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s10_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s10_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s10__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s10__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s10(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s10(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_s11(const svLogicVecVal* gpr);
+extern "C" void set_gpr_s11(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s11_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s11_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_s11__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_s11__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_s11(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_s11(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_t3(const svLogicVecVal* gpr);
+extern "C" void set_gpr_t3(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t3_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t3_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t3__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t3__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_t3(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_t3(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_t4(const svLogicVecVal* gpr);
+extern "C" void set_gpr_t4(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t4_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t4_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t4__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t4__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_t4(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_t4(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_t5(const svLogicVecVal* gpr);
+extern "C" void set_gpr_t5(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t5_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t5_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t5__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t5__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_t5(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_t5(&gpr__Vopenarray);
 }
 
-extern "C" void set_gpr_t6(const svLogicVecVal* gpr);
+extern "C" void set_gpr_t6(const svOpenArrayHandle gpr);
 
-VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t6_TOP____024unit(QData/*63:0*/ gpr) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t6_TOP____024unit\n"); );
+VL_INLINE_OPT void Vtop___024unit____Vdpiimwrap_set_gpr_t6__Vdpioc2_TOP____024unit(const QData/*63:0*/ &gpr) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit____Vdpiimwrap_set_gpr_t6__Vdpioc2_TOP____024unit\n"); );
     // Body
-    svLogicVecVal gpr__Vcvt[2];
-    for (size_t gpr__Vidx = 0; gpr__Vidx < 1; ++gpr__Vidx) VL_SET_SVLV_Q(64, gpr__Vcvt + 2 * gpr__Vidx, gpr);
-    set_gpr_t6(gpr__Vcvt);
+    static const VerilatedVarProps gpr__Vopenprops(VLVT_UINT64, VLVD_IN, VerilatedVarProps::Packed(), 63, 0);
+    VerilatedDpiOpenVar gpr__Vopenarray (&gpr__Vopenprops, &gpr);
+    set_gpr_t6(&gpr__Vopenarray);
 }
 
 extern "C" void check_ebreak(const svOpenArrayHandle ebreak_reg);

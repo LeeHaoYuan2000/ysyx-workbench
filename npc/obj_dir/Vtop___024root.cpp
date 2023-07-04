@@ -1127,7 +1127,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__PC_Wire = ((IData)(vlSelf->rst)
                                   ? 0x80000000ULL : vlSelf->top__DOT__PC_Next_Wire);
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s11 = 0x1bULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s11 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1143,7 +1143,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s10 = 0x1aULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s10 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1160,7 +1160,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s9 = 0x19ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s9 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1177,7 +1177,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s8 = 0x18ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s8 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1195,7 +1195,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s7 = 0x17ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s7 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1211,7 +1211,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s6 = 0x16ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s6 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1228,7 +1228,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s5 = 0x15ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s5 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1245,7 +1245,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s4 = 0x14ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s4 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1263,7 +1263,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s3 = 0x13ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s3 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1279,7 +1279,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s2 = 0x12ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s2 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1296,7 +1296,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__a7 = 0x11ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__a7 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1313,7 +1313,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__a6 = 0x10ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__a6 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1331,7 +1331,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__a5 = 0xfULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__a5 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1347,7 +1347,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__a4 = 0xeULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__a4 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1364,7 +1364,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__a3 = 0xdULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__a3 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1381,7 +1381,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__a2 = 0xcULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__a2 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1399,7 +1399,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s0 = 8ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s0 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1434,7 +1434,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__ra = 1ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__ra = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1451,7 +1451,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__gp = 3ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__gp = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1467,7 +1467,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__tp = 4ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__tp = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1485,7 +1485,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__t0 = 5ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__t0 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1502,7 +1502,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__sp = 2ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__sp = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1519,7 +1519,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__s1 = 9ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__s1 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1536,7 +1536,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__t1 = 6ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__t1 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1553,7 +1553,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__a0 = 0xaULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__a0 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1570,7 +1570,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__t2 = 7ULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__t2 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((1U & (~ (vlSelf->instr_in >> 0xaU)))) {
@@ -1586,7 +1586,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__a1 = 0xbULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__a1 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((1U & (~ (vlSelf->instr_in >> 0xbU)))) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1602,7 +1602,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__t3 = 0x1cULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__t3 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1620,7 +1620,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__t4 = 0x1dULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__t4 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1637,7 +1637,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__t5 = 0x1eULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__t5 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((0x400U & vlSelf->instr_in)) {
@@ -1654,7 +1654,7 @@ VL_INLINE_OPT void Vtop___024root___sequent__TOP__4(Vtop___024root* vlSelf) {
         }
     }
     if (vlSelf->rst) {
-        vlSelf->top__DOT__HY_RegFile__DOT__t6 = 0x1fULL;
+        vlSelf->top__DOT__HY_RegFile__DOT__t6 = 0ULL;
     } else if (vlSelf->top__DOT__WriteBack_Enable) {
         if ((0x800U & vlSelf->instr_in)) {
             if ((0x400U & vlSelf->instr_in)) {

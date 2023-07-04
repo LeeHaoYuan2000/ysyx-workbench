@@ -1,13 +1,18 @@
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include "..//include//initMEM.h"
+#include "../include/sim_init.h"
+#include "../../obj_dir/Vtop.h"
+#include "../include/initMEM.h"
+#include "verilated.h"
+#include "verilated_vcd_c.h"
 #include "verilated_dpi.h"
-#include "getopt.h"
-///#include <getopt_core.h>
 
 #define no_argument 0
-#define required_argument 1
+#define required_argument 1 
+#define ebreak 0x00100073
+
+VerilatedContext* contextp = NULL;
+VerilatedVcdC*    tfp      = NULL;
+Vtop*             top      = NULL;
+
 
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
@@ -22,8 +27,14 @@ static const uint32_t build_in_img [] = {
   0x0102b503,  // ld  a0,16(t0)
   0x00100073,  // ebreak (used as nemu_trap)
   0xdeadbeef,  // some data
-
 };
+
+void sim_init(int argc,char *argv[]);
+ void exe_and_dump();
+void  sim_single_cycle();
+ void sim_rst_n(uint32_t n);
+ void sim_exit();
+ int  sim_exe(uint64_t n);
 
 static long load_img() {
   if (img_file == NULL) {
@@ -33,6 +44,7 @@ static long load_img() {
     return 4096; // built-in image size
     
   }
+
 else{
     FILE *fp = fopen(img_file, "rb");  //"rb 读取一个二进制文件"
     //Assert(fp, "Can not open '%s'", img_file);
@@ -88,13 +100,97 @@ int parse_args(int argc,char *argv[]){
   return 0;
 }
 
+//excute the waveform for once
+ void exe_and_dump(){
+  top->eval();
+  tfp->dump(contextp->time());
+  contextp->timeInc(1);
+}
 
-void initSystem(int argc,char *argv[]){
+ void  sim_single_cycle(){
+  top->clk = 0;// 0 
+  //printf("CLK  = %d \n",top->clk);
+  exe_and_dump();
+  top->clk = 1; // 1
+  //printf("CLK  = %d \n",top->clk);
+  exe_and_dump();
+}
+
+//rst n single_clocks
+void sim_rst_n(uint32_t n){
+  top->rst = 1;
+    while(n--){
+      sim_single_cycle();
+    }
+  top->rst = 0;
+}
+
+ void sim_exit(){
+  exe_and_dump();
+  tfp->close();
+  delete top;
+  delete tfp;
+  delete contextp;
+}
+
+ int sim_exe(uint64_t n){
+    int output_reg = 0; //flag 
+    uint32_t instr;
+    uint64_t PC ;
+    while(n--){
+      //fetch the instr
+
+      if(output_reg){
+          printf("Instruction: %08x \n",instr);
+          printf("PC: %016lx\n",top->PC_Test);
+      }
+
+            //show up the regs
+      if(output_reg == 0){
+          output_reg++;
+      }
+      else{
+        Output_gpr();
+      }
+
+      if(instr == ebreak){
+          if(get_a0() == 0){
+              printf("Hit a Good Trap\n");
+              return 0;
+          }
+          else{
+              printf("Hit a Bad  Trap\n");
+              return 0;
+          }
+      }
+
+      instr = MEMRead_instr(top->PC_Test);
+      top->instr_in  = instr;
+      PC = top->PC_Test;
+
+      sim_single_cycle();
+
+    }
+    return 1;
+}
+
+void sim_init(int argc,char *argv[]){
 
     parse_args(argc,argv);
 
-    initMEM();
+    MEM_init(); //initialize the memory
 
     long img_size = load_img();
 
+  //-----------initial the Verilator----------------
+    contextp = new VerilatedContext;
+    tfp      = new VerilatedVcdC;
+    top      = new Vtop(contextp);
+    contextp->traceEverOn(true);
+    top->trace(tfp,0);
+    tfp->open("sim.vcd");
+    
+    top->clk = 1;
+    top->rst = 1;
+    exe_and_dump();
 }
