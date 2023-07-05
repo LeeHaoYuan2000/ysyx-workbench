@@ -37,7 +37,7 @@ extern "C" void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
 
 uint32_t pmem_instr(uint64_t raddr){
 
-    return  *(uint32_t*)(Memory+ raddr - 0x80000000);
+    return  *(uint32_t*)(Memory + raddr - 0x80000000);
 }
 
 int out_of_address(uint64_t addr){

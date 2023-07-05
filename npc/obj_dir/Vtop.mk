@@ -39,11 +39,13 @@ VM_USER_CFLAGS = \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
+	-lLLVM-14 -lreadline \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
 	RegFile \
 	initMEM \
+	sdb \
 	sim_init \
 	sim_main \
 
@@ -65,6 +67,8 @@ VPATH += $(VM_USER_DIR)
 RegFile.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/RegFile.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 initMEM.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/initMEM.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+sdb.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/sdb.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 sim_init.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/sim_init.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<

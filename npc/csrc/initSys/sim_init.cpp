@@ -13,6 +13,10 @@ VerilatedContext* contextp = NULL;
 VerilatedVcdC*    tfp      = NULL;
 Vtop*             top      = NULL;
 
+  int output_reg = 0; //flag 
+  uint32_t instr = 0;
+  uint64_t PC    = 0;
+
 
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
@@ -109,10 +113,8 @@ int parse_args(int argc,char *argv[]){
 
  void  sim_single_cycle(){
   top->clk = 0;// 0 
-  //printf("CLK  = %d \n",top->clk);
   exe_and_dump();
   top->clk = 1; // 1
-  //printf("CLK  = %d \n",top->clk);
   exe_and_dump();
 }
 
@@ -123,6 +125,7 @@ void sim_rst_n(uint32_t n){
       sim_single_cycle();
     }
   top->rst = 0;
+  sim_exe(1);
 }
 
  void sim_exit(){
@@ -134,15 +137,13 @@ void sim_rst_n(uint32_t n){
 }
 
  int sim_exe(uint64_t n){
-    int output_reg = 0; //flag 
-    uint32_t instr;
-    uint64_t PC ;
+
     while(n--){
       //fetch the instr
 
       if(output_reg){
           printf("Instruction: %08x \n",instr);
-          printf("PC: %016lx\n",top->PC_Test);
+          printf("PC: %016lx\n",PC);
       }
 
             //show up the regs
