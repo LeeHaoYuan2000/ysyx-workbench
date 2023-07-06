@@ -9,7 +9,7 @@ SEARCHPATH := $(abspath ./vsrc)
 # 2.verilator flags:
 VERILATOR_FLAGS += -I${SEARCHPATH}
 VERILATOR_FLAGS += --top ${TOP_MODULE}
-VERILATOR_FLAGS +=  -cc --trace --exe --build  -j 8  -CFLAGS -g -LDFLAGS "$(shell llvm-config --libs) -lreadline"#-CFLAGS -lreadline -CFLAGS -g #--threads 2
+VERILATOR_FLAGS +=  -cc --trace --exe --build  -j 8  -CFLAGS -g -LDFLAGS "$(shell llvm-config --libs) -lreadline " #--threads 2
 #VERILATOR_FLAGS += -Wno-fatal		# only print lint warning, but not terminate compile.
 #VERILATOR_FLAGS += -Wno-UNUSED 		# close <unused> warning.
 
@@ -17,7 +17,8 @@ show:
 	@echo $(SEARCHPATH)
 
 compile:${CSRC} ${VSRC}
-	@verilator ${VERILATOR_FLAGS} ${VSRC} ${CSRC}
+	@verilator ${VERILATOR_FLAGS} ${VSRC} ${CSRC} 
+	./obj_dir/Vtop $(IMG)
 #	verilator -cc --trace --Wall $(Verilog_file) --exe $(Cpp_file)
 #	make -j -C obj_dir -f Vtop.mk Vtop
 

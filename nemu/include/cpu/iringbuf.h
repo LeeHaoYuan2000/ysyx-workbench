@@ -49,10 +49,6 @@ void addBuf(Decode *instruction){
 
 void outputRingBuf(){
     unsigned int i = 0;
-    // while((beginPointer + i)%17 != endPointer){
-    //     printf("0X%08X \n",buffer[(beginPointer + i)%17].instr.isa.inst.val);
-    //     i++;
-    // }
 
     void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
     char buf[128];
