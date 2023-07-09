@@ -61,8 +61,8 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     VlWide<11>/*351:0*/ __Vtemp709;
     VlWide<3>/*95:0*/ __Vtemp777;
     VlWide<3>/*95:0*/ __Vtemp846;
-    VlWide<3>/*95:0*/ __Vtemp861;
-    VlWide<3>/*95:0*/ __Vtemp864;
+    VlWide<3>/*95:0*/ __Vtemp860;
+    VlWide<3>/*95:0*/ __Vtemp885;
     // Body
     vlSelf->top__DOT__HY_CU__DOT__func_choose__DOT__i0__DOT__pair_list[0U] = 0x17U;
     vlSelf->top__DOT__HY_CU__DOT__func_choose__DOT__i0__DOT__pair_list[1U] = 0x26U;
@@ -322,7 +322,6 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
                                                       | (0x1eU 
                                                          & (vlSelf->instr_in 
                                                             >> 7U)))));
-    vlSelf->top__DOT__PC_Next_Wire = (4ULL + vlSelf->top__DOT__PC_Wire);
     vlSelf->PC_Test = vlSelf->top__DOT__PC_Wire;
     vlSelf->PC_Test = vlSelf->top__DOT__PC_Wire;
     VL_EXTEND_WQ(69,64, __Vtemp1, vlSelf->top__DOT__HY_RegFile__DOT__Zero);
@@ -2229,11 +2228,10 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
                                                                          | (IData)(vlSelf->top__DOT__HY_CU__DOT__blt)) 
                                                                         | (IData)(vlSelf->top__DOT__HY_CU__DOT__bltu)) 
                                                                        << 3U) 
-                                                                      | ((((0x6fU 
-                                                                            == 
-                                                                            (0x7fU 
-                                                                             & vlSelf->instr_in)) 
-                                                                           | (IData)(vlSelf->top__DOT__HY_CU__DOT__jalr)) 
+                                                                      | (((0x6fU 
+                                                                           == 
+                                                                           (0x7fU 
+                                                                            & vlSelf->instr_in)) 
                                                                           << 2U) 
                                                                          | (((0x17U 
                                                                               == 
@@ -5322,15 +5320,54 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
               | (IData)(vlSelf->top__DOT__HY_CU__DOT__bltu)) 
              & (IData)(vlSelf->top__DOT__ALU_Result_Connector)) 
             | (0x6fU == (0x7fU & vlSelf->instr_in))));
-    if ((8U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
+    VL_EXTEND_WQ(66,64, __Vtemp846, (4ULL + vlSelf->top__DOT__PC_Wire));
+    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[0U] 
+        = (IData)(vlSelf->top__DOT__ALU_Result_Connector);
+    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[1U] 
+        = (IData)((vlSelf->top__DOT__ALU_Result_Connector 
+                   >> 0x20U));
+    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[2U] 
+        = (2U | ((IData)((vlSelf->top__DOT__PC_Wire 
+                          + vlSelf->top__DOT__SEXT_Connector)) 
+                 << 2U));
+    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[3U] 
+        = (((IData)((vlSelf->top__DOT__PC_Wire + vlSelf->top__DOT__SEXT_Connector)) 
+            >> 0x1eU) | ((IData)(((vlSelf->top__DOT__PC_Wire 
+                                   + vlSelf->top__DOT__SEXT_Connector) 
+                                  >> 0x20U)) << 2U));
+    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[4U] 
+        = (4U | ((__Vtemp846[0U] << 4U) | ((IData)(
+                                                   ((vlSelf->top__DOT__PC_Wire 
+                                                     + vlSelf->top__DOT__SEXT_Connector) 
+                                                    >> 0x20U)) 
+                                           >> 0x1eU)));
+    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[5U] 
+        = ((__Vtemp846[0U] >> 0x1cU) | (__Vtemp846[1U] 
+                                        << 4U));
+    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[6U] 
+        = ((__Vtemp846[1U] >> 0x1cU) | (__Vtemp846[2U] 
+                                        << 4U));
+    if (((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__lhu) 
+                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
+                  | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
+                 | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
+                | (IData)(vlSelf->top__DOT__HY_CU__DOT__lbu)) 
+               | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
+              | (IData)(vlSelf->top__DOT__HY_CU__DOT__sh)) 
+             | (IData)(vlSelf->top__DOT__HY_CU__DOT__lh)) 
+            | (IData)(vlSelf->top__DOT__HY_CU__DOT__sd)) 
+           | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
+          | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
+         | (IData)(vlSelf->top__DOT__HY_CU__DOT__sh))) {
         if ((8U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
             if ((8U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
-                if ((4U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
-                    Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, vlSelf->top__DOT__RS2_Connector, 8U);
-                } else if ((2U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
-                    if ((1U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
-                        Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, 
-                                                                               (((- (QData)((IData)(
+                if ((8U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
+                    if ((4U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
+                        Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, vlSelf->top__DOT__RS2_Connector, 8U);
+                    } else if ((2U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
+                        if ((1U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
+                            Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, 
+                                                                                (((- (QData)((IData)(
                                                                                 (1U 
                                                                                 & (IData)(
                                                                                 (vlSelf->top__DOT__RS2_Connector 
@@ -5339,9 +5376,9 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
                                                                                 | (QData)((IData)(
                                                                                 (0xffU 
                                                                                 & (IData)(vlSelf->top__DOT__RS2_Connector))))), 1U);
-                    } else {
-                        Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, 
-                                                                               (((- (QData)((IData)(
+                        } else {
+                            Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, 
+                                                                                (((- (QData)((IData)(
                                                                                 (1U 
                                                                                 & (IData)(
                                                                                 (vlSelf->top__DOT__RS2_Connector 
@@ -5350,96 +5387,133 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
                                                                                 | (QData)((IData)(
                                                                                 (0xffffU 
                                                                                 & (IData)(vlSelf->top__DOT__RS2_Connector))))), 2U);
-                    }
-                } else if ((1U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
-                    Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, 
-                                                                           (((QData)((IData)(
+                        }
+                    } else if ((1U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
+                        Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, 
+                                                                               (((QData)((IData)(
                                                                                 (- (IData)(
                                                                                 (1U 
                                                                                 & (IData)(
                                                                                 (vlSelf->top__DOT__RS2_Connector 
                                                                                 >> 0x1fU))))))) 
-                                                                             << 0x20U) 
-                                                                            | (QData)((IData)(vlSelf->top__DOT__RS2_Connector))), 4U);
+                                                                                << 0x20U) 
+                                                                                | (QData)((IData)(vlSelf->top__DOT__RS2_Connector))), 4U);
+                    } else {
+                        Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, vlSelf->top__DOT__RS2_Connector, 8U);
+                    }
                 } else {
                     Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, vlSelf->top__DOT__RS2_Connector, 8U);
                 }
             } else {
-                Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, vlSelf->top__DOT__RS2_Connector, 8U);
+                vlSelf->top__DOT__MEM_Result_Connector 
+                    = vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM;
             }
         } else {
+            Vtop___024unit____Vdpiimwrap_pmem_read_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, vlSelf->__Vtask_pmem_read__33__rdata);
+            vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM 
+                = vlSelf->__Vtask_pmem_read__33__rdata;
             vlSelf->top__DOT__MEM_Result_Connector 
-                = vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM;
+                = ((8U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
+                    ? vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM
+                    : ((4U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
+                        ? ((2U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
+                            ? vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM
+                            : ((1U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
+                                ? vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM
+                                : (((- (QData)((IData)(
+                                                       (1U 
+                                                        & (IData)(
+                                                                  (vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM 
+                                                                   >> 0xfU)))))) 
+                                    << 0x10U) | (QData)((IData)(
+                                                                (0xffffU 
+                                                                 & (IData)(vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM)))))))
+                        : ((2U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
+                            ? ((1U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
+                                ? (((QData)((IData)(
+                                                    (- (IData)(
+                                                               (1U 
+                                                                & (IData)(
+                                                                          (vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM 
+                                                                           >> 0x1fU))))))) 
+                                    << 0x20U) | (QData)((IData)(vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM)))
+                                : (QData)((IData)((0xffU 
+                                                   & (IData)(vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM)))))
+                            : ((1U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
+                                ? (QData)((IData)((0xffffU 
+                                                   & (IData)(vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM))))
+                                : vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM))));
         }
     } else {
-        Vtop___024unit____Vdpiimwrap_pmem_read_TOP____024unit(vlSelf->top__DOT__ALU_Result_Connector, vlSelf->__Vtask_pmem_read__33__rdata);
-        vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM 
-            = vlSelf->__Vtask_pmem_read__33__rdata;
-        vlSelf->top__DOT__MEM_Result_Connector = ((8U 
-                                                   & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
-                                                   ? vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM
-                                                   : 
-                                                  ((4U 
-                                                    & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
-                                                    ? 
-                                                   ((2U 
-                                                     & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
-                                                     ? vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM
-                                                     : 
-                                                    ((1U 
-                                                      & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
-                                                      ? vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM
-                                                      : 
-                                                     (((- (QData)((IData)(
-                                                                          (1U 
-                                                                           & (IData)(
-                                                                                (vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM 
-                                                                                >> 0xfU)))))) 
-                                                       << 0x10U) 
-                                                      | (QData)((IData)(
-                                                                        (0xffffU 
-                                                                         & (IData)(vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM)))))))
-                                                    : 
-                                                   ((2U 
-                                                     & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
-                                                     ? 
-                                                    ((1U 
-                                                      & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
-                                                      ? 
-                                                     (((QData)((IData)(
-                                                                       (- (IData)(
-                                                                                (1U 
-                                                                                & (IData)(
-                                                                                (vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM 
-                                                                                >> 0x1fU))))))) 
-                                                       << 0x20U) 
-                                                      | (QData)((IData)(vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM)))
-                                                      : (QData)((IData)(
-                                                                        (0xffU 
-                                                                         & (IData)(vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM)))))
-                                                     : 
-                                                    ((1U 
-                                                      & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))
-                                                      ? (QData)((IData)(
-                                                                        (0xffffU 
-                                                                         & (IData)(vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM))))
-                                                      : vlSelf->top__DOT__HY_MEM__DOT__Data_From_MEM))));
+        vlSelf->top__DOT__MEM_Result_Connector = 0ULL;
     }
     vlSelf->C_NPC_Branch_Jump_Connector_result = vlSelf->top__DOT__C_NPC_Branch_Jump_Connector;
-    VL_EXTEND_WQ(65,64, __Vtemp846, vlSelf->top__DOT__ALU_Result_Connector);
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[0U][0U] 
+        = vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[0U];
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[0U][1U] 
+        = vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[1U];
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[0U][2U] 
+        = (3U & vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[2U]);
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[1U][0U] 
+        = ((vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[3U] 
+            << 0x1eU) | (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[2U] 
+                         >> 2U));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[1U][1U] 
+        = ((vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[4U] 
+            << 0x1eU) | (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[3U] 
+                         >> 2U));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[1U][2U] 
+        = (3U & (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[4U] 
+                 >> 2U));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[2U][0U] 
+        = ((vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[5U] 
+            << 0x1cU) | (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[4U] 
+                         >> 4U));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[2U][1U] 
+        = ((vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[6U] 
+            << 0x1cU) | (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[5U] 
+                         >> 4U));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[2U][2U] 
+        = (3U & (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[6U] 
+                 >> 4U));
+    VL_EXTEND_WQ(65,64, __Vtemp860, vlSelf->top__DOT__ALU_Result_Connector);
     vlSelf->top__DOT____Vcellinp__MUX_ALU_MEM____pinNumber4[0U] 
         = (IData)(vlSelf->top__DOT__MEM_Result_Connector);
     vlSelf->top__DOT____Vcellinp__MUX_ALU_MEM____pinNumber4[1U] 
         = (IData)((vlSelf->top__DOT__MEM_Result_Connector 
                    >> 0x20U));
     vlSelf->top__DOT____Vcellinp__MUX_ALU_MEM____pinNumber4[2U] 
-        = (1U | (__Vtemp846[0U] << 1U));
+        = (1U | (__Vtemp860[0U] << 1U));
     vlSelf->top__DOT____Vcellinp__MUX_ALU_MEM____pinNumber4[3U] 
-        = ((__Vtemp846[0U] >> 0x1fU) | (__Vtemp846[1U] 
+        = ((__Vtemp860[0U] >> 0x1fU) | (__Vtemp860[1U] 
                                         << 1U));
     vlSelf->top__DOT____Vcellinp__MUX_ALU_MEM____pinNumber4[4U] 
-        = ((__Vtemp846[1U] >> 0x1fU) | (__Vtemp846[2U] 
+        = ((__Vtemp860[1U] >> 0x1fU) | (__Vtemp860[2U] 
                                         << 1U));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list[0U] 
+        = (((QData)((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+                            [0U][1U])) << 0x20U) | (QData)((IData)(
+                                                                   vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+                                                                   [0U][0U])));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list[0U] 
+        = (3U & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+           [0U][2U]);
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list[1U] 
+        = (((QData)((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+                            [1U][1U])) << 0x20U) | (QData)((IData)(
+                                                                   vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+                                                                   [1U][0U])));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list[1U] 
+        = (3U & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+           [1U][2U]);
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list[2U] 
+        = (((QData)((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+                            [2U][1U])) << 0x20U) | (QData)((IData)(
+                                                                   vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+                                                                   [2U][0U])));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list[2U] 
+        = (3U & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
+           [2U][2U]);
     vlSelf->top__DOT__MUX_ALU_MEM__DOT__i0__DOT__pair_list[0U][0U] 
         = vlSelf->top__DOT____Vcellinp__MUX_ALU_MEM____pinNumber4[0U];
     vlSelf->top__DOT__MUX_ALU_MEM__DOT__i0__DOT__pair_list[0U][1U] 
@@ -5457,6 +5531,40 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__MUX_ALU_MEM__DOT__i0__DOT__pair_list[1U][2U] 
         = (1U & (vlSelf->top__DOT____Vcellinp__MUX_ALU_MEM____pinNumber4[4U] 
                  >> 1U));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
+        = ((- (QData)((IData)(((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
+                               == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
+                               [0U])))) & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list
+           [0U]);
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit 
+        = ((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
+           == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
+           [0U]);
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
+        = (vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
+           | ((- (QData)((IData)(((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
+                                  == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
+                                  [1U])))) & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list
+              [1U]));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit 
+        = ((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit) 
+           | ((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
+              == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
+              [1U]));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
+        = (vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
+           | ((- (QData)((IData)(((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
+                                  == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
+                                  [2U])))) & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list
+              [2U]));
+    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit 
+        = ((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit) 
+           | ((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
+              == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
+              [2U]));
+    vlSelf->top__DOT__PC_Next_Next = ((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit)
+                                       ? vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out
+                                       : 0ULL);
     vlSelf->top__DOT__MUX_ALU_MEM__DOT__i0__DOT__data_list[0U] 
         = (((QData)((IData)(vlSelf->top__DOT__MUX_ALU_MEM__DOT__i0__DOT__pair_list
                             [0U][1U])) << 0x20U) | (QData)((IData)(
@@ -5496,45 +5604,20 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__MUX_ALU_MEM_Result = ((IData)(vlSelf->top__DOT__MUX_ALU_MEM__DOT__i0__DOT__hit)
                                              ? vlSelf->top__DOT__MUX_ALU_MEM__DOT__i0__DOT__lut_out
                                              : 0ULL);
-    VL_EXTEND_WQ(65,64, __Vtemp861, vlSelf->top__DOT__MUX_ALU_MEM_Result);
+    VL_EXTEND_WQ(65,64, __Vtemp885, vlSelf->top__DOT__MUX_ALU_MEM_Result);
     vlSelf->top__DOT____Vcellinp__MUX_PC_ALU____pinNumber4[0U] 
         = (IData)((4ULL + vlSelf->top__DOT__PC_Wire));
     vlSelf->top__DOT____Vcellinp__MUX_PC_ALU____pinNumber4[1U] 
         = (IData)(((4ULL + vlSelf->top__DOT__PC_Wire) 
                    >> 0x20U));
     vlSelf->top__DOT____Vcellinp__MUX_PC_ALU____pinNumber4[2U] 
-        = (1U | (__Vtemp861[0U] << 1U));
+        = (1U | (__Vtemp885[0U] << 1U));
     vlSelf->top__DOT____Vcellinp__MUX_PC_ALU____pinNumber4[3U] 
-        = ((__Vtemp861[0U] >> 0x1fU) | (__Vtemp861[1U] 
+        = ((__Vtemp885[0U] >> 0x1fU) | (__Vtemp885[1U] 
                                         << 1U));
     vlSelf->top__DOT____Vcellinp__MUX_PC_ALU____pinNumber4[4U] 
-        = ((__Vtemp861[1U] >> 0x1fU) | (__Vtemp861[2U] 
+        = ((__Vtemp885[1U] >> 0x1fU) | (__Vtemp885[2U] 
                                         << 1U));
-    VL_EXTEND_WQ(66,64, __Vtemp864, vlSelf->top__DOT__MUX_ALU_MEM_Result);
-    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[0U] 
-        = (IData)(vlSelf->top__DOT__ALU_Result_Connector);
-    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[1U] 
-        = (IData)((vlSelf->top__DOT__ALU_Result_Connector 
-                   >> 0x20U));
-    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[2U] 
-        = (2U | ((IData)((4ULL + vlSelf->top__DOT__PC_Wire)) 
-                 << 2U));
-    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[3U] 
-        = (((IData)((4ULL + vlSelf->top__DOT__PC_Wire)) 
-            >> 0x1eU) | ((IData)(((4ULL + vlSelf->top__DOT__PC_Wire) 
-                                  >> 0x20U)) << 2U));
-    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[4U] 
-        = (4U | ((__Vtemp864[0U] << 4U) | ((IData)(
-                                                   ((4ULL 
-                                                     + vlSelf->top__DOT__PC_Wire) 
-                                                    >> 0x20U)) 
-                                           >> 0x1eU)));
-    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[5U] 
-        = ((__Vtemp864[0U] >> 0x1cU) | (__Vtemp864[1U] 
-                                        << 4U));
-    vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[6U] 
-        = ((__Vtemp864[1U] >> 0x1cU) | (__Vtemp864[2U] 
-                                        << 4U));
     vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__pair_list[0U][0U] 
         = vlSelf->top__DOT____Vcellinp__MUX_PC_ALU____pinNumber4[0U];
     vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__pair_list[0U][1U] 
@@ -5552,34 +5635,6 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__pair_list[1U][2U] 
         = (1U & (vlSelf->top__DOT____Vcellinp__MUX_PC_ALU____pinNumber4[4U] 
                  >> 1U));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[0U][0U] 
-        = vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[0U];
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[0U][1U] 
-        = vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[1U];
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[0U][2U] 
-        = (3U & vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[2U]);
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[1U][0U] 
-        = ((vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[3U] 
-            << 0x1eU) | (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[2U] 
-                         >> 2U));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[1U][1U] 
-        = ((vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[4U] 
-            << 0x1eU) | (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[3U] 
-                         >> 2U));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[1U][2U] 
-        = (3U & (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[4U] 
-                 >> 2U));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[2U][0U] 
-        = ((vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[5U] 
-            << 0x1cU) | (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[4U] 
-                         >> 4U));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[2U][1U] 
-        = ((vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[6U] 
-            << 0x1cU) | (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[5U] 
-                         >> 4U));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list[2U][2U] 
-        = (3U & (vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[6U] 
-                 >> 4U));
     vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__data_list[0U] 
         = (((QData)((IData)(vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__pair_list
                             [0U][1U])) << 0x20U) | (QData)((IData)(
@@ -5596,30 +5651,6 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__key_list[1U] 
         = (1U & vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__pair_list
            [1U][2U]);
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list[0U] 
-        = (((QData)((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-                            [0U][1U])) << 0x20U) | (QData)((IData)(
-                                                                   vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-                                                                   [0U][0U])));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list[0U] 
-        = (3U & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-           [0U][2U]);
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list[1U] 
-        = (((QData)((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-                            [1U][1U])) << 0x20U) | (QData)((IData)(
-                                                                   vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-                                                                   [1U][0U])));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list[1U] 
-        = (3U & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-           [1U][2U]);
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list[2U] 
-        = (((QData)((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-                            [2U][1U])) << 0x20U) | (QData)((IData)(
-                                                                   vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-                                                                   [2U][0U])));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list[2U] 
-        = (3U & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__pair_list
-           [2U][2U]);
     vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__lut_out 
         = ((- (QData)((IData)(((IData)(vlSelf->top__DOT__C_ALU_NPC_In_Connector) 
                                == vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__key_list
@@ -5643,40 +5674,6 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__Write_Back_Reg = ((IData)(vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__hit)
                                          ? vlSelf->top__DOT__MUX_PC_ALU__DOT__i0__DOT__lut_out
                                          : 0ULL);
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
-        = ((- (QData)((IData)(((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
-                               == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
-                               [0U])))) & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list
-           [0U]);
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit 
-        = ((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
-           == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
-           [0U]);
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
-        = (vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
-           | ((- (QData)((IData)(((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
-                                  == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
-                                  [1U])))) & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list
-              [1U]));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit 
-        = ((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit) 
-           | ((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
-              == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
-              [1U]));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
-        = (vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out 
-           | ((- (QData)((IData)(((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
-                                  == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
-                                  [2U])))) & vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__data_list
-              [2U]));
-    vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit 
-        = ((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit) 
-           | ((IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector) 
-              == vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__key_list
-              [2U]));
-    vlSelf->top__DOT__PC_Next_Next = ((IData)(vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__hit)
-                                       ? vlSelf->top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out
-                                       : 0ULL);
 }
 
 void Vtop___024unit____Vdpiimwrap_check_ebreak__Vdpioc2_TOP____024unit(const CData/*7:0*/ &ebreak_reg);
@@ -5804,7 +5801,6 @@ void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->C_ALU_NPC_In_Connector_result = VL_RAND_RESET_I(1);
     vlSelf->C_NPC_Branch_Jump_Connector_result = VL_RAND_RESET_I(2);
     vlSelf->top__DOT__PC_Wire = VL_RAND_RESET_Q(64);
-    vlSelf->top__DOT__PC_Next_Wire = VL_RAND_RESET_Q(64);
     vlSelf->top__DOT__PC_Next_Next = VL_RAND_RESET_Q(64);
     vlSelf->top__DOT__SEXT_Control = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__ALU_Control_wire = VL_RAND_RESET_I(4);

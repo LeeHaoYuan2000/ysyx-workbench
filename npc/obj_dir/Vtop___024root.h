@@ -122,7 +122,6 @@ VL_MODULE(Vtop___024root) {
         IData/*31:0*/ top__DOT__HY_ALU_top__DOT__ALU_DIV__DOT__divw;
         IData/*31:0*/ top__DOT__HY_ALU_top__DOT__ALU_DIV__DOT__remw;
         QData/*63:0*/ top__DOT__PC_Wire;
-        QData/*63:0*/ top__DOT__PC_Next_Wire;
         QData/*63:0*/ top__DOT__PC_Next_Next;
         QData/*63:0*/ top__DOT__SEXT_Connector;
         QData/*63:0*/ top__DOT__RS1_Connector;
@@ -171,9 +170,9 @@ VL_MODULE(Vtop___024root) {
         QData/*63:0*/ top__DOT__HY_MEM__DOT__Data_From_MEM;
         QData/*63:0*/ top__DOT__MUX_Reg_PC_2ALU__DOT__i0__DOT__lut_out;
         QData/*63:0*/ top__DOT__MUX_RS2_imm_2ALU__DOT__i0__DOT__lut_out;
+        QData/*63:0*/ top__DOT__MUX_ALU_MEM__DOT__i0__DOT__lut_out;
     };
     struct {
-        QData/*63:0*/ top__DOT__MUX_ALU_MEM__DOT__i0__DOT__lut_out;
         QData/*63:0*/ top__DOT__MUX_PC_ALU__DOT__i0__DOT__lut_out;
         QData/*63:0*/ top__DOT__MUX_NPC_Branch_Jump__DOT__i0__DOT__lut_out;
         QData/*63:0*/ top__DOT__HY_ALU_top__DOT__Adder_out;
@@ -237,9 +236,9 @@ VL_MODULE(Vtop___024root) {
         VlUnpacked<QData/*63:0*/, 2> top__DOT__HY_ALU_top__DOT__ALU_mul__DOT__MUX_mul__DOT__i0__DOT__data_list;
         VlUnpacked<VlWide<3>/*67:0*/, 3> top__DOT__HY_ALU_top__DOT__ALU_Logic__DOT__LogicOpt_Mux__DOT__i0__DOT__pair_list;
         VlUnpacked<CData/*3:0*/, 3> top__DOT__HY_ALU_top__DOT__ALU_Logic__DOT__LogicOpt_Mux__DOT__i0__DOT__key_list;
+        VlUnpacked<QData/*63:0*/, 3> top__DOT__HY_ALU_top__DOT__ALU_Logic__DOT__LogicOpt_Mux__DOT__i0__DOT__data_list;
     };
     struct {
-        VlUnpacked<QData/*63:0*/, 3> top__DOT__HY_ALU_top__DOT__ALU_Logic__DOT__LogicOpt_Mux__DOT__i0__DOT__data_list;
         VlUnpacked<VlWide<3>/*67:0*/, 2> top__DOT__HY_ALU_top__DOT__ALU_DIV__DOT__DIV__DOT__i0__DOT__pair_list;
         VlUnpacked<CData/*3:0*/, 2> top__DOT__HY_ALU_top__DOT__ALU_DIV__DOT__DIV__DOT__i0__DOT__key_list;
         VlUnpacked<QData/*63:0*/, 2> top__DOT__HY_ALU_top__DOT__ALU_DIV__DOT__DIV__DOT__i0__DOT__data_list;

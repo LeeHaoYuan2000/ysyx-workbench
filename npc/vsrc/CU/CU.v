@@ -15,7 +15,8 @@ module ControUnit(
     output C_ALU_MEM, //0 ALU  , 1 MEM
     output C_ALU_NPC_In, //0 ALU , 1 NPC
     output [1:0] C_NPC_Branch_Jump, // 0 is NPC, 1 is Branch and jal , 2 is jalr
-    output [3:0] MEM_Ctrl
+    output [3:0] MEM_Ctrl,
+    output MEM_Enable
 );
 
 initial begin
@@ -160,7 +161,7 @@ wire ALU_Shift    = (sraw | sllw | srlw | slli | srli | srai | srliw | slliw | s
 wire ALU_LS       = (ld | lw | lbu | lh | lhu | sd | sw | sb | sh); 
 wire ALU_LogicOpt = (andi | xori | _or | _and);
 wire ALU_Branch   = (bne | beq | bge | blt | bltu);
-wire ALU_Jump     = (jal | jalr);
+wire ALU_Jump     = (jal );
 wire ALU_auipc    = (auipc);
 wire ALU_lui      = (lui);
 
@@ -228,6 +229,7 @@ assign MEM_Ctrl[0]    = (lhu | lw | sw | sb);
 assign MEM_Ctrl[1]    = (lbu | lw | sh);
 assign MEM_Ctrl[2]    = (lh);
 assign MEM_Ctrl[3]    = (sd | sw | sb | sh);
+assign MEM_Enable     = (lhu | lw | sw | sb | lbu | lw | sh | lh | sd | sw | sb | sh);//when the instruction is load and store, enable the mem
 
 
 MuxKeyWithDefault #(6,6,4) ALU_Inside_choose (Inside_Control,ALU_inside_signal,4'd15,{

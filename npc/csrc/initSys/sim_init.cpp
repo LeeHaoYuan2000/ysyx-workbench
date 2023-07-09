@@ -134,6 +134,7 @@ void sim_rst_n(uint32_t n){
   delete top;
   delete tfp;
   delete contextp;
+  exit(0);
 }
 
  int sim_exe(uint64_t n){

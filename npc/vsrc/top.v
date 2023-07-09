@@ -40,15 +40,15 @@ module top(
     wire [63:0]PC_Next_Next;
 
     PC_Adder pc_adder (
-        PC_Wire[63:0],
-        PC_Next_Wire[63:0]
+       .PC(PC_Wire[63:0]),
+        .PC_Next(PC_Next_Wire[63:0])
     );
 
     PC_Reg pc_reg (
-        clk,
-        rst,
-        PC_Next_Wire,
-        PC_Wire
+         .clk(clk),
+         .rst(rst),
+        .PC_Next(PC_Next_Next),
+        .PC(PC_Wire)
     );
 
     IFU IFU_Lee(
@@ -78,7 +78,8 @@ module top(
         .C_ALU_MEM(C_ALU_MEM_Connector), //0 ALU  , 1 MEM
         .C_ALU_NPC_In(C_ALU_NPC_In_Connector), //0 ALU , 1 NPC
         .C_NPC_Branch_Jump(C_NPC_Branch_Jump_Connector), // 0 is NPC, 1 is Branch and jal , 2 is jalr 
-        .MEM_Ctrl(MEM_Ctrl_connector)
+        .MEM_Ctrl(MEM_Ctrl_connector),
+        .MEM_Enable(MEM_Enable_Connector)
     );
 
     SEXT Sign_Extend(
@@ -106,6 +107,7 @@ module top(
 MEM HY_MEM(
     .MEM_Address(ALU_Result_Connector),
     .Data_Write(RS2_Connector),
+    .MEM_Enable(MEM_Enable_Connector),
     .Ctrl(MEM_Ctrl_connector),
     .MEM_Data_out(MEM_Result_Connector)
 );
@@ -119,6 +121,7 @@ assign RS1_OUTPUT = RS1_Connector;
 assign RS2_OUTPUT = RS2_Connector;
 
 
+wire MEM_Enable_Connector;
 wire [3:0] MEM_Ctrl_connector;
 wire WriteBack_Enable;
 wire C_RS1_PC_Connector;
@@ -150,6 +153,7 @@ parameter MUX_Jump   = 2'd2;
 
 wire [63:0] MEM_Result_Connector;
 wire [63:0] Write_Back_Reg;
+wire [63:0] Branch_PC;
 
 MuxKeyWithDefault #(2,1,64) MUX_ALU_MEM (MUX_ALU_MEM_Result, C_ALU_MEM_Connector , 64'd0 ,{
     MUX_Output_ALU , ALU_Result_Connector,
@@ -162,10 +166,16 @@ MuxKeyWithDefault #(2,1,64) MUX_PC_ALU (Write_Back_Reg, C_ALU_NPC_In_Connector ,
 });
 
 MuxKeyWithDefault #(3,2,64) MUX_NPC_Branch_Jump (PC_Next_Next, C_NPC_Branch_Jump_Connector , 64'd0 ,{
-    MUX_NPC , MUX_ALU_MEM_Result,
-    MUX_Branch , PC_Next_Wire,
+    MUX_NPC ,PC_Next_Wire,//MUX_ALU_MEM_Result,
+    MUX_Branch , Branch_PC,
     MUX_Jump , ALU_Result_Connector
 });
+
+Branch_adder branch_add(
+        .current_pc(PC_Wire),
+        .imm(SEXT_Connector),
+        .new_pc(Branch_PC)
+);
 
 
 wire [63:0] ALU_Result_Connector;

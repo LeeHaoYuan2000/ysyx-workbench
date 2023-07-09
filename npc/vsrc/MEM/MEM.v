@@ -3,9 +3,10 @@ import "DPI-C" function void pmem_write(input longint waddr,input longint wdata,
 
 
 module MEM(
-    input  [63:0]MEM_Address,
+    input  [63:0] MEM_Address,
     input  [63:0] Data_Write,
-    input  [3:0] Ctrl,
+    input         MEM_Enable,
+    input  [3:0]  Ctrl,
     output reg [63:0]MEM_Data_out
 );
 
@@ -28,18 +29,12 @@ wire [63:0] Data_To_MEM = Data_Write;  // Data need to be write
 
 
 always@(*) begin
-    case (Ctrl[3])
+    if (MEM_Enable) begin
+
+         case (Ctrl[3])
         1'b0:begin
 
-    pmem_read(MEM_Address,Data_From_MEM); // read data through dpi-c
-
-    // MuxKeyWithDefault #(5,4,64) Read (MEM_Data_out, Ctrl , 64'd0 ,{
-    //     Load_8Bytes,Data_From_MEM,
-    //     Load_2Bytes,{{48{1'b0}},Data_From_MEM[15:0]},
-    //     Load_1Bytes,{{54{1'b0}},Data_From_MEM[7:0]},
-    //     Load_4Bytes_SEXT,{{32{Data_From_MEM[31]}},Data_From_MEM[31:0]},
-    //     Load_2Bytes_SEXT,{{48{Data_From_MEM[15]}},Data_From_MEM[15:0]}
-    // });
+         pmem_read(MEM_Address,Data_From_MEM);// read data through dpi-c
 
         case(Ctrl)
             Load_8Bytes: begin
@@ -68,7 +63,7 @@ always@(*) begin
 
         case(Ctrl)
         Store_8Byte: begin
-             pmem_write(MEM_Address,Data_Write,8);
+            pmem_write(MEM_Address,Data_Write,8);
         end
         Store_4Byte: begin 
             pmem_write(MEM_Address,{{32{Data_Write[31]}},{Data_Write[31:0]}},4);
@@ -85,10 +80,16 @@ always@(*) begin
         endcase
     end
         default:MEM_Data_out = Data_From_MEM;
-
     endcase
+        
+    end
+    else begin
+        MEM_Data_out = 64'd0;
+    end
 
+   
 end
+
 
 
 
