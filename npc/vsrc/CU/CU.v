@@ -179,7 +179,7 @@ wire ALUInternal_Control_5 = (srai);
 wire ALU_Choose_imm = (addi | addiw | sltiu | slli | srli | srai | srliw | slliw | sraiw |
                        ld | lw | lbu | lh | lhu | sd | sw | sb | sh | andi | xori | auipc | lui | jal |jalr);
 
-wire ALU_Choose_PC  = (auipc | jal | jalr);
+wire ALU_Choose_PC  = (auipc | jal);
 
 
 assign RegWriteEnable = ~(bne | beq | bge | blt | bltu | sd | sw | sb | sh);//1 for enable ,0 for disable

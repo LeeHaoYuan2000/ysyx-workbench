@@ -100,6 +100,15 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__3(Vtop___024root* vlSelf) {
                                               >> 0x19U)));
     vlSelf->top__DOT__HY_CU__DOT__Match_31_25_0100000 
         = (0x20U == (vlSelf->instr_in >> 0x19U));
+    vlSelf->top__DOT__HY_CU__DOT__ALU_Choose_PC = (
+                                                   (0x17U 
+                                                    == 
+                                                    (0x7fU 
+                                                     & vlSelf->instr_in)) 
+                                                   | (0x6fU 
+                                                      == 
+                                                      (0x7fU 
+                                                       & vlSelf->instr_in)));
     vlSelf->top__DOT__HY_CU__DOT__beq = (IData)((0x63U 
                                                  == 
                                                  (0x707fU 
@@ -185,6 +194,10 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__3(Vtop___024root* vlSelf) {
                                                   == 
                                                   (0x707fU 
                                                    & vlSelf->instr_in)));
+    vlSelf->top__DOT__HY_CU__DOT__jalr = (IData)((0x67U 
+                                                  == 
+                                                  (0x707fU 
+                                                   & vlSelf->instr_in)));
     vlSelf->top__DOT__HY_CU__DOT__ld = (IData)((0x3003U 
                                                 == 
                                                 (0x707fU 
@@ -221,10 +234,6 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__3(Vtop___024root* vlSelf) {
                                                 == 
                                                 (0x707fU 
                                                  & vlSelf->instr_in)));
-    vlSelf->top__DOT__HY_CU__DOT__jalr = (IData)((0x67U 
-                                                  == 
-                                                  (0x707fU 
-                                                   & vlSelf->instr_in)));
     vlSelf->top__DOT__Sign_Extend__DOT__immS = ((0xfe0U 
                                                  & (vlSelf->instr_in 
                                                     >> 0x14U)) 
@@ -269,6 +278,16 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__3(Vtop___024root* vlSelf) {
                                                    (0x707fU 
                                                     & vlSelf->instr_in))) 
                                           & (IData)(vlSelf->top__DOT__HY_CU__DOT__Match_31_25_0100000));
+    vlSelf->C_RS1_PC_Connector_result = vlSelf->top__DOT__HY_CU__DOT__ALU_Choose_PC;
+    vlSelf->top__DOT__C_ALU_NPC_In_Connector = ((0x6fU 
+                                                 == 
+                                                 (0x7fU 
+                                                  & vlSelf->instr_in)) 
+                                                | (IData)(vlSelf->top__DOT__HY_CU__DOT__jalr));
+    vlSelf->top__DOT__C_NPC_Branch_Jump_Connector = 
+        ((1U & (IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector)) 
+         | ((IData)(vlSelf->top__DOT__HY_CU__DOT__jalr) 
+            << 1U));
     vlSelf->top__DOT__MEM_Ctrl_connector = ((0xeU & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector)) 
                                             | ((((IData)(vlSelf->top__DOT__HY_CU__DOT__lhu) 
                                                  | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
@@ -297,25 +316,6 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__3(Vtop___024root* vlSelf) {
                                                  | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
                                                 | (IData)(vlSelf->top__DOT__HY_CU__DOT__sh)) 
                                                << 3U));
-    vlSelf->top__DOT__C_ALU_NPC_In_Connector = ((0x6fU 
-                                                 == 
-                                                 (0x7fU 
-                                                  & vlSelf->instr_in)) 
-                                                | (IData)(vlSelf->top__DOT__HY_CU__DOT__jalr));
-    vlSelf->top__DOT__C_NPC_Branch_Jump_Connector = 
-        ((1U & (IData)(vlSelf->top__DOT__C_NPC_Branch_Jump_Connector)) 
-         | ((IData)(vlSelf->top__DOT__HY_CU__DOT__jalr) 
-            << 1U));
-    vlSelf->top__DOT__HY_CU__DOT__ALU_Choose_PC = (
-                                                   ((0x17U 
-                                                     == 
-                                                     (0x7fU 
-                                                      & vlSelf->instr_in)) 
-                                                    | (0x6fU 
-                                                       == 
-                                                       (0x7fU 
-                                                        & vlSelf->instr_in))) 
-                                                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__jalr));
     vlSelf->top__DOT__HY_CU__DOT__ALU_Choose_imm = 
         ((((((((((((((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__addi) 
                                | (IData)(vlSelf->top__DOT__HY_CU__DOT__addiw)) 
@@ -706,9 +706,8 @@ VL_INLINE_OPT void Vtop___024root___combo__TOP__3(Vtop___024root* vlSelf) {
                                                  | (IData)(vlSelf->top__DOT__HY_CU__DOT__jalr)) 
                                                 << 1U) 
                                                | (IData)(vlSelf->top__DOT__HY_CU__DOT__srai))))));
-    vlSelf->C_ALU_MEM_Connector_result = vlSelf->top__DOT__C_ALU_MEM_Connector;
     vlSelf->C_ALU_NPC_In_Connector_result = vlSelf->top__DOT__C_ALU_NPC_In_Connector;
-    vlSelf->C_RS1_PC_Connector_result = vlSelf->top__DOT__HY_CU__DOT__ALU_Choose_PC;
+    vlSelf->C_ALU_MEM_Connector_result = vlSelf->top__DOT__C_ALU_MEM_Connector;
     vlSelf->C_RS2_imm_Connector_result = vlSelf->top__DOT__HY_CU__DOT__ALU_Choose_imm;
     vlSelf->top__DOT__HY_CU__DOT__CU_ImmType__DOT__i0__DOT__lut_out 
         = ((- (IData)(((IData)(vlSelf->top__DOT__HY_CU__DOT____Vcellinp__CU_ImmType____pinNumber2) 
