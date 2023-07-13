@@ -19,15 +19,37 @@
 #include <memory/paddr.h>
 
 void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
-  assert(0);
+  if(direction){//将被测dut的镜像文件拷贝到
+    memcpy(guest_to_host(addr),(uint8_t*)buf,n);//copy file to the memory
+  }
+  else{
+    printf("把ref的镜像拷贝到dut上我还没有做 不想做了\n");
+    assert(0);
+  }
+
 }
 
 void difftest_regcpy(void *dut, bool direction) {
-  assert(0);
+  if(!direction){
+    for(int i = 0; i<33 ; i++){
+      if(i == 32){
+         *(((uint64_t*)dut)+1) = cpu.pc;
+      }
+      else{
+        *(((uint64_t*)dut)+1) = cpu.gpr[i];
+      }
+    }
+  }
+  else{
+    printf("不想ref到dut的方向\n");
+    assert(0);
+  }
+
 }
 
 void difftest_exec(uint64_t n) {
-  assert(0);
+  cpu_exec(n);
+  //assert(0);
 }
 
 void difftest_raise_intr(word_t NO) {
