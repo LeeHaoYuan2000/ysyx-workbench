@@ -10,7 +10,7 @@ uint8_t Memory[4096000];
 
 //use the little endian to store the date
 extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata){
-    //printf("raddr is : %lx\n",raddr);
+    printf("raddr is : %lx\n",raddr);
 
       uint64_t MEM_addr = raddr - 0x80000000;
 
@@ -26,6 +26,8 @@ extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata){
     // printf("MEM_addr:%lx!!!!!\n",MEM_addr);
 
      *rdata = *(uint64_t*)(Memory + MEM_addr);
+
+     printf("rdata is : %016lx\n",*rdata);
 }
 
 

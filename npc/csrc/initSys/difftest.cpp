@@ -45,7 +45,7 @@ void init_difftest(char* ref_so_file,long img_size,int port){
 static void checkregs(u_int64_t* reg_ref,u_int64_t pc_dut){
     //去编写比对执行文件
     if(!difftest_checkregs(reg_ref,pc_dut)){
-         //sim_exit();
+         sim_exit();
     }
 }
 

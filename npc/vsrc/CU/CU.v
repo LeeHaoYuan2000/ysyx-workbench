@@ -170,7 +170,7 @@ wire ALUInternal_Control_0 = (addi | add | mulw | divw | sraw | sraiw | andi | _
                              ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc | jal);
 
 wire ALUInternal_Control_1 = (sub  | mul | remw | xori);
-wire ALUInternal_Control_2 = (addiw | add | sllw | slliw | _or | bge);
+wire ALUInternal_Control_2 = (addiw | add | sllw | slliw | _or | bge | addw);
 wire ALUInternal_Control_3 = (subw | slt | srli | blt);
 wire ALUInternal_Control_4 = (sltiu | sltu | slli | bltu | jalr);
 wire ALUInternal_Control_5 = (srai);
@@ -229,7 +229,7 @@ assign MEM_Ctrl[0]    = (lhu | lw | sw | sb);
 assign MEM_Ctrl[1]    = (lbu | lw | sh);
 assign MEM_Ctrl[2]    = (lh);
 assign MEM_Ctrl[3]    = (sd | sw | sb | sh);
-assign MEM_Enable     = (lhu | lw | sw | sb | lbu | lw | sh | lh | sd | sw | sb | sh);//when the instruction is load and store, enable the mem
+assign MEM_Enable     = (ld |lhu | lw | sw | sb | lbu | lw | sh | lh | sd | sw | sb | sh);//when the instruction is load and store, enable the mem
 
 
 MuxKeyWithDefault #(6,6,4) ALU_Inside_choose (Inside_Control,ALU_inside_signal,4'd15,{

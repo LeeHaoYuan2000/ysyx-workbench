@@ -890,7 +890,8 @@ void Vtop___024root__traceFullSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
         tracep->fullQData(oldp+77,(vlSelf->top__DOT__MUX_Reg_PC_2ALU_Result),64);
         tracep->fullQData(oldp+79,(vlSelf->top__DOT__MUX_Reg_imm_2ALU_Result),64);
         tracep->fullQData(oldp+81,(vlSelf->top__DOT__MUX_ALU_MEM_Result),64);
-        tracep->fullBit(oldp+83,(((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__lhu) 
+        tracep->fullBit(oldp+83,((((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__ld) 
+                                             | (IData)(vlSelf->top__DOT__HY_CU__DOT__lhu)) 
                                             | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
                                            | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
                                           | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
@@ -1035,12 +1036,13 @@ void Vtop___024root__traceFullSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__mul)) 
                                     | (IData)(vlSelf->top__DOT__HY_CU__DOT__remw)) 
                                    | (IData)(vlSelf->top__DOT__HY_CU__DOT__xori))));
-        tracep->fullBit(oldp+151,(((((((IData)(vlSelf->top__DOT__HY_CU__DOT__addiw) 
-                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__add)) 
-                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__sllw)) 
-                                     | (IData)(vlSelf->top__DOT__HY_CU__DOT__slliw)) 
-                                    | (IData)(vlSelf->top__DOT__HY_CU__DOT___or)) 
-                                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__bge))));
+        tracep->fullBit(oldp+151,((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__addiw) 
+                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT__add)) 
+                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__sllw)) 
+                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__slliw)) 
+                                     | (IData)(vlSelf->top__DOT__HY_CU__DOT___or)) 
+                                    | (IData)(vlSelf->top__DOT__HY_CU__DOT__bge)) 
+                                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__addw))));
         tracep->fullBit(oldp+152,(((((IData)(vlSelf->top__DOT__HY_CU__DOT__subw) 
                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__slt)) 
                                     | (IData)(vlSelf->top__DOT__HY_CU__DOT__srli)) 

@@ -101,7 +101,8 @@ void Vtop___024root__traceChgSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep) 
             tracep->chgQData(oldp+76,(vlSelf->top__DOT__MUX_Reg_PC_2ALU_Result),64);
             tracep->chgQData(oldp+78,(vlSelf->top__DOT__MUX_Reg_imm_2ALU_Result),64);
             tracep->chgQData(oldp+80,(vlSelf->top__DOT__MUX_ALU_MEM_Result),64);
-            tracep->chgBit(oldp+82,(((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__lhu) 
+            tracep->chgBit(oldp+82,((((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__ld) 
+                                                | (IData)(vlSelf->top__DOT__HY_CU__DOT__lhu)) 
                                                | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
                                               | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
                                              | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
@@ -247,12 +248,13 @@ void Vtop___024root__traceChgSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep) 
                                         | (IData)(vlSelf->top__DOT__HY_CU__DOT__mul)) 
                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT__remw)) 
                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__xori))));
-            tracep->chgBit(oldp+150,(((((((IData)(vlSelf->top__DOT__HY_CU__DOT__addiw) 
-                                          | (IData)(vlSelf->top__DOT__HY_CU__DOT__add)) 
-                                         | (IData)(vlSelf->top__DOT__HY_CU__DOT__sllw)) 
-                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT__slliw)) 
-                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT___or)) 
-                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__bge))));
+            tracep->chgBit(oldp+150,((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__addiw) 
+                                           | (IData)(vlSelf->top__DOT__HY_CU__DOT__add)) 
+                                          | (IData)(vlSelf->top__DOT__HY_CU__DOT__sllw)) 
+                                         | (IData)(vlSelf->top__DOT__HY_CU__DOT__slliw)) 
+                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT___or)) 
+                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__bge)) 
+                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__addw))));
             tracep->chgBit(oldp+151,(((((IData)(vlSelf->top__DOT__HY_CU__DOT__subw) 
                                         | (IData)(vlSelf->top__DOT__HY_CU__DOT__slt)) 
                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT__srli)) 

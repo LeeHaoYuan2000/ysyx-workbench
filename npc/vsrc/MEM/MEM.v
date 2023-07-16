@@ -30,7 +30,6 @@ wire [63:0] Data_To_MEM = Data_Write;  // Data need to be write
 
 always@(*) begin
     if (MEM_Enable) begin
-
          case (Ctrl[3])
         1'b0:begin
 

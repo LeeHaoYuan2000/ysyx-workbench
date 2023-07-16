@@ -26,11 +26,11 @@ wire less_unsigned     = (src1   <  src2);
 
 always@(*)begin
     case (Compare_Control)
-        4'd0    : Compare_Result = {64{non_eq_unsigned}};    //MUX_neq_unsigned  
-        4'd1    : Compare_Result = {64{eq_unsigned}};    //MUX_eq_unsigned   
-        4'd2    : Compare_Result = {64{more_eq_signed}};    //MUX_more_eq_signed
-        4'd3    : Compare_Result = {64{less_signed}};    //MUX_less_signed   
-        4'd4    : Compare_Result = {64{less_unsigned}};    //MUX_less_unsigned 
+        4'd0    : Compare_Result = {{63{1'b0}},{non_eq_unsigned}};    //MUX_neq_unsigned  
+        4'd1    : Compare_Result = {{63{1'b0}},{eq_unsigned}};    //MUX_eq_unsigned   
+        4'd2    : Compare_Result = {{63{1'b0}},{more_eq_signed}};    //MUX_more_eq_signed
+        4'd3    : Compare_Result = {{63{1'b0}},{less_signed}};    //MUX_less_signed   
+        4'd4    : Compare_Result = {{63{1'b0}},{less_unsigned}};    //MUX_less_unsigned 
         default             : Compare_Result = 64'd0;
     endcase
 end

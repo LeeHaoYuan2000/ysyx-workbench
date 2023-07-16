@@ -27,7 +27,7 @@ void Vtop___024root::__Vconfigure(Vtop__Syms* _vlSymsp, bool first) {
 Vtop___024root::~Vtop___024root() {
 }
 
-extern const VlUnpacked<QData/*63:0*/, 512> Vtop__ConstPool__TABLE_db983293_0;
+extern const VlUnpacked<QData/*63:0*/, 512> Vtop__ConstPool__TABLE_58ebbdf7_0;
 void Vtop___024unit____Vdpiimwrap_pmem_write_TOP____024unit(QData/*63:0*/ waddr, QData/*63:0*/ wdata, CData/*7:0*/ wmask);
 void Vtop___024unit____Vdpiimwrap_pmem_read_TOP____024unit(QData/*63:0*/ raddr, QData/*63:0*/ &rdata);
 
@@ -86,14 +86,14 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__HY_CU__DOT__CU_ImmType__DOT__i0__DOT__pair_list[2U] = 0x23U;
     vlSelf->top__DOT__HY_CU__DOT__CU_ImmType__DOT__i0__DOT__pair_list[3U] = 0x42U;
     vlSelf->top__DOT__HY_CU__DOT__CU_ImmType__DOT__i0__DOT__pair_list[4U] = 0x81U;
-    vlSelf->top__DOT__HY_CU__DOT__addw = ((IData)((0x3bU 
+    vlSelf->top__DOT__HY_CU__DOT__srlw = ((IData)((0x503bU 
                                                    == 
                                                    (0x707fU 
                                                     & vlSelf->instr_in))) 
                                           & (0U == 
                                              (vlSelf->instr_in 
                                               >> 0x19U)));
-    vlSelf->top__DOT__HY_CU__DOT__srlw = ((IData)((0x503bU 
+    vlSelf->top__DOT__HY_CU__DOT__addw = ((IData)((0x3bU 
                                                    == 
                                                    (0x707fU 
                                                     & vlSelf->instr_in))) 
@@ -2267,12 +2267,13 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
                           | (IData)(vlSelf->top__DOT__HY_CU__DOT__mul)) 
                          | (IData)(vlSelf->top__DOT__HY_CU__DOT__remw)) 
                         | (IData)(vlSelf->top__DOT__HY_CU__DOT__xori)) 
-                       << 4U) | ((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__addiw) 
-                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__add)) 
-                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__sllw)) 
-                                     | (IData)(vlSelf->top__DOT__HY_CU__DOT__slliw)) 
-                                    | (IData)(vlSelf->top__DOT__HY_CU__DOT___or)) 
-                                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__bge)) 
+                       << 4U) | (((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__addiw) 
+                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT__add)) 
+                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__sllw)) 
+                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__slliw)) 
+                                     | (IData)(vlSelf->top__DOT__HY_CU__DOT___or)) 
+                                    | (IData)(vlSelf->top__DOT__HY_CU__DOT__bge)) 
+                                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__addw)) 
                                   << 3U) | ((((((IData)(vlSelf->top__DOT__HY_CU__DOT__subw) 
                                                 | (IData)(vlSelf->top__DOT__HY_CU__DOT__slt)) 
                                                | (IData)(vlSelf->top__DOT__HY_CU__DOT__srli)) 
@@ -4119,7 +4120,7 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
                                                << 4U) 
                                               | (IData)(vlSelf->top__DOT__Insider_Control_Connector))))));
     vlSelf->top__DOT__HY_ALU_top__DOT__Compare_out 
-        = Vtop__ConstPool__TABLE_db983293_0[__Vtableidx1];
+        = Vtop__ConstPool__TABLE_58ebbdf7_0[__Vtableidx1];
     if ((8U & (IData)(vlSelf->top__DOT__Insider_Control_Connector))) {
         vlSelf->top__DOT__HY_ALU_top__DOT__Shift_out = 0ULL;
     } else if ((4U & (IData)(vlSelf->top__DOT__Insider_Control_Connector))) {
@@ -5346,7 +5347,8 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[6U] 
         = ((__Vtemp846[1U] >> 0x1cU) | (__Vtemp846[2U] 
                                         << 4U));
-    if (((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__lhu) 
+    if ((((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__ld) 
+                    | (IData)(vlSelf->top__DOT__HY_CU__DOT__lhu)) 
                    | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
                  | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
