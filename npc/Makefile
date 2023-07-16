@@ -18,7 +18,7 @@ show:
 
 compile:${CSRC} ${VSRC}
 	@verilator ${VERILATOR_FLAGS} ${VSRC} ${CSRC} 
-	gdb --args ./obj_dir/Vtop $(IMG)
+	gdb --args ./obj_dir/Vtop $(IMG) -d$(NEMU_HOME)/build/riscv64-nemu-interpreter-so
 	
 #	verilator -cc --trace --Wall $(Verilog_file) --exe $(Cpp_file)
 #	make -j -C obj_dir -f Vtop.mk Vtop

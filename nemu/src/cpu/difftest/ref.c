@@ -33,10 +33,10 @@ void difftest_regcpy(void *dut, bool direction) {
   if(!direction){
     for(int i = 0; i<33 ; i++){
       if(i == 32){
-         *(((uint64_t*)dut)+1) = cpu.pc;
+         *(((uint64_t*)dut)+i) = cpu.pc;
       }
       else{
-        *(((uint64_t*)dut)+1) = cpu.gpr[i];
+        *(((uint64_t*)dut)+i) = cpu.gpr[i];
       }
     }
   }

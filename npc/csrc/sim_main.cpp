@@ -4,8 +4,10 @@
 #include "./include/sim_init.h"
 #include "./include/initMEM.h"
 #include "./include/sdb.h"
+#include "./include/difftest.h"
 
 int main(int argc,char* argv[]){
+
 	sim_init(argc,argv);
 
 	sim_rst_n(5);

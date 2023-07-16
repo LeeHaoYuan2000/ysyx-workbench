@@ -4,6 +4,7 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include "verilated_dpi.h"
+#include "../include/difftest.h"
 
 #define no_argument 0
 #define required_argument 1 
@@ -152,23 +153,27 @@ void sim_rst_n(uint32_t n){
           output_reg++;
       }
       else{
+        difftest_exe(PC);
         Output_gpr();
       }
+
+      
+      instr = MEMRead_instr(top->PC_Test);
+      top->instr_in  = instr;
+      PC = top->PC_Test;
 
       if(instr == ebreak){
           if(get_a0() == 0){
               printf("Hit a Good Trap\n");
+              //sim_exit();
               return 0;
           }
           else{
               printf("Hit a Bad  Trap\n");
+              //sim_exit();
               return 0;
           }
       }
-
-      instr = MEMRead_instr(top->PC_Test);
-      top->instr_in  = instr;
-      PC = top->PC_Test;
 
       sim_single_cycle();
 
@@ -183,6 +188,8 @@ void sim_init(int argc,char *argv[]){
     MEM_init(); //initialize the memory
 
     long img_size = load_img();
+
+    init_difftest(diff_so_file,img_size,1);
 
   //-----------initial the Verilator----------------
     contextp = new VerilatedContext;

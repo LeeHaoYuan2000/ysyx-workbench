@@ -44,6 +44,7 @@ VM_USER_LDLIBS = \
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
 	RegFile \
+	difftest \
 	initMEM \
 	sdb \
 	sim_init \
@@ -65,6 +66,8 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 VPATH += $(VM_USER_DIR)
 
 RegFile.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/RegFile.cpp
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
+difftest.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/difftest.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 initMEM.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/initMEM.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
