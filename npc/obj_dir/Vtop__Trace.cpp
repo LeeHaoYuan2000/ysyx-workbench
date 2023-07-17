@@ -244,10 +244,13 @@ void Vtop___024root__traceChgSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep) 
                                         | (IData)(vlSelf->top__DOT__HY_CU__DOT__xori)) 
                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT___or)) 
                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT___and))));
-            tracep->chgBit(oldp+149,(((((IData)(vlSelf->top__DOT__HY_CU__DOT__sub) 
-                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT__mul)) 
-                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__remw)) 
-                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__xori))));
+            tracep->chgBit(oldp+149,((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__sub) 
+                                           | (IData)(vlSelf->top__DOT__HY_CU__DOT__mul)) 
+                                          | (IData)(vlSelf->top__DOT__HY_CU__DOT__remw)) 
+                                         | (IData)(vlSelf->top__DOT__HY_CU__DOT__xori)) 
+                                        | (IData)(vlSelf->top__DOT__HY_CU__DOT__beq)) 
+                                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__srliw)) 
+                                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__srlw))));
             tracep->chgBit(oldp+150,((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__addiw) 
                                            | (IData)(vlSelf->top__DOT__HY_CU__DOT__add)) 
                                           | (IData)(vlSelf->top__DOT__HY_CU__DOT__sllw)) 

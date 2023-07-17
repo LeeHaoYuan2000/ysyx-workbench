@@ -169,7 +169,7 @@ wire ALU_lui      = (lui);
 wire ALUInternal_Control_0 = (addi | add | mulw | divw | sraw | sraiw | andi | _and | bne |
                              ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc | jal);
 
-wire ALUInternal_Control_1 = (sub  | mul | remw | xori);
+wire ALUInternal_Control_1 = (sub  | mul | remw | xori | beq | srliw | srlw);
 wire ALUInternal_Control_2 = (addiw | add | sllw | slliw | _or | bge | addw);
 wire ALUInternal_Control_3 = (subw | slt | srli | blt);
 wire ALUInternal_Control_4 = (sltiu | sltu | slli | bltu | jalr);
