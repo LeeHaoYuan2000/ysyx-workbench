@@ -45,7 +45,9 @@ extern "C" void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
         Data_buf = wdata & 0x00000000000000ff;
         wdata = wdata >> 8;
         Memory[MEM_addr + i] = Data_buf;
+        printf("%02lx",Data_buf);
     }
+    printf("\n");;
 
 }
 

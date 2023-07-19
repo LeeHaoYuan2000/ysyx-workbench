@@ -57,7 +57,7 @@ always @(*) begin
             buffer[63:0] = src2[0] ? {1'd0,src1[63:1]}: src1[63:0];
             buffer1[63:0] = src2[1] ? {2'd0,buffer[63:2]}: buffer[63:0];
             buffer2[63:0] = src2[2] ? {4'd0,buffer1[63:4]}: buffer1[63:0];
-            buffer3[63:0] = src2[3] ? {8'd8,buffer2[63:8]}: buffer2[63:0];
+            buffer3[63:0] = src2[3] ? {8'd0,buffer2[63:8]}: buffer2[63:0];
             buffer4[63:0] = src2[4] ? {16'd0,buffer3[63:16]}: buffer3[63:0];
             buffer5[63:0] = src2[5] ? {32'd0,buffer4[63:32]}: buffer4[63:0];
             shift_out[63:0] = buffer5[63:0];
