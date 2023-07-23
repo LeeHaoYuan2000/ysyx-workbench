@@ -80,7 +80,7 @@ void num2str(char *str,int num){
   if(num == 0){ 
     str[0] = '0';
     str[1] = '\0'; //if num is 0
-    return 1;//return now
+    return ;//return now
   }
   else if(num<0){
     num = ~num;
