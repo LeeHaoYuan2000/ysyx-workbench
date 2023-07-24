@@ -28,7 +28,7 @@ int ASCII_number(int n){ //transform the number 0~9 into ASCII
 void num2str(char *str,int num){
   bool is_num_native = false;
   int lenth = 0;//record the number lenth
-  char* str_buf = NULL;
+  char str_buf[256];
   // int i = 0;
   // char strbuf [32];
   // if(num == 0){
@@ -143,11 +143,12 @@ int printf(const char *fmt, ...) {
       case 'd':
       {
           int num = va_arg(arg,int);
-          char* str;
+          int i = 0;
+          char str[256];
           num2str(str,num);
-          while(*str != '\0'){
-              putch(*str);
-              str++;
+          while(str[i] != '\0'){
+              putch(str[i]);
+              i++;
           }
         break;
       }
