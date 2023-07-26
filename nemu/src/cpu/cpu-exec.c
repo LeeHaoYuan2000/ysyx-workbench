@@ -81,13 +81,18 @@ static void exec_once(Decode *s, vaddr_t pc) {
 
 static void execute(uint64_t n) {
   Decode s;
-
+#ifdef CONFIG_ITRACE
     InitBuf();
+#endif
 
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
+
+#ifdef CONFIG_ITRACE
     addBuf(&s);
+#endif
+
     trace_and_difftest(&s, cpu.pc);
 
     if (nemu_state.state != NEMU_RUNNING) break;
@@ -105,7 +110,11 @@ static void statistic() {
 }
 
 void assert_fail_msg() {
+
+#ifdef CONFIG_ITRACE
   outputRingBuf();
+#endif
+
   isa_reg_display();
   statistic();
 }

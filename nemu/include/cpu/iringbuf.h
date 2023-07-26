@@ -48,6 +48,8 @@ void addBuf(Decode *instruction){
 }
 
 void outputRingBuf(){
+
+    #ifdef CONFIG_ITRACE
     unsigned int i = 0;
 
     void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
@@ -62,4 +64,5 @@ void outputRingBuf(){
         puts(buf);
         i++;
     }
+    #endif
 }
