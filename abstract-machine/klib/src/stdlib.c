@@ -2,6 +2,8 @@
 #include <klib.h>
 #include <klib-macros.h>
 
+size_t addr = 0;
+
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 static unsigned long int next = 1;
 
@@ -33,9 +35,11 @@ void *malloc(size_t size) {
   // On native, malloc() will be called during initializaion of C runtime.
   // Therefore do not call panic() here, else it will yield a dead recursion:
   //   panic() -> putchar() -> (glibc) -> malloc() -> panic()
-#if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
-  panic("Not implemented");
-#endif
+//#if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
+  //panic("Not implemented");
+  addr = size + addr;
+  return heap.start + addr - size;
+//#endif
   return NULL;
 }
 
