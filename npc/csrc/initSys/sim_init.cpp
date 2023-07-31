@@ -5,6 +5,7 @@
 #include "verilated_vcd_c.h"
 #include "verilated_dpi.h"
 #include "../include/difftest.h"
+#include "../include/macro.h"
 
 #define no_argument 0
 #define required_argument 1 
@@ -186,6 +187,8 @@ void sim_init(int argc,char *argv[]){
     parse_args(argc,argv);
 
     MEM_init(); //initialize the memory
+
+    IFDEF(Device_On,init_device());
 
     long img_size = load_img();
 
