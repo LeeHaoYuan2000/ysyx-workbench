@@ -36,6 +36,12 @@ static void init_keymap(){
 static int key_queue[KEY_QUEUE_LEN] = {};
 static int key_f = 0, key_r = 0;
 
+static void key_enqueue(uint32_t am_scancode){
+    key_queue[key_r] = am_scancode;
+    key_r = (key_r + 1) % KEY_QUEUE_LEN;
+    assert(key_r != key_f);
+}
+
 
 static uint32_t key_dequeue(){
     uint32_t key = _KEY_NONE;
@@ -44,6 +50,14 @@ static uint32_t key_dequeue(){
         key_f = (key_f + 1) % KEY_QUEUE_LEN;
     }
     return key;
+}
+
+//
+void send_key(uint8_t scancode, bool is_keydown){
+    if(keymap[scancode != _KEY_NONE]){
+        uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);
+        key_enqueue(am_scancode);
+    }
 }
 
 
@@ -60,6 +74,8 @@ void init_i8042(){
     i8042_data_port_base[0] = _KEY_NONE ;
 
     add_mmio_map("kwyboard",CONFIG_I8042_DATA_MMIO,i8042_data_port_base,4, i8042_data_io_handler);
+
+    init_keymap();
 }
 
 
