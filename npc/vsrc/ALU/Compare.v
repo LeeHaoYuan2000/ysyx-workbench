@@ -23,6 +23,7 @@ wire eq_unsigned       = (src1   == src2);
 wire more_eq_signed    = (S_src1 >= S_src2);
 wire less_signed       = (S_src1 <  S_src2);
 wire less_unsigned     = (src1   <  src2);
+wire more_eq_unsigned  = (src1   >= src2);
 
 always@(*)begin
     case (Compare_Control)
@@ -31,6 +32,7 @@ always@(*)begin
         4'd2    : Compare_Result = {{63{1'b0}},{more_eq_signed}};    //MUX_more_eq_signed
         4'd3    : Compare_Result = {{63{1'b0}},{less_signed}};    //MUX_less_signed   
         4'd4    : Compare_Result = {{63{1'b0}},{less_unsigned}};    //MUX_less_unsigned 
+        4'd5    : Compare_Result = {{63{1'b0}},{more_eq_unsigned}};
         default             : Compare_Result = 64'd0;
     endcase
 end
