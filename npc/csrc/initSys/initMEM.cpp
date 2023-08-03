@@ -18,17 +18,6 @@ extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata){
 
       uint64_t MEM_addr = raddr - 0x80000000;
 
-
-    //  uint64_t Data_buf = 0;
-
-    // // // for(int i = 0;i < 8;i++){
-    //      Data_buf = Data_buf >> 8;
-    // // //     Data_buf = Data_buf + (((uint64_t)Memory[MEM_addr + i])<<56);
-    // // // }
-
-    // // // *rdata = Data_buf;
-    // printf("MEM_addr:%lx!!!!!\n",MEM_addr);
-
      *rdata = *(uint64_t*)(Memory + MEM_addr);
 
      printf("rdata is : %016lx\n",*rdata);

@@ -248,9 +248,9 @@ wire [3:0] Inside_3 = 4'd3;
 wire [3:0] Inside_4 = 4'd4;
 wire [3:0] Inside_5 = 4'd5;
 
-assign MEM_Ctrl[0]    = (lhu | lw | sw | sb);
-assign MEM_Ctrl[1]    = (lbu | lw | sh | sb);
-assign MEM_Ctrl[2]    = (lh);
+assign MEM_Ctrl[0]    = (lhu | lw | sw | sb | lwu);
+assign MEM_Ctrl[1]    = (lbu | lw | sh | sb | lb );
+assign MEM_Ctrl[2]    = (lh) | lwu;
 assign MEM_Ctrl[3]    = (sd | sw | sb | sh);
 assign MEM_Enable     = (ld |lhu | lw | sw | sb | lbu | lw | sh | lh | sd | sw | sb | sh);//when the instruction is load and store, enable the mem
 

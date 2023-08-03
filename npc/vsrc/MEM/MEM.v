@@ -13,8 +13,9 @@ module MEM(
 parameter Load_8Bytes       = 4'b0000;
 parameter Load_2Bytes       = 4'b0001;
 parameter Load_1Bytes       = 4'b0010;
-parameter Load_4Bytes_SEXT  = 4'b0011;
+parameter Load_4Bytes_SEXT  = 4'b0011;    
 parameter Load_2Bytes_SEXT  = 4'b0100;
+parameter Load_4Bytes       = 4'b0101;
 
 parameter Store_8Byte   = 4'b1000;
 parameter Store_4Byte   = 4'b1001;
@@ -51,6 +52,10 @@ always@(*) begin
             end
             Load_2Bytes_SEXT: begin 
                 MEM_Data_out = {{48{Data_From_MEM[15]}},Data_From_MEM[15:0]};
+            end
+
+            Load_4Bytes:begin
+                MEM_Data_out = {{32{1'b0}},Data_From_MEM[31:0]};
             end
             default: begin 
                 MEM_Data_out = Data_From_MEM;
