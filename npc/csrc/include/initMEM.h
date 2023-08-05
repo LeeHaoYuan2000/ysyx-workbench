@@ -14,4 +14,6 @@ void MEMWrite(uint64_t waddr,uint64_t wdata, uint8_t wmask);
 
 uint32_t MEMRead_instr(uint64_t raddr);
 
+inline bool in_pmem(uint64_t addr);
+
 

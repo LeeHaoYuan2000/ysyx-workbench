@@ -1,4 +1,4 @@
-import "DPI-C" function void pmem_read(input longint raddr,output longint rdata);
+import "DPI-C" function void pmem_read(input longint raddr,output longint rdata,input len);
 import "DPI-C" function void pmem_write(input longint waddr,input longint wdata,input byte wmask);
 
 
@@ -33,31 +33,36 @@ always@(*) begin
     if (MEM_Enable) begin
          case (Ctrl[3])
         1'b0:begin
-
-         pmem_read(MEM_Address,Data_From_MEM);// read data through dpi-c
-
         case(Ctrl)
             Load_8Bytes: begin
+                pmem_read(MEM_Address, Data_From_MEM, 8);// read data through dpi-c
                 MEM_Data_out = Data_From_MEM;
             end
             Load_2Bytes: begin 
+                //read 2 Byte
+                pmem_read(MEM_Address, Data_From_MEM, 2);
                 MEM_Data_out = {{48{1'b0}},Data_From_MEM[15:0]};
             end
             Load_1Bytes: begin 
+                pmem_read(MEM_Address, Data_From_MEM, 1);
                 MEM_Data_out = {{56{1'b0}},Data_From_MEM[7:0]};
             end
             Load_4Bytes_SEXT: begin 
+                pmem_read(MEM_Address, Data_From_MEM, 4);
                 MEM_Data_out = {{32{Data_From_MEM[31]}},Data_From_MEM[31:0]};
             
             end
             Load_2Bytes_SEXT: begin 
+                pmem_read(MEM_Address, Data_From_MEM, 2);
                 MEM_Data_out = {{48{Data_From_MEM[15]}},Data_From_MEM[15:0]};
             end
 
             Load_4Bytes:begin
+                pmem_read(MEM_Address, Data_From_MEM, 4);
                 MEM_Data_out = {{32{1'b0}},Data_From_MEM[31:0]};
             end
             default: begin 
+                pmem_read(MEM_Address, Data_From_MEM, 8);
                 MEM_Data_out = Data_From_MEM;
             end
             endcase

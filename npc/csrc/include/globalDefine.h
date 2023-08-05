@@ -1,4 +1,7 @@
 
+
+//控制设备的开关
+#define CONFIG_DEVICE       1
 #define Device_On           1 //开启Device
 #define CONFIG_HAS_TIMER    1 //时钟
 #define CONFIG_HAS_SERIAL   1 //串口

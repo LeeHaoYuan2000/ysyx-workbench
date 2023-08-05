@@ -252,7 +252,7 @@ assign MEM_Ctrl[0]    = (lhu | lw | sw | sb | lwu);
 assign MEM_Ctrl[1]    = (lbu | lw | sh | sb | lb );
 assign MEM_Ctrl[2]    = (lh) | lwu;
 assign MEM_Ctrl[3]    = (sd | sw | sb | sh);
-assign MEM_Enable     = (ld |lhu | lw | sw | sb | lbu | lw | sh | lh | sd | sw | sb | sh);//when the instruction is load and store, enable the mem
+assign MEM_Enable     = (ld |lhu | lw | sw | sb | lbu | lb | lwu |lw | sh | lh | sd | sw | sb | sh);//when the instruction is load and store, enable the mem
 
 
 MuxKeyWithDefault #(6,6,4) ALU_Inside_choose (Inside_Control,ALU_inside_signal,4'd15,{

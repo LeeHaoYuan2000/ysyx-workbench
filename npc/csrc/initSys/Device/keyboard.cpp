@@ -3,6 +3,7 @@
 #include "../../include/Device/map.h"
 #include "../../include/macro.h"
 #include "../../include/globalDefine.h"
+#include "../../include/Device/mmio.h"
 
 #include "SDL2/SDL.h"
 
