@@ -16,7 +16,7 @@ extern "C" {
     // DPI import at /home/ubuntu/ysyx-workbench/npc/vsrc/CU/CU.v:1:30
     extern void check_ebreak(const svOpenArrayHandle ebreak_reg);
     // DPI import at /home/ubuntu/ysyx-workbench/npc/vsrc/MEM/MEM.v:1:30
-    extern void pmem_read(long long raddr, long long* rdata);
+    extern void pmem_read(long long raddr, long long* rdata, long long len);
     // DPI import at /home/ubuntu/ysyx-workbench/npc/vsrc/MEM/MEM.v:2:30
     extern void pmem_write(long long waddr, long long wdata, char wmask);
     // DPI import at /home/ubuntu/ysyx-workbench/npc/vsrc/CSR/CSR.v:11:30

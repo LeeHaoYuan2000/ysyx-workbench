@@ -245,8 +245,6 @@ void refresh_reg_value(){
     cpu_reg[20]=*gpr_s4;  cpu_reg[21]=*gpr_s5; cpu_reg[22]=*gpr_s6;  cpu_reg[23]=*gpr_s7;
     cpu_reg[24]=*gpr_s8;  cpu_reg[25]=*gpr_s9; cpu_reg[26]=*gpr_s10; cpu_reg[27]=*gpr_s11;
     cpu_reg[28]=*gpr_t3;  cpu_reg[29]=*gpr_t4; cpu_reg[30]=*gpr_t5;  cpu_reg[31]=*gpr_t6;
-
-
 }
 
 bool difftest_checkregs(uint64_t* ref_regs,uint64_t pc_dut){//将当前的ref的regs和pc，以及npc的pc输入

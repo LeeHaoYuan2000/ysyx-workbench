@@ -9,42 +9,43 @@
 #include "../include/macro.h"
 #include "../include/Device/mmio.h"
 
+#define CONFIG_MSIZE 0x8000000
 #define MEM_Start 0x80000000
 
-uint8_t Memory[4096000];
+u_int8_t Memory[0x8000000];
 
-uint8_t* guest_to_host(uint64_t addr) {return  Memory + addr - MEM_Start ;}
+u_int64_t* guest_to_host(u_int64_t addr) {return  ((u_int64_t*)(Memory + addr - MEM_Start) );}
 
-inline uint64_t host_read(uint64_t *addr, int len){
+u_int64_t host_read(u_int64_t *addr, int len){
     switch (len)
     {
-    case 1: return *(uint8_t *) addr; 
-    case 2: return *(uint16_t *)addr ;
-    case 4: return *(uint32_t *)addr ;
-    case 8: return *(uint64_t *)addr ;
+    case 1: return *(u_int8_t *) addr; 
+    case 2: return *(u_int16_t *)addr ;
+    case 4: return *(u_int32_t *)addr ;
+    case 8: return *(u_int64_t *)addr ;
 
     default:
-        return *(uint64_t *) addr;
+        return *(u_int64_t *) addr;
     }
 }
 
-inline void host_write(uint64_t *addr,int len, uint64_t data){
-    switch (expression)
+void host_write(u_int64_t *addr,int len, u_int64_t data){
+    switch (len)
     {
-    case 1: *(uint8_t *) addr = data; break;
-    case 2: *(uint16_t *)addr = data; break;
-    case 4: *(uint32_t *)addr = data; break;
-    case 8: *(uint64_t *)addr = data; break;
+    case 1: *(u_int8_t *) addr = data; break;
+    case 2: *(u_int16_t *)addr = data; break;
+    case 4: *(u_int32_t *)addr = data; break;
+    case 8: *(u_int64_t *)addr = data; break;
     default:
         break;
     }
 }
 
-inline bool in_pmem(uint64_t addr){ //判断地址是否有效
-    return addr - MEM_Start < MEM_Start;
+bool in_pmem(u_int64_t addr){ //判断地址是否有效
+    return addr - MEM_Start < CONFIG_MSIZE;
 }
 
-void out_of_mem(uint64_t addr){
+void out_of_mem(u_int64_t addr){
      printf("the memory is out of boundary,please check\n");
      printf("AT ------> %016lx \n",addr);
     sim_exit();
@@ -56,17 +57,28 @@ void out_of_mem(uint64_t addr){
 extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata,uint64_t len){
     if(in_pmem(raddr)){
         *rdata = host_read(guest_to_host(raddr),len);
+        return ;
     }
 
-    *rdata =  mmio_read(raddr, len);
+    else if((raddr & 0xffffffffa0000000) == 0x00000000a0000000){
+         *rdata =  mmio_read(raddr, len);
+    }
+   
+
+    return ;
 }
 
 
 extern "C" void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
     if(in_pmem(waddr)){
-        host_write(guest_to_host(waddr, wmask , wdata));
+        host_write(guest_to_host(waddr), wmask , wdata);
+        return ;
     }
-    mmio_write(waddr , wmask , wdata);
+    else if((waddr & 0x00000000a0000000) == 0x00000000a0000000){
+        mmio_write(waddr , wmask , wdata);
+    }
+    
+    return ;
 }
 
 //读取指令
@@ -80,6 +92,8 @@ uint32_t MEMRead_instr(uint64_t raddr){
     }
 
     out_of_mem(raddr);
+
+    return 0;
 }
 
 uint8_t* getMEMAddr(){

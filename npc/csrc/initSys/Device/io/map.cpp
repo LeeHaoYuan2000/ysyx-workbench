@@ -3,6 +3,7 @@
 #include "malloc.h"
 #include "assert.h"
 #include "../../../include/Device/map.h"
+#include "../../../include/initMEM.h"
 
 
 #define IO_SPACE_MAX   (2 * 1024 *1024)
@@ -20,7 +21,7 @@ u_int8_t *new_space(int size){
     return p;
 }
 
-static void check_bound(IOMap *map, uint64_t addr){
+ void check_bound(IOMap *map, u_int64_t addr){
     if(map == NULL){
         assert(map != NULL);
     }
@@ -30,7 +31,7 @@ static void check_bound(IOMap *map, uint64_t addr){
 
 }
 
-static void invoke_callback(io_callback_t c,uint64_t offset, int len ,bool is_write){
+void invoke_callback(io_callback_t c,u_int64_t offset, int len ,bool is_write){
     if(c != NULL) {c(offset, len , is_write);}
 }
 
@@ -43,22 +44,21 @@ void init_map(){
 u_int64_t map_read(u_int64_t addr,int len,IOMap *map){
     assert(len >= 1 && len <= 8 );
     check_bound(map,addr);
-    uint64_t offset = addr - map->low;
-
+    u_int64_t offset = addr - map->low;
     invoke_callback(map->callback,offset,len,false);
 
-    uint64_t ret = host_read();
+    u_int64_t ret = host_read((u_int64_t *)(map->space + offset),len);
 
     return ret;
 
 }
 
-void map_read(uint64_t addr,int len,uint64_t data,IOMap *map){
+void map_write(u_int64_t addr,int len,u_int64_t data,IOMap *map){
     assert(len >= 1 && len <= 8 );
     check_bound(map,addr);
-    uint64_t offset = addr - map->low;
+    u_int64_t offset = addr - map->low;
 
-    host_write();
+    host_write((u_int64_t *)(map->space + offset), len , data);
 
     invoke_callback(map->callback,offset,len,true);
 

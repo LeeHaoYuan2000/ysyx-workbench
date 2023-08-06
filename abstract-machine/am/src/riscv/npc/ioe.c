@@ -1,6 +1,9 @@
 #include <am.h>
 #include <klib-macros.h>
+#include <amdev.h>
+ #include "stdio.h"
 
+void __am_gpu_init();
 void __am_timer_init();
 
 void __am_gpu_config(AM_GPU_CONFIG_T *);
@@ -32,6 +35,7 @@ static void fail(void *buf) { panic("access nonexist register"); }
 bool ioe_init() {
   for (int i = 0; i < LENGTH(lut); i++)
     if (!lut[i]) lut[i] = fail;
+    printf("IOE_init !!!");
   __am_gpu_init();
   __am_timer_init();
   return true;

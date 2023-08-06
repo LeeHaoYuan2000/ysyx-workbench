@@ -6,6 +6,8 @@
 #include "verilated_dpi.h"
 #include "../include/difftest.h"
 #include "../include/macro.h"
+#include "../include/globalDefine.h"
+#include "../include/device.h"
 
 #define no_argument 0
 #define required_argument 1 
@@ -178,6 +180,8 @@ void sim_rst_n(uint32_t n){
 
       sim_single_cycle();
 
+      IFDEF(Device_On,device_update());
+
     }
     return 1;
 }
@@ -192,7 +196,7 @@ void sim_init(int argc,char *argv[]){
 
     long img_size = load_img();
 
-    init_difftest(diff_so_file,img_size,1);
+    IFDEF(Difftest_On,init_difftest(diff_so_file,img_size,1));
 
   //-----------initial the Verilator----------------
     contextp = new VerilatedContext;

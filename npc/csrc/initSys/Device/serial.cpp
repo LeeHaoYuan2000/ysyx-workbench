@@ -3,6 +3,8 @@
 #include "../../include/Device/map.h"
 #include "../../include/globalDefine.h"
 #include "../../include/macro.h"
+#include "../../include/Device/mmio.h"
+#include "assert.h"
 
 static u_int8_t *serial_base = NULL;
 
@@ -10,12 +12,12 @@ static void serial_putc(char ch){
     MUXDEF(CONFIG_TARGET_AM,putch(ch),putc(ch,stderr));
 }
 
-static void serial_io_handler(uint32_t offset,int len,bool is_write){
+static void serial_io_handler(u_int32_t offset,int len,bool is_write){
     assert(len == 1);
     switch(offset) {
         case 0:
             if(is_write) serial_putc(serial_base[0]);
-            else panic("not support read!!!");
+            else ;//panic("not support read!!!");
         break;
         default:break;
     }

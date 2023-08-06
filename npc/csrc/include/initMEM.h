@@ -6,14 +6,14 @@
 
 void MEM_init();
 
-uint8_t* getMEMAddr();
+u_int8_t* getMEMAddr();
 
-void MEMRead(uint64_t raddr,uint64_t* rdata);
+u_int32_t MEMRead_instr(u_int64_t raddr);
 
-void MEMWrite(uint64_t waddr,uint64_t wdata, uint8_t wmask);
+bool in_pmem(u_int64_t addr);
 
-uint32_t MEMRead_instr(uint64_t raddr);
+u_int64_t host_read(u_int64_t *addr, int len);
 
-inline bool in_pmem(uint64_t addr);
+void host_write(u_int64_t *addr,int len, u_int64_t data);
 
 

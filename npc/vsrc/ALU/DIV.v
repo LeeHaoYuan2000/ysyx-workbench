@@ -12,12 +12,12 @@ wire        [63:0] u_src2;
 
 assign  S_src1 = src1[31:0];
 assign  S_src2 = src2[31:0];
-assign  u_src1 = src1{63:0};
+assign  u_src1 = src1[63:0];
 assign  u_src2 = src2[63:0];
 
 wire signed [31:0] divw  = S_src1 / S_src2;
 wire signed [31:0] remw  = S_src1 % S_src2;
-wire        [64:0] divu  = u_src1 / u_src2;
+wire        [63:0] divu  = u_src1 / u_src2;
 wire        [31:0] divuw = u_src1[31:0] / u_src2[31:0];
 wire        [63:0] remu  = u_src1 % u_src2;
 wire        [31:0] remuw = u_src1[31:0] % u_src2[31:0];
