@@ -46,13 +46,14 @@ void add_mmio_map(const char *name, uint64_t addr, void *space,uint32_t len, io_
 }
 
 uint64_t mmio_read(uint64_t addr, int len){
-    display_maps(maps);
+    //display_maps(maps);
     printf("addr now is %016lx \n",addr);
     return map_read(addr,len, fetch_mmio_map(addr));
 
 }
 void mmio_write(uint64_t addr, int len, uint64_t data){
-     display_maps(maps);
+     //display_maps(maps);
+    // printf("write addr now is :%016lx \n",addr);
     map_write(addr, len ,data ,fetch_mmio_map(addr));
 }
 

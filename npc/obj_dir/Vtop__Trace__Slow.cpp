@@ -442,6 +442,7 @@ void Vtop___024root__traceInitSub0(Vtop___024root* vlSelf, VerilatedVcd* tracep)
         tracep->declQuad(c+224,"top HY_RegFile RS2_Out i0 lut_out", false,-1, 63,0);
         tracep->declBit(c+226,"top HY_RegFile RS2_Out i0 hit", false,-1);
         tracep->declBus(c+1298,"top HY_RegFile RS2_Out i0 i", false,-1, 31,0);
+        tracep->declBit(c+1191,"top HY_MEM clk", false,-1);
         tracep->declQuad(c+95,"top HY_MEM MEM_Address", false,-1, 63,0);
         tracep->declQuad(c+75,"top HY_MEM Data_Write", false,-1, 63,0);
         tracep->declBit(c+83,"top HY_MEM MEM_Enable", false,-1);

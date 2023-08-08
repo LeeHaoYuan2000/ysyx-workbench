@@ -5694,21 +5694,22 @@ void Vtop___024root___settle__TOP__1(Vtop___024root* vlSelf) {
     vlSelf->top__DOT____Vcellinp__MUX_NPC_Branch_Jump____pinNumber4[6U] 
         = ((__Vtemp882[1U] >> 0x1cU) | (__Vtemp882[2U] 
                                         << 4U));
-    if ((((((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__ld) 
-                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__lhu)) 
-                     | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
-                    | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
-                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
-                  | (IData)(vlSelf->top__DOT__HY_CU__DOT__lbu)) 
-                 | (IData)(vlSelf->top__DOT__HY_CU__DOT__lb)) 
-                | (IData)(vlSelf->top__DOT__HY_CU__DOT__lwu)) 
-               | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
-              | (IData)(vlSelf->top__DOT__HY_CU__DOT__sh)) 
-             | (IData)(vlSelf->top__DOT__HY_CU__DOT__lh)) 
-            | (IData)(vlSelf->top__DOT__HY_CU__DOT__sd)) 
-           | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
-          | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
-         | (IData)(vlSelf->top__DOT__HY_CU__DOT__sh))) {
+    if (((((((((((((((((IData)(vlSelf->top__DOT__HY_CU__DOT__ld) 
+                       | (IData)(vlSelf->top__DOT__HY_CU__DOT__lhu)) 
+                      | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
+                     | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
+                    | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
+                   | (IData)(vlSelf->top__DOT__HY_CU__DOT__lbu)) 
+                  | (IData)(vlSelf->top__DOT__HY_CU__DOT__lb)) 
+                 | (IData)(vlSelf->top__DOT__HY_CU__DOT__lwu)) 
+                | (IData)(vlSelf->top__DOT__HY_CU__DOT__lw)) 
+               | (IData)(vlSelf->top__DOT__HY_CU__DOT__sh)) 
+              | (IData)(vlSelf->top__DOT__HY_CU__DOT__lh)) 
+             | (IData)(vlSelf->top__DOT__HY_CU__DOT__sd)) 
+            | (IData)(vlSelf->top__DOT__HY_CU__DOT__sw)) 
+           | (IData)(vlSelf->top__DOT__HY_CU__DOT__sb)) 
+          | (IData)(vlSelf->top__DOT__HY_CU__DOT__sh)) 
+         & (~ (IData)(vlSelf->clk)))) {
         if ((8U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
             if ((8U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {
                 if ((8U & (IData)(vlSelf->top__DOT__MEM_Ctrl_connector))) {

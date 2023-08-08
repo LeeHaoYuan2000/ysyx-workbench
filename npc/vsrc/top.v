@@ -105,6 +105,7 @@ module top(
 );
 
 MEM HY_MEM(
+    .clk(clk),
     .MEM_Address(ALU_Result_Connector),
     .Data_Write(RS2_Connector),
     .MEM_Enable(MEM_Enable_Connector),

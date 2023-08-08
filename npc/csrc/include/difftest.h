@@ -7,4 +7,4 @@ static void checkregs(u_int64_t* reg_ref,u_int64_t pc_dut);
 
 void difftest_exe(u_int64_t pc_dut);
 
-inline void difftest_skip_ref() {}
+void difftest_skip_ref();

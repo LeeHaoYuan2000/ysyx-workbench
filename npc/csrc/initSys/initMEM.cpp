@@ -62,22 +62,26 @@ extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata,uint64_t len){
 
     else if((raddr & 0xffffffffa0000000) == 0x00000000a0000000){
          *rdata =  mmio_read(raddr, len);
+         return ;
     }
    
-
+    //out_of_mem(raddr);
     return ;
 }
 
 
 extern "C" void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
+    
     if(in_pmem(waddr)){
         host_write(guest_to_host(waddr), wmask , wdata);
         return ;
     }
     else if((waddr & 0x00000000a0000000) == 0x00000000a0000000){
+       // printf("in mem write device \n");
         mmio_write(waddr , wmask , wdata);
+        return ;
     }
-    
+   // out_of_mem(waddr);
     return ;
 }
 
@@ -91,7 +95,7 @@ uint32_t MEMRead_instr(uint64_t raddr){
         return pmem_instr(raddr);
     }
 
-    out_of_mem(raddr);
+   // out_of_mem(raddr);
 
     return 0;
 }

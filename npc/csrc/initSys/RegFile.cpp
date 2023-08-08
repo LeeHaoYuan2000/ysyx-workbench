@@ -48,12 +48,18 @@ uint8_t* reg_ebreak = NULL;
 
 uint64_t cpu_reg[32];
 
+//bool* isInstrEmpty;
+
 const char *regs[] = {
   "$0", "ra", "sp", "gp", "tp", "t0", "t1", "t2",
   "s0", "s1", "a0", "a1", "a2", "a3", "a4", "a5",
   "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7",
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
+
+// extern "C" void instr_invalid(const svOpenArrayHandle r){
+//         isInstrEmpty = (bool*)(((VerilatedDpiOpenVar*)r)->datap());
+// }
 
 extern "C" void check_ebreak(const svOpenArrayHandle r) {
   reg_ebreak = (uint8_t *)(((VerilatedDpiOpenVar*)r)->datap());
@@ -263,4 +269,13 @@ bool difftest_checkregs(uint64_t* ref_regs,uint64_t pc_dut){//将当前的ref的
     }
 
     return true;//difftest is ok
+}
+
+// bool getInstr_ValidFlag(){//get the instr is valid
+//     return *isInstrEmpty;
+// }
+
+uint64_t* get_cpu_regs(){
+    refresh_reg_value();
+    return cpu_reg;
 }

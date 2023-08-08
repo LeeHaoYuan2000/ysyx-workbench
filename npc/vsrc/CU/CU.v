@@ -1,4 +1,5 @@
 import "DPI-C" function void check_ebreak(input logic [7:0] ebreak_reg[]);
+//import "DPI-C" function void instr_invalid(input logic isInstrEmpty[]);
 
 module ControUnit(
     input  [31:0] instr,
@@ -21,10 +22,15 @@ module ControUnit(
 
 initial begin
     check_ebreak(ebreak_reg);
+//    instr_invalid(isInstrEmpty);
 end
+
 reg [7:0] ebreak_reg;
+//reg isInstrEmpty ;
+
 always @(*) begin
-    ebreak_reg = {8{ebreak}};
+    ebreak_reg   = {8{ebreak}};
+//    isInstrEmpty = ~instr_valid;
 end
 
 wire [6:0] instr_6_0;
@@ -174,6 +180,8 @@ wire TypeR = (addw | subw | add | sub |
              srlw | _or | _and | divu |
              divuw| remu| remuw| sll  |
              _xor );
+
+//wire       instr_valid = (TypeI |  TypeU | TypeS | TypeJ | TypeB | TypeR); //make sure the instruction is valid
 
 wire ALU_Adder    = (addi | addiw | addw | subw | add | sub | jalr);
 wire ALU_Mul      = (mulw | mul);

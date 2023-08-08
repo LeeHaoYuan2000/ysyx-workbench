@@ -1,6 +1,7 @@
 #include "../include/sim_init.h"
 #include "../../obj_dir/Vtop.h"
 #include "../include/initMEM.h"
+#include "../include/RegFile.h"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include "verilated_dpi.h"
@@ -8,6 +9,7 @@
 #include "../include/macro.h"
 #include "../include/globalDefine.h"
 #include "../include/device.h"
+#include "assert.h"
 
 #define no_argument 0
 #define required_argument 1 
@@ -147,8 +149,8 @@ void sim_rst_n(uint32_t n){
       //fetch the instr
 
       if(output_reg){
-          printf("Instruction: %08x \n",instr);
-          printf("PC: %016lx\n",PC);
+           IFDEF(Difftest_On,printf("Instruction: %08x \n",instr));
+           IFDEF(Difftest_On,printf("PC: %016lx\n",PC));
       }
 
             //show up the regs
@@ -156,8 +158,8 @@ void sim_rst_n(uint32_t n){
           output_reg++;
       }
       else{
-        difftest_exe(PC);
-        Output_gpr();
+        IFDEF(Difftest_On,difftest_exe(PC)) ;
+        IFDEF(Difftest_On,Output_gpr());
       }
 
       
@@ -179,6 +181,11 @@ void sim_rst_n(uint32_t n){
       }
 
       sim_single_cycle();
+
+      // if(getInstr_ValidFlag()){
+      //   printf("Instruction Unfinish !! please add more instruction !!! \n");
+      //   assert(0);
+      // }
 
       IFDEF(Device_On,device_update());
 

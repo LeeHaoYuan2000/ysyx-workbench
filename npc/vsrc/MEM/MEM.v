@@ -3,6 +3,7 @@ import "DPI-C" function void pmem_write(input longint waddr,input longint wdata,
 
 
 module MEM(
+    input  clk,
     input  [63:0] MEM_Address,
     input  [63:0] Data_Write,
     input         MEM_Enable,
@@ -30,7 +31,7 @@ wire [63:0] Data_To_MEM = Data_Write;  // Data need to be write
 
 
 always@(*) begin
-    if (MEM_Enable) begin
+    if (MEM_Enable && ~clk ) begin
          case (Ctrl[3])
         1'b0:begin
         case(Ctrl)

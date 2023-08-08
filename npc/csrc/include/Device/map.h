@@ -20,7 +20,7 @@ typedef struct {
   int i;
   for (i = 0; i < size; i ++) {
     if (map_inside(maps + i, addr)) {
-      //difftest_skip_ref();
+      difftest_skip_ref();
       return i;
     }
   }

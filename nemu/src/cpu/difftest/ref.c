@@ -41,8 +41,17 @@ void difftest_regcpy(void *dut, bool direction) {
     }
   }
   else{
-    printf("不想ref到dut的方向\n");
-    assert(0);
+
+    for(int i = 0; i < 33; i++){
+      if(i == 32){
+        cpu.pc     = *(((uint64_t*)dut) + i);
+      }
+      else{
+        cpu.gpr[i] = *(((uint64_t*)dut) + i); 
+      }
+    }
+    //printf("不想ref到dut的方向\n");
+    //assert(0);
   }
 
 }
