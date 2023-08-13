@@ -60,14 +60,13 @@ void difftest_exe(u_int64_t pc_dut){
     uint64_t ref_PC = 0;
 
     if(is_skip_ref){
-        regs[32] = pc_dut;
         uint64_t* reg_data = get_cpu_regs();
         
         for(int i = 0; i < 32 ; i++){
             regs[i] = *(reg_data + i);
         }
 
-        regs[32] = pc_dut;
+        regs[32] = pc_dut + 4;
         ref_difftest_regcpy(regs,Difftest_To_Ref);
         is_skip_ref = false;
         return ;

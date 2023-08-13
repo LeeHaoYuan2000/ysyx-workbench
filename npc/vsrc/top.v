@@ -11,6 +11,13 @@ module top(
     output [63:0] RS2_OUTPUT,
     output [63:0] ALU_Result,
 
+    output        MEM_Enable,//存储器使能信号
+    output        MEM_Read,// 1 存储器读取 ， 0  存储器写入
+    output [3:0]  MEM_DataLenth,
+    output [63:0] MEM_Addr,//存储地址
+    output [63:0] MEM_Dataoutput,//向存储器写入数据
+    input  [63:0] MEM_Datainput,//读取存储器的数据
+
     output WriteBack_Enable_result,
     output C_RS1_PC_Connector_result,
     output C_RS2_imm_Connector_result,
@@ -110,7 +117,14 @@ MEM HY_MEM(
     .Data_Write(RS2_Connector),
     .MEM_Enable(MEM_Enable_Connector),
     .Ctrl(MEM_Ctrl_connector),
-    .MEM_Data_out(MEM_Result_Connector)
+    .MEM_Data_out(MEM_Result_Connector),
+
+    .MEM_Enable_Top( MEM_Enable ),
+    .MEM_Read_Top( MEM_Read ),
+    .MEM_DataLenth_Top( MEM_DataLenth ),
+    .MEM_Addr_Top( MEM_Addr ),
+    .MEM_Dataoutput_Top( MEM_Dataoutput ),
+    .MEM_Dataiput_Top( MEM_Datainput )
 );
 
 wire [63:0] RS1_Connector;

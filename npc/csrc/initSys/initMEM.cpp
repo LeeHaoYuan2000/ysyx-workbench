@@ -1,4 +1,3 @@
-#include "verilated_dpi.h"
 #include <iostream>
 #include <stdlib.h>
 #include <malloc.h>
@@ -8,6 +7,7 @@
 #include "../include/globalDefine.h"
 #include "../include/macro.h"
 #include "../include/Device/mmio.h"
+#include "../../obj_dir/Vtop.h"
 
 #define CONFIG_MSIZE 0x8000000
 #define MEM_Start 0x80000000
@@ -54,7 +54,7 @@ void out_of_mem(u_int64_t addr){
 
 
 //use the little endian to store the date
-extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata,uint64_t len){
+void pmem_read(uint64_t raddr,uint64_t* rdata,uint64_t len){
     if(in_pmem(raddr)){
         *rdata = host_read(guest_to_host(raddr),len);
         return ;
@@ -65,23 +65,21 @@ extern "C" void pmem_read(uint64_t raddr,uint64_t* rdata,uint64_t len){
          return ;
     }
    
-    //out_of_mem(raddr);
+    out_of_mem(raddr);
     return ;
 }
 
 
-extern "C" void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
-    
+void pmem_write(uint64_t waddr,uint64_t wdata, uint8_t wmask){
     if(in_pmem(waddr)){
         host_write(guest_to_host(waddr), wmask , wdata);
         return ;
     }
     else if((waddr & 0x00000000a0000000) == 0x00000000a0000000){
-       // printf("in mem write device \n");
         mmio_write(waddr , wmask , wdata);
         return ;
     }
-   // out_of_mem(waddr);
+     out_of_mem(waddr);
     return ;
 }
 
@@ -94,9 +92,7 @@ uint32_t MEMRead_instr(uint64_t raddr){
     if(in_pmem(raddr)){
         return pmem_instr(raddr);
     }
-
-   // out_of_mem(raddr);
-
+    out_of_mem(raddr);
     return 0;
 }
 
@@ -106,6 +102,21 @@ uint8_t* getMEMAddr(){
 
 void MEM_init(){
     printf("Memory Size: %ld\n",sizeof(Memory));
+}
+
+
+void MEM_Opration(Vtop* top){//
+    if(top->MEM_Enable == 1){
+        if(top->MEM_Read){//进行read 操作
+            u_int64_t rdata;
+            pmem_read(top->MEM_Addr , &rdata , top->MEM_DataLenth);
+            top->MEM_Datainput = rdata;
+        }
+        else{//进行write 操作
+            pmem_write(top->MEM_Addr,top->MEM_Dataoutput,top->MEM_DataLenth);
+        }
+    }
+
 }
 
 

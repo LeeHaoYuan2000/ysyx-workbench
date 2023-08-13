@@ -7,7 +7,7 @@
 static uint64_t start_time = 0;
 
 void __am_timer_init() {
-  start_time = ind(RTC_ADDR);
+  //start_time = ind(RTC_ADDR);
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {

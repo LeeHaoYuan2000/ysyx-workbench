@@ -118,6 +118,9 @@ int parse_args(int argc,char *argv[]){
 }
 
  void  sim_single_cycle(){
+  top->eval();
+  MEM_Opration(top);
+  top->eval();
   top->clk = 0;// 0 
   exe_and_dump();
   top->clk = 1; // 1
@@ -149,8 +152,8 @@ void sim_rst_n(uint32_t n){
       //fetch the instr
 
       if(output_reg){
-           IFDEF(Difftest_On,printf("Instruction: %08x \n",instr));
-           IFDEF(Difftest_On,printf("PC: %016lx\n",PC));
+           //IFDEF(Difftest_On,printf("Instruction: %08x \n",instr));
+           //IFDEF(Difftest_On,printf("PC: %016lx\n",PC));
       }
 
             //show up the regs
@@ -158,8 +161,8 @@ void sim_rst_n(uint32_t n){
           output_reg++;
       }
       else{
+        //IFDEF(Difftest_On,Output_gpr());
         IFDEF(Difftest_On,difftest_exe(PC)) ;
-        IFDEF(Difftest_On,Output_gpr());
       }
 
       
@@ -186,6 +189,8 @@ void sim_rst_n(uint32_t n){
       //   printf("Instruction Unfinish !! please add more instruction !!! \n");
       //   assert(0);
       // }
+
+      
 
       IFDEF(Device_On,device_update());
 

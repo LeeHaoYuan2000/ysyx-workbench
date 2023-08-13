@@ -2,6 +2,7 @@
 #include <klib-macros.h>
 #include <amdev.h>
  #include "stdio.h"
+ #include "assert.h"
 
 void __am_gpu_init();
 void __am_timer_init();
@@ -34,12 +35,25 @@ static void fail(void *buf) { panic("access nonexist register"); }
 
 bool ioe_init() {
   for (int i = 0; i < LENGTH(lut); i++)
-    if (!lut[i]) lut[i] = fail;
-    printf("IOE_init !!!");
-  __am_gpu_init();
-  __am_timer_init();
+    if (!lut[i]){
+       lut[i] = fail;
+       //printf("number %d is  fail \n",i);
+       }
+       else {
+        //printf("number %d is ok \n",i);
+       }
+   // printf("IOE_init !!! \n");
+
+  //__am_gpu_init();
+  //__am_timer_init();
   return true;
 }
 
-void ioe_read (int reg, void *buf) { ((handler_t)lut[reg])(buf); }
-void ioe_write(int reg, void *buf) { ((handler_t)lut[reg])(buf); }
+void ioe_read (int reg, void *buf) { 
+  //printf("ioe_read reg is %d \n",reg);
+  ((handler_t)lut[reg])(buf); 
+  }
+void ioe_write(int reg, void *buf) { 
+  //printf("ioe_write reg is %d \n",reg);
+  ((handler_t)lut[reg])(buf); 
+  }

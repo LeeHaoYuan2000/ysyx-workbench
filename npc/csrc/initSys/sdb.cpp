@@ -105,7 +105,7 @@ static int cmd_help(char *args){
 }
 
 static int cmd_si(char *args){
-   sim_exe(1);
+   sim_exe(10);
    return 0;
 }
 

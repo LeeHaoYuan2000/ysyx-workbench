@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "stdlib.h"
-#include "malloc.h"
+
 #include "assert.h"
 #include "../../../include/Device/map.h"
 #include "../../../include/initMEM.h"

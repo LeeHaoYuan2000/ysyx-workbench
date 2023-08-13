@@ -1,6 +1,8 @@
 #include <am.h>
 #include "include/npc.h"
 #include "../riscv.h"
+#include "../../../../klib/include/klib.h"
+#include "../../../../klib/include/klib-macros.h"
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
@@ -13,6 +15,7 @@ void __am_gpu_init() {
   for (i = 0; i < w * h; i ++) fb[i] = i;
   outl(SYNC_ADDR, 1);
 
+  printf("am gpu init \n");
 }
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
@@ -21,6 +24,8 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
     .width = 400, .height = 300,
     .vmemsz = sizeof(uint32_t)*300*400
   };
+
+  printf("am gpu config \n");
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
@@ -43,6 +48,7 @@ for(int i = 0; i < pix_h; i++){
  }
 }
 
+  printf("am gpu fbdraw\n");
 
 }
 
