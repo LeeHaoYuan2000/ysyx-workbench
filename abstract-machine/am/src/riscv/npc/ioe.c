@@ -42,10 +42,10 @@ bool ioe_init() {
        else {
         //printf("number %d is ok \n",i);
        }
-   // printf("IOE_init !!! \n");
 
-  //__am_gpu_init();
-  //__am_timer_init();
+
+  __am_gpu_init();
+  __am_timer_init();
   return true;
 }
 
