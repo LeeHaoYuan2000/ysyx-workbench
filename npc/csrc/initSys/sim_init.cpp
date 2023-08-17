@@ -15,9 +15,13 @@
 #define required_argument 1 
 #define ebreak 0x00100073
 
-VerilatedContext* contextp = NULL;
-VerilatedVcdC*    tfp      = NULL;
+#ifdef Simulation_On
+  VerilatedContext* contextp = NULL;
+  VerilatedVcdC*    tfp      = NULL;
+#endif
+
 Vtop*             top      = NULL;
+
 
   int output_reg = 0; //flag 
   uint32_t instr = 0;
@@ -113,8 +117,12 @@ int parse_args(int argc,char *argv[]){
 //excute the waveform for once
  void exe_and_dump(){
   top->eval();
-  tfp->dump(contextp->time());
-  contextp->timeInc(1);
+
+  #ifdef Simulation_On
+    tfp->dump(contextp->time());
+    contextp->timeInc(1);
+  #endif
+
 }
 
  void  sim_single_cycle(){
@@ -130,19 +138,24 @@ int parse_args(int argc,char *argv[]){
 //rst n single_clocks
 void sim_rst_n(uint32_t n){
   top->rst = 1;
+
     while(n--){
       sim_single_cycle();
     }
+
   top->rst = 0;
   sim_exe(1);
 }
 
  void sim_exit(){
   exe_and_dump();
-  tfp->close();
+
+  IFDEF(Simulation_On,tfp->close());
+
   delete top;
-  delete tfp;
-  delete contextp;
+  
+  IFDEF(Simulation_On,delete tfp);
+  IFDEF(Simulation_On,delete contextp);
   exit(0);
 }
 
@@ -211,12 +224,21 @@ void sim_init(int argc,char *argv[]){
     IFDEF(Difftest_On,init_difftest(diff_so_file,img_size,1));
 
   //-----------initial the Verilator----------------
+  #ifdef Simulation_On
     contextp = new VerilatedContext;
     tfp      = new VerilatedVcdC;
     top      = new Vtop(contextp);
+  #else
+    top      = new Vtop;
+  #endif
+
+    
+
+  #ifdef Simulation_On
     contextp->traceEverOn(true);
     top->trace(tfp,0);
     tfp->open("sim.vcd");
+  #endif
     
     top->clk = 1;
     top->rst = 1;
