@@ -22,3 +22,13 @@
 #define CONFIG_I8042_DATA_MMIO  0xa0000060
 #define CONFIG_VGA_CTL_MMIO     0xa0000100
 #define CONFIG_FB_ADDR          0xa1000000
+
+
+//colors
+#define NONE           "\033[m"
+#define RED            "\033[0;32;31m"
+#define BLUE           "\033[0;32;34m"
+#define LIGHT_RED      "\033[1;31m"
+#define YELLOW         "\033[1;33m"
+#define WHITE          "\033[1;37m"
+#define GREEN          "\033[0;32;32m"

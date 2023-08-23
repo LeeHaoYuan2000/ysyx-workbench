@@ -66,7 +66,7 @@ else{
     fseek(fp, 0, SEEK_END);
     long size = ftell(fp);
 
-    printf("The image is %s, size = %ld", img_file, size);
+    printf("The image is %s, size = %ld \n", img_file, size);
 
     fseek(fp, 0, SEEK_SET);
     int ret = fread(getMEMAddr(), size, 1, fp);
@@ -185,12 +185,12 @@ void sim_rst_n(uint32_t n){
 
       if(instr == ebreak){
           if(get_a0() == 0){
-              printf("Hit a Good Trap\n");
+              printf(GREEN"Hit a Good Trap\n"NONE);
               //sim_exit();
               return 0;
           }
           else{
-              printf("Hit a Bad  Trap\n");
+              printf(RED"Hit a Bad  Trap\n"NONE);
               //sim_exit();
               return 0;
           }

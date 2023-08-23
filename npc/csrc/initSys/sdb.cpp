@@ -5,6 +5,7 @@
 #include <readline/history.h>
 
 #include "../include/sim_init.h"
+#include "../include/globalDefine.h"
 
 #define NR_CMD 9
 
@@ -83,7 +84,7 @@ void sdb_mainloop() {
       }
     }
 
-    if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
+    if (i == NR_CMD) { printf(RED"Unknown command '%s'\n"NONE, cmd); }
   }
 }
 
