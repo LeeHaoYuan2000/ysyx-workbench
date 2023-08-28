@@ -45,6 +45,9 @@ void init_isa() {
 
   printf("\n");
 
+  /* initialize the mstatus register for difftest */
+  cpu.CSRs[0x300] = 0xa00001800;
+
   /* Initialize this virtual computer system. */
   restart();
 }
