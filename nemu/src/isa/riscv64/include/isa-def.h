@@ -20,8 +20,8 @@
 
 typedef struct {
   word_t gpr[32];
-  word_t CSRs[4096];
   vaddr_t pc;
+  word_t CSRs[4096];
 } riscv64_CPU_state;
 
 // decode

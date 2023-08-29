@@ -52,6 +52,8 @@ __am_asm_trap:
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
+
+  addi t2, t2, 4 #pc + 4 by the software, I add this instruction
   csrw mstatus, t1
   csrw mepc, t2
 

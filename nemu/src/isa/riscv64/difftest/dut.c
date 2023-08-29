@@ -37,6 +37,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   }
   else {
     printf("%s \n","PC is wrong");
+    printf("cpu_pc = %016lx   ref_pc = %016lx \n",cpu.pc , ref_r->pc);
   }
   outputRingBuf();
   return false;

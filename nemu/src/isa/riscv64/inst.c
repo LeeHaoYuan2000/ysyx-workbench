@@ -158,7 +158,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
 
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr( 11 , s->pc));//why no is 11
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , R, s->pc = CSR(mtvec) + 4 );
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , R, s->dnpc = (CSR(mepc)) );
 
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
