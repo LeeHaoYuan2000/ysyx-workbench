@@ -1,4 +1,5 @@
 #include <proc.h>
+#include "../include/loader.h"
 
 #define MAX_NR_PROC 4
 
@@ -25,6 +26,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
+  naive_uload(NULL,NULL);//load program for the first time
 
 }
 

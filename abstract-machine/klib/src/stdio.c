@@ -8,6 +8,7 @@
 int ASCII_number(int n){ //transform the number 0~9 into ASCII
     switch(n)
     {
+    case 0:return  '0';break;
     case 1:return  '1';break;
     case 2:return  '2';break;
     case 3:return  '3';break;
@@ -17,10 +18,15 @@ int ASCII_number(int n){ //transform the number 0~9 into ASCII
     case 7:return  '7';break;
     case 8:return  '8';break;
     case 9:return  '9';break;
-    case 0:return  '0';break;
+    case 10: return 'a';break;
+    case 11: return 'b';break;
+    case 12: return 'c';break;
+    case 13: return 'd';break;
+    case 14: return 'e';break;
+    case 15: return 'f';break;
     
     default:
-      return '0';
+      return 'a';
       break;
     }
 }
@@ -29,53 +35,6 @@ void num2str(char *str,int num){
   bool is_num_native = false;
   int lenth = 0;//record the number lenth
   char str_buf[256];
-  // int i = 0;
-  // char strbuf [32];
-  // if(num == 0){
-  //   str[0] = 48;
-  //   str[1] = '\0';
-  // }
-  // else if(num > 0){
-  //   int cnt = 0;
-  //   int bit = 0;
-  //   while(num != 0){
-  //     bit = num % 10;
-  //     num = num / 10;
-  //     strbuf[cnt] = 48 + bit;
-  //     cnt++; 
-  //   }
-    
-  //   while(cnt != 0){
-  //     str[i] = strbuf[cnt-1];
-  //     cnt--;
-  //     i++;
-  //   }
-  // }
-  // else{
-  //   num = -num;
-  //   int cnt = 0;
-  //   int bit = 0;
-
-  //   while(num != 0){
-  //     bit = num % 10;
-  //     num = num /10;
-  //     strbuf[cnt] = 48 + bit;
-  //     cnt++;
-  //   }
-
-  //   while(cnt != 0){
-  //     if(i == 0){
-  //       str[i] = '-';
-  //     }
-  //     else{
-  //       str[i] = strbuf[cnt-1];
-  //       cnt--;
-  //     }
-  //     i++;
-  //   }
-  // }
-  // str[i] = '\0';
-
   //pre-opration to the number 
   if(num == 0){ 
     str[0] = '0';
@@ -108,6 +67,35 @@ void num2str(char *str,int num){
 
   str[i] = '\0';
 
+}
+
+//Output the number as a hex number
+//regard all the number as unsigned number
+void hex2str(char *str, unsigned int num){
+  int lenth = 0;//record the number lenth
+  char str_buf[256];
+  //pre-opration to the number 
+  if(num == 0){ 
+    str[0] = '0';
+    str[1] = '\0'; //if num is 0
+    return ;//return now
+  }
+
+  while(num){//when the number is 0, stop the circle
+    str_buf[lenth] = ASCII_number(num%16); //将每一次的余数存入str_buf
+    num = num / 16;
+    lenth++;
+  }
+
+  int i = 0;
+
+  while(lenth){//将
+    str[i] = str_buf[lenth-1];
+    lenth--;
+    i++;
+  }
+
+  str[i] = '\0';
 }
 
 int printf(const char *fmt, ...) {
@@ -151,6 +139,46 @@ int printf(const char *fmt, ...) {
               i++;
           }
         break;
+      }
+
+      case 'x':{
+          unsigned int num = va_arg(arg,unsigned int);
+          int i = 0;
+          char str[256];
+          hex2str(str,num);
+          while(str[i] != '\0'){
+              putch(str[i]);
+              i++;
+          }
+        break;
+      }
+      case 'l':{
+          switch (*++fmt)
+          {
+          case 'd':{
+            long int num = va_arg(arg,long int);
+            int i = 0;
+            char str[256];
+            num2str(str,num);
+            while(str[i] != '\0'){
+                putch(str[i]);
+                i++;
+            }
+          }
+            break;
+          case 'x':{
+            unsigned  int num = va_arg(arg,unsigned  int);
+            int i = 0;
+            char str[256];
+            hex2str(str,num);
+            while(str[i] != '\0'){
+                putch(str[i]);
+                i++;
+            }
+          }
+          default:
+            break;
+          }
       }
 
 			default:
