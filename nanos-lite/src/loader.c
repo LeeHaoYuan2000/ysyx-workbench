@@ -39,12 +39,19 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   unsigned char *data_begin_ptr = NULL;
   bool data_begin_flag = false;
 
-  unsigned char elf_file[RAMDISK_SIZE]; //maybe use too much size in this place
+  unsigned char *elf_file = (unsigned char *)malloc(sizeof(Elf64_Ehdr)); //maybe use too much size in this place
 
-  ramdisk_read((void *)elf_file,0,RAMDISK_SIZE);//read the elf file from the ramdisk 
+  printf("elf_file adress %x\n",elf_file);
+
+  ramdisk_read((void *)elf_file,0,sizeof(Elf64_Ehdr));//read the elf file from the ramdisk 
 
   Elf_Ehdr *elf_header     = (Elf_Ehdr *)elf_file;  //the elf file header
-  Elf_Phdr *program_header = (Elf_Phdr *)(elf_file + elf_header->e_phoff);
+
+  Elf_Phdr *program_header = (Elf_Phdr *)malloc(sizeof(Elf64_Phdr) * elf_header->e_phnum);
+
+  ramdisk_read((void *)program_header, elf_header->e_phoff, sizeof(Elf64_Phdr) * elf_header->e_phnum);
+
+  //Elf_Phdr *program_header = (Elf_Phdr *)(elf_file + elf_header->e_phoff);
 
   /*-------------Check The ELF File Header ------------------*/
 
@@ -75,8 +82,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       }
   }
 
-  printf("instruction : %x  \n",*(uint32_t*)data_begin_ptr);
-
+  printf("instruction : %x %x  \n",*(uint32_t*)data_begin_ptr,*((uint32_t*)data_begin_ptr + 1));
+  printf("program entry: %x \n",elf_header->e_entry);
   //TODO();
   return (uintptr_t)elf_header->e_entry;
 }

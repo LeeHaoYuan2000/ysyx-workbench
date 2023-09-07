@@ -5,8 +5,6 @@
 
 static Context* do_event(Event e, Context* c) {
 
-  printf("in do_event !!\n");
-
   switch (e.event) {
 
     case EVENT_YIELD:   printf("event is yield \n"); break;

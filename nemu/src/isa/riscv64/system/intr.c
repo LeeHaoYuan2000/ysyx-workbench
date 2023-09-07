@@ -27,6 +27,8 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.CSRs[mcause] = NO;
   cpu.CSRs[mepc]   = epc;
 
+  printf("irq active!! \n");
+
   return cpu.CSRs[mtvec];//return interrupt address
 }
 
