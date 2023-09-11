@@ -4,6 +4,8 @@
 #include <assert.h>
 #include <time.h>
 #include "syscall.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 // helper macros
 #define _concat(x, y) x ## y
@@ -41,6 +43,9 @@
 #error _syscall_ is not implemented
 #endif
 
+
+extern char end;
+
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
   register intptr_t _gpr2 asm (GPR2) = a0;
@@ -62,14 +67,36 @@ int _open(const char *path, int flags, mode_t mode) {
 }
 
 int _write(int fd, void *buf, size_t count) {
-  
-  _syscall_(SYS_write, fd, buf, count);
+
   //_exit(SYS_write);
-  return 0;
+
+  return  _syscall_(SYS_write, fd, buf, count);
+  
 }
+char *heap_app;
+int flag = 1;
 
 void *_sbrk(intptr_t increment) {
-  return (void *)-1;
+
+  unsigned char *current_heap;
+
+  if(flag == 1){
+    heap_app = (char *)&end;
+    flag += 1;
+  }
+ 
+   if(_syscall_(SYS_brk, heap_app, increment , flag) == 0){ //SYS_brk success return 0;
+
+    current_heap = heap_app;
+    heap_app += increment;
+
+    return (void *)current_heap; // return the old program break if sys_brk is 0
+   }
+   else{
+      return (void *)-1;
+   }
+
+return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {

@@ -3,6 +3,7 @@
 
 void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2);
 unsigned long int write(int fd, void *buf, int len);
+unsigned long int brk(unsigned long int address, int increment);
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -20,6 +21,11 @@ void do_syscall(Context *c) {
     case SYS_write:
       strace(SYS_write,a[1],a[2],a[3]);
       c->GPRx = write( a[1], (void *)a[2], a[3]);
+    break;
+
+    case SYS_brk:
+      strace(SYS_brk,a[1],a[2],a[3]);
+      c->GPRx = brk(a[1],a[2]);
     break;
 
     case SYS_exit:
@@ -42,11 +48,17 @@ void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2
       printf("strace:");
       printf(" SYS_write  a0:%d  a1:%x  a2:%d  \n",a0,a1,a2);
       break;
+
+    case SYS_brk:
+      printf("strace:");
+      printf(" SYS_brk   a0:%x  a1:%x  a2:%x  \n",a0,a1,a2);
+      break;
+
     case SYS_exit:
       printf("strace:");
       printf(" SYS_exit   a0:%d  a1:%d  a2:%d  \n",a0,a1,a2);
       break;
-    
+
     default:
       break;
     }
@@ -68,4 +80,9 @@ unsigned long int write(int fd, void *buf, int len){
   }
   
   return -1;
+}
+
+unsigned long int brk(unsigned long int address, int increment){
+  printf("end address %x \n",address);
+    return 0;
 }
