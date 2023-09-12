@@ -109,54 +109,12 @@ char *strcat(char *dst, const char *src) {
 
 int strcmp(const char *s1, const char *s2) {
   int ret = 0;
-  printf("%s%s",s1,s2);
   while(!(ret = *s1 - *s2) && *s1 != '\0'){
     s1++;
     s2++;
   }
 
   return ret;
-
-
-  // int i = 0;
-  // for (i = 0; s1[i] && s2[i]; i++)
-  // {
-  //   if (s1[i] < s2[i])
-  //     return -1;
-  //   else if (s1[i] > s2[i])
-  //     return 1;
-  // }
-  // if (!s1[i] && s2[i])
-  //   return -1;
-  // if (s1[i] && !s2[i])
-  //   return 1;
-  // return 0;
-
-  // int ret = 0;
-  // for(; *s1 !='\0' && *s2!='\0' ; s1++,s2++){
-  //   ret = *s1 - *s2;
-  //   if(ret!=0)
-  //     return ret; //can not be break!
-  // }
-  // ret = *s1 - *s2; //check for finish '\0'.
-  // return ret;
-
-
-
-    // while ((*s1 != '\0') && (*s1 == *s2))//判断字符串是否结束。
-    // {
-    //     s1++;
-    //     s2++;//
-    // }
-    // int t;
-    // t = *s1 - *s2;//比较对应字符大小。
-    // if (t == 0)
-    //     printf("same string\n");
-    // else if (t > 0)
-    //     printf("str1 is bigger\n");
-    // else
-    //     printf("str2 is bigger\n");
-    // return t;//若相等返回0，前者大返回正值，反之则负。
 
   //panic("Not implemented");
 }
@@ -213,21 +171,13 @@ unsigned char c1 = '\0';
 }
 
 void *memset(void *s, int c, size_t n) {
-  // unsigned long i = 0;
-  // while(i < n){
-  //   *(char *)(s+i) = c;
-  //   i++;
-  // }
-
-  // return s;
 
 const unsigned char uc = c;
      unsigned char *su;
      for(su = s;0 < n;++su,--n)
          *su = uc;
      return s;
-
-  //panic("Not implemented");
+     
 }
 
 void *memmove(void *dst, const void *src, size_t n) {
