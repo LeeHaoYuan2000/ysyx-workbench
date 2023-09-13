@@ -1,6 +1,7 @@
 #include <proc.h>
 #include <elf.h>
 #include "../include/ramdisk.h"
+#include "../include/fs.h"
 
 #ifdef __LP64__
 # define Elf_Ehdr Elf64_Ehdr
@@ -36,56 +37,96 @@ void display_program_header(Elf_Phdr *program_header);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
 
-  unsigned char *data_begin_ptr = NULL;
-  bool data_begin_flag = false;
+  // unsigned char *data_begin_ptr = NULL;
+  // bool data_begin_flag = false;
 
-  unsigned char *elf_file = (unsigned char *)malloc(sizeof(Elf64_Ehdr)); //maybe use too much size in this place
+  // unsigned char *elf_file = (unsigned char *)malloc(sizeof(Elf64_Ehdr)); //maybe use too much size in this place
 
-  printf("elf_file adress %x\n",elf_file);
+  // printf("elf_file adress %x\n",elf_file);
 
-  ramdisk_read((void *)elf_file,0,sizeof(Elf64_Ehdr));//read the elf file from the ramdisk 
+  // ramdisk_read((void *)elf_file,0,sizeof(Elf64_Ehdr));//read the elf file from the ramdisk 
 
-  Elf_Ehdr *elf_header     = (Elf_Ehdr *)elf_file;  //the elf file header
+  // Elf_Ehdr *elf_header     = (Elf_Ehdr *)elf_file;  //the elf file header
 
-  Elf_Phdr *program_header = (Elf_Phdr *)malloc(sizeof(Elf64_Phdr) * elf_header->e_phnum);
+  // Elf_Phdr *program_header = (Elf_Phdr *)malloc(sizeof(Elf64_Phdr) * elf_header->e_phnum);
 
-  ramdisk_read((void *)program_header, elf_header->e_phoff, sizeof(Elf64_Phdr) * elf_header->e_phnum);
+  // ramdisk_read((void *)program_header, elf_header->e_phoff, sizeof(Elf64_Phdr) * elf_header->e_phnum);
 
-  //Elf_Phdr *program_header = (Elf_Phdr *)(elf_file + elf_header->e_phoff);
+  // //Elf_Phdr *program_header = (Elf_Phdr *)(elf_file + elf_header->e_phoff);
 
-  /*-------------Check The ELF File Header ------------------*/
+  // /*-------------Check The ELF File Header ------------------*/
 
-    assert( *(uint32_t *)elf_header->e_ident == 0x464c457f );// ckeck the magic number
-    assert(elf_header->e_machine == EXPECT_TYPE);
+  //   assert( *(uint32_t *)elf_header->e_ident == 0x464c457f );// ckeck the magic number
+  //   assert(elf_header->e_machine == EXPECT_TYPE);
 
-  /*------read the data through the program header----------*/
-    display_elf_header(elf_header);
+  // /*------read the data through the program header----------*/
+  //   display_elf_header(elf_header);
 
-  for(int i = 0; i < elf_header->e_phnum ; i++){
-      display_program_header((program_header + i));
-      //when the type is PT_LOAD then load the data
-      if((program_header + i)->p_type == PT_LOAD){
-        unsigned char *current_ptr = (unsigned char *)(program_header + i)->p_vaddr;
+  // for(int i = 0; i < elf_header->e_phnum ; i++){
+  //     display_program_header((program_header + i));
+  //     //when the type is PT_LOAD then load the data
+  //     if((program_header + i)->p_type == PT_LOAD){
+  //       unsigned char *current_ptr = (unsigned char *)(program_header + i)->p_vaddr;
 
-        if(!data_begin_flag){
-          data_begin_flag = true;
-          data_begin_ptr = current_ptr;
-        }
+  //       if(!data_begin_flag){
+  //         data_begin_flag = true;
+  //         data_begin_ptr = current_ptr;
+  //       }
 
-        ramdisk_read((void *)current_ptr,(program_header + i)->p_offset,(program_header + i)->p_memsz);//write the data to the mem 
+  //       ramdisk_read((void *)current_ptr,(program_header + i)->p_offset,(program_header + i)->p_memsz);//write the data to the mem 
 
-        //reset the mem between the filesz and the memsize
-        for(int n = 0; n < (program_header + i)->p_memsz - (program_header + i)->p_filesz ; n++){
-            *(current_ptr + program_header->p_filesz + n) = 0;
-        }
+  //       //reset the mem between the filesz and the memsize
+  //       for(int n = 0; n < (program_header + i)->p_memsz - (program_header + i)->p_filesz ; n++){
+  //           *(current_ptr + program_header->p_filesz + n) = 0;
+  //       }
 
-      }
+  //     }
+  // }
+
+  // printf("instruction : %x %x  \n",*(uint32_t*)data_begin_ptr,*((uint32_t*)data_begin_ptr + 1));
+  // printf("program entry: %x \n",elf_header->e_entry);
+  // //TODO();
+  // return (uintptr_t)elf_header->e_entry;
+
+
+  /* Mew Version of loader*/
+
+ unsigned int fd = fs_open(filename, 0, 0); //get the fd when open file
+
+ Elf64_Ehdr elf_header;
+
+ fs_read(fd , (void *)&elf_header , sizeof(Elf64_Ehdr));//read elf_header 
+
+ Elf64_Phdr* program_headers = (Elf64_Phdr*)malloc(sizeof(Elf64_Phdr) * elf_header.e_phnum);
+
+fs_lseek(fd, elf_header.e_phoff , 0);//move the offset pointer to programheader
+fs_read(fd , (void *)program_headers , sizeof(Elf64_Phdr) * elf_header.e_phnum); //read the program header
+
+/*--------------Check ELF Header ------------------*/
+assert(*(uint32_t*)elf_header.e_ident == 0x464c457f);
+assert(elf_header.e_machine == EXPECT_TYPE); //check machine is riscv or not
+
+display_elf_header(&elf_header);
+
+for(int i = 0; i < elf_header.e_phnum ; i++){
+  display_program_header( program_headers + i );
+
+  unsigned char * program_ptr;
+
+  if((program_headers + i)->p_type == PT_LOAD){
+      program_ptr = (unsigned char *)(program_headers + i)->p_vaddr;
+
+      fs_lseek(fd , (program_headers + i)->p_offset, 0);
+      fs_read(fd , (void *)program_ptr , (program_headers + i)->p_memsz);
+
+    //reset .BSS part 
+    for(int n = 0; n < (program_headers + i)->p_memsz - (program_headers + i)->p_filesz; n++){
+    *((unsigned char *)(program_headers + i)->p_vaddr + (program_headers + i)->p_filesz + n) = 0;
+    }
   }
+}
 
-  printf("instruction : %x %x  \n",*(uint32_t*)data_begin_ptr,*((uint32_t*)data_begin_ptr + 1));
-  printf("program entry: %x \n",elf_header->e_entry);
-  //TODO();
-  return (uintptr_t)elf_header->e_entry;
+  return elf_header.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {

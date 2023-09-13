@@ -49,7 +49,6 @@ int fs_open(const char *pathname, int flags, int mode){
 
   int n = 0;
   int file_table_lenth = sizeof(file_table) / sizeof(file_table[0]);
-  printf("file table lenth : %d \n",file_table_lenth);
 
   if(file_offset == NULL){
     file_offset = (long int *)malloc(sizeof(long int) * file_table_lenth);
@@ -64,7 +63,7 @@ int fs_open(const char *pathname, int flags, int mode){
   }
 
   while(n < file_table_lenth){
-    if(strcmp(pathname , file_table[n].name)){
+    if(strcmp(pathname , file_table[n].name) == 0){
       break;
     }
     n++;
@@ -88,9 +87,7 @@ size_t fs_read(int fd, void *buf, size_t len){
     panic("Please open the file before read !! \n");
   }
 
-  if(len > file_size - file_offset[fd]){
-    panic("read lenth is more than file size \n");
-  }
+
 
   switch (fd)
   {
@@ -106,6 +103,9 @@ size_t fs_read(int fd, void *buf, size_t len){
     break;
   
   default:
+  if(len > file_size - file_offset[fd]){
+    panic("read lenth is more than file size \n");
+  }
     ramdisk_read(buf, disk_offset + file_offset[fd], len);
     break;
   }
@@ -122,10 +122,6 @@ size_t fs_write(int fd, const void *buf, size_t len){
         panic("Please open the file before write !! \n");
     }
 
-    if(len >= file_size - file_offset[fd]){
-        panic("write lenth will out of mem");
-    }
-
     switch (fd)
     {
       case FD_STDIN:
@@ -140,11 +136,15 @@ size_t fs_write(int fd, const void *buf, size_t len){
     break;
   
     default:
+
+    if(len >= file_size - file_offset[fd]){
+        panic("write lenth will out of mem");
+    }
       ramdisk_write(buf, disk_offset + file_offset[fd], len);
     break;
     }
 
-    return 
+    return len;
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){
@@ -156,16 +156,16 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     switch (whence)
     {
     case SEEK_SET:
-        file_offset[fd] = offset;
+        file_offset[fd] =  offset;
       break;
     
     case SEEK_CUR:
-      file_offset[fd] = file_offset[fd] + offset;
+      file_offset[fd] =  file_offset[fd] + offset;
     break;
 
     case SEEK_END:
-      file_offset[fd] = file_table[fd].size + offset;
-    break:
+      file_offset[fd] =  file_table[fd].size + offset;
+    break;
     
     default:
       break;
