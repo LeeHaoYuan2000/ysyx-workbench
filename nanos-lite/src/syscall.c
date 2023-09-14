@@ -1,5 +1,6 @@
 #include <common.h>
 #include "syscall.h"
+#include "../include/fs.h"
 
 void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2);
 unsigned long int write(int fd, void *buf, int len);
@@ -20,7 +21,9 @@ void do_syscall(Context *c) {
 
     case SYS_write:
       strace(SYS_write,a[1],a[2],a[3]);
-      c->GPRx = write( a[1], (void *)a[2], a[3]);
+      //c->GPRx = write( a[1], (void *)a[2], a[3]);
+
+       c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
     break;
 
     case SYS_brk:
@@ -65,22 +68,22 @@ void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2
 
 }
 
-unsigned long int write(int fd, void *buf, int len){
-  if(fd == 1){
-    int i = 0;
-    while (i < len)
-    {
-      putch( *((char*)buf + i) );
-      i++;
-    }
-    return i;
-  }
-  else {
-    return len;
-  }
+// unsigned long int write(int fd, void *buf, int len){
+//   if(fd == 1){
+//     int i = 0;
+//     while (i < len)
+//     {
+//       putch( *((char*)buf + i) );
+//       i++;
+//     }
+//     return i;
+//   }
+//   else {
+//     return len;
+//   }
   
-  return -1;
-}
+//   return -1;
+// }
 
 unsigned long int brk(unsigned long int address, int increment){
   //printf("end address %x \n",address);
