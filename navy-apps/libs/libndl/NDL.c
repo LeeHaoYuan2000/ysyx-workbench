@@ -3,13 +3,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/time.h>
+#include "../libos/src/syscall.h"
 
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
+static uint32_t NDL_TimeStart = 0;
+struct timeval *tv;
+
+
 uint32_t NDL_GetTicks() {
-  return 0;
+
+  _gettimeofday(tv,NULL);
+
+  return (tv->tv_sec*1000) - NDL_TimeStart;
 }
 
 int NDL_PollEvent(char *buf, int len) {
@@ -57,6 +66,13 @@ int NDL_Init(uint32_t flags) {
   if (getenv("NWM_APP")) {
     evtdev = 3;
   }
+
+ tv = (struct timeval*)malloc(sizeof(struct timeval));
+
+  _gettimeofday(tv,NULL);
+
+  NDL_TimeStart = (tv->tv_sec*1000); // the unit of NDL_GetTicks is ms
+
   return 0;
 }
 
