@@ -13,7 +13,7 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB , FD_EVENT};
 
 int fs_close(int fd);
 size_t fs_lseek(int fd, size_t offset, int whence);
@@ -36,6 +36,8 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
+  [FD_FB]     = {"/dev",0,0,0},
+  [FD_EVENT]  = {"/dev/events",0,0,events_read,invalid_write},
 #include "files.h"
 };
 
@@ -102,6 +104,10 @@ size_t fs_read(int fd, void *buf, size_t len){
   
   case FD_STDERR:
     break;
+
+  case FD_EVENT:
+    return file_table[FD_EVENT].read(buf, 0 ,len);
+    break;  
   
   default:
   if(len > file_size - file_offset[fd]){

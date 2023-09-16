@@ -13,6 +13,8 @@ static int screen_w = 0, screen_h = 0;
 static uint32_t NDL_TimeStart = 0;
 struct timeval *tv;
 
+#define FD_EVENT 4 
+
 
 uint32_t NDL_GetTicks() {
 
@@ -22,6 +24,10 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
+  //memset(buf,0,len);
+  if(_read(FD_EVENT, buf, len)){
+    return 1;
+  }
   return 0;
 }
 
