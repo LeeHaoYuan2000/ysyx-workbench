@@ -13,8 +13,9 @@ static int screen_w = 0, screen_h = 0;
 static uint32_t NDL_TimeStart = 0;
 struct timeval *tv;
 
+#define FD_FB 3
 #define FD_EVENT 4 
-
+#define FD_DISPINFO 5
 
 uint32_t NDL_GetTicks() {
 
@@ -49,9 +50,28 @@ void NDL_OpenCanvas(int *w, int *h) {
     }
     close(fbctl);
   }
+  unsigned int display_info[2];//dispalyinfo[0] -> width , dispalyinfo[1] -> height
+
+  _read(FD_DISPINFO,(void *)display_info, sizeof(display_info));
+
+  if(*w == 0 || *h == 0){
+    *w = display_info[0];
+    *h = display_info[1];
+  }
+
+  if(*w > display_info[0] || *h > display_info[1]){
+      assert(0);
+  }
+
+
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+
+  uint32_t len = (w << 16) | h; //store the canava size
+
+  _write(FD_FB,pixels,len);
+  
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {

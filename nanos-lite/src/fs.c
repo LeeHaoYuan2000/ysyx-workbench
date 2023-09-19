@@ -13,13 +13,15 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB , FD_EVENT};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB , FD_EVENT, FD_DISPINFO};
 
 int fs_close(int fd);
 size_t fs_lseek(int fd, size_t offset, int whence);
 size_t fs_write(int fd, const void *buf, size_t len);
 size_t fs_read(int fd, void *buf, size_t len);
 int fs_open(const char *pathname, int flags, int mode);
+
+extern unsigned int *Frame_Buffer;  // this variet defined in device.h
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -36,13 +38,18 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
-  [FD_FB]     = {"/dev",0,0,0},
+  [FD_FB]     = {"/dev/fb",0,,0,invalid_read, fb_write}, //write the date to the frame buffer
   [FD_EVENT]  = {"/dev/events",0,0,events_read,invalid_write},
+  [FD_DISPINFO] = {"/proc/dispinfo", 0, 0, dispinfo_read,invalid_write},
 #include "files.h"
 };
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  unsigned int disp_info[2];
+  fs_read(FD_DISPINFO, disp_info, 0);//read the display info 
+  file_table[FD_FB].size = sizeof(uint32_t) * disp_info[0] * disp_info[1];
+  
 }
 
 
@@ -62,7 +69,6 @@ int fs_open(const char *pathname, int flags, int mode){
       file_offset[i] = 0;
       i++;
     }
-
   }
 
   while(n < file_table_lenth){
@@ -107,7 +113,11 @@ size_t fs_read(int fd, void *buf, size_t len){
 
   case FD_EVENT:
     return file_table[FD_EVENT].read(buf, 0 ,len);
-    break;  
+    break; 
+
+  case FD_DISPINFO: //read the display information 
+    return file_table[FD_DISPINFO].read(buf,0,len);
+  break; 
   
   default:
   if(len > file_size - file_offset[fd]){
@@ -141,6 +151,10 @@ size_t fs_write(int fd, const void *buf, size_t len){
   
       case FD_STDERR:
     break;
+
+      case FD_FB: //write date to the frame buffer
+        file_table[FD_FB].write(buf,0,len);
+      break;
   
     default:
 

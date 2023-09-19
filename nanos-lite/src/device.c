@@ -1,6 +1,8 @@
 #include <common.h>
 #include "sys/time.h"
 #include "stdbool.h"
+#include "../include/device.h"
+#include "assert.h"
 
 #if defined(MULTIPROGRAM) && !defined(TIME_SHARING)
 # define MULTIPROGRAM_YIELD() yield()
@@ -54,11 +56,30 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+
+  unsigned int dispaly_width   =  io_read(AM_GPU_CONFIG).width;
+  unsigned int display_height  =  io_read(AM_GPU_CONFIG).height;
+
+  //write dispaly width and height 
+  *(unsigned int*)buf       = dispaly_width;
+  *(unsigned int*)(buf + 1) = display_height;
+
+  return 1;
+
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+
+  __uint32_t h = (__uint32_t)len & 0x0000ffff;
+  __uint32_t w = (__uint32_t)len > 16;
+
+  __uint32_t* pixel = (__uint32_t*)buf;
+
+  io_write(AM_GPU_FBDRAW, 0, 0, pixel, w, h, false);
+
+  io_write(AM_GPU_FBDRAW, 0, 0, (void*)0, 0, 0, true);
+
+  return 1;
 }
 
 int gettime(struct timeval *tv, struct timezone *tz){
