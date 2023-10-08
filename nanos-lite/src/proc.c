@@ -26,7 +26,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(NULL,"/bin/timer-test");//load program for the first time
+  naive_uload(NULL,"/bin/bmp-test");//load program for the first time
 
 }
 

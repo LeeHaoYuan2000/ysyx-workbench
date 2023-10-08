@@ -32,9 +32,18 @@ void do_syscall(Context *c) {
       #ifdef STRACE_ON
       strace(SYS_write,a[1],a[2],a[3]);
       #endif
-      //c->GPRx = write( a[1], (void *)a[2], a[3]);
 
        c->GPRx = fs_write(a[1], (void *)a[2], a[3]);
+    break;
+
+    case SYS_open:
+
+      #ifdef STRACE_ON
+      strace(SYS_open,a[1],a[2],a[3]);
+      #endif
+
+      c->GPRx = fs_open((char *)a[1],a[2],a[3]);
+
     break;
 
     case SYS_brk:
@@ -58,6 +67,25 @@ void do_syscall(Context *c) {
 
     case SYS_read:
        c->GPRx = fs_read(a[1],(void*)a[2],a[3]);
+    break;
+
+    case SYS_lseek:
+
+      #ifdef STRACE_ON
+      strace(SYS_lseek,a[1],a[2],a[3]);
+      #endif
+
+    c->GPRx = fs_lseek(a[1],a[2],a[3]);
+
+    break;
+
+    case SYS_close:
+
+      #ifdef STRACE_ON
+      strace(SYS_close,a[1],a[2],a[3]);
+      #endif
+
+      c->GPRx = fs_close(a[1]);
     break;
 
     case SYS_exit:
@@ -97,6 +125,14 @@ void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2
     case SYS_exit:
       printf(" SYS_exit   a0:%d  a1:%d  a2:%d  \n",a0,a1,a2);
       break;
+
+    case SYS_open:
+      printf(" SYS_Open    a0:%d  a1:%d  a2:%d  \n",a0,a1,a2);
+    break;
+
+    case SYS_lseek:
+      printf(" SYS_lseek   a0:%d  a1:%d  a2:%d  \n",a0,a1,a2);
+    break;
 
     default:
       break;

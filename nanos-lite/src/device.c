@@ -2,7 +2,6 @@
 #include "sys/time.h"
 #include "stdbool.h"
 #include "../include/device.h"
-#include "assert.h"
 
 #if defined(MULTIPROGRAM) && !defined(TIME_SHARING)
 # define MULTIPROGRAM_YIELD() yield()
@@ -60,9 +59,11 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   unsigned int dispaly_width   =  io_read(AM_GPU_CONFIG).width;
   unsigned int display_height  =  io_read(AM_GPU_CONFIG).height;
 
+  printf("diaplay_width:%d   display_height:%d  \n",dispaly_width,display_height);
+
   //write dispaly width and height 
   *(unsigned int*)buf       = dispaly_width;
-  *(unsigned int*)(buf + 1) = display_height;
+  *((unsigned int*)buf + 1) = display_height;
 
   return 1;
 
@@ -71,7 +72,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 size_t fb_write(const void *buf, size_t offset, size_t len) {
 
   __uint32_t h = (__uint32_t)len & 0x0000ffff;
-  __uint32_t w = (__uint32_t)len > 16;
+  __uint32_t w = (__uint32_t)len >> 16;
 
   __uint32_t* pixel = (__uint32_t*)buf;
 

@@ -38,7 +38,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
-  [FD_FB]     = {"/dev/fb",0,,0,invalid_read, fb_write}, //write the date to the frame buffer
+  [FD_FB]     = {"/dev/fb",0, 0,invalid_read, fb_write}, //write the date to the frame buffer
   [FD_EVENT]  = {"/dev/events",0,0,events_read,invalid_write},
   [FD_DISPINFO] = {"/proc/dispinfo", 0, 0, dispinfo_read,invalid_write},
 #include "files.h"
@@ -46,9 +46,12 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+
   unsigned int disp_info[2];
   fs_read(FD_DISPINFO, disp_info, 0);//read the display info 
   file_table[FD_FB].size = sizeof(uint32_t) * disp_info[0] * disp_info[1];
+
+  printf("DISPLAY_INFO %d  , %d \n",disp_info[0],disp_info[1]);
   
 }
 
@@ -92,7 +95,7 @@ size_t fs_read(int fd, void *buf, size_t len){
   unsigned int file_size   = file_table[fd].size;
   unsigned int disk_offset = file_table[fd].disk_offset;
 
-  if(file_offset == NULL){
+  if(file_offset == NULL && fd != 5){
     panic("Please open the file before read !! \n");
   }
 
@@ -120,9 +123,9 @@ size_t fs_read(int fd, void *buf, size_t len){
   break; 
   
   default:
-  if(len > file_size - file_offset[fd]){
-    panic("read lenth is more than file size \n");
-  }
+  // if(len > file_size - file_offset[fd]){
+  //   panic("read lenth is more than file size \n");
+  // }
     ramdisk_read(buf, disk_offset + file_offset[fd], len);
     break;
   }
@@ -135,7 +138,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
     unsigned int file_size   = file_table[fd].size;
     unsigned int disk_offset = file_table[fd].disk_offset;
 
-    if(file_offset == NULL ){
+    if(file_offset == NULL && fd != 5){
         panic("Please open the file before write !! \n");
     }
 
@@ -192,7 +195,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
       break;
     }
 
-    return 0;
+    return file_offset[fd];
 
 }
 
