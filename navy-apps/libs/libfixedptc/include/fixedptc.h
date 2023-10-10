@@ -169,7 +169,7 @@ static inline fixedpt fixedpt_floor(fixedpt A) {
 		result = fixedpt_rconst( fixedpt_toint(A) );
 	}
 	else{
-		result = fixedpt_rconst( fixedpt_toint(A) - 1);
+		result = fixedpt_rconst( fixedpt_toint(A));
 	}
 
 	return result;
@@ -183,7 +183,7 @@ static inline fixedpt fixedpt_ceil(fixedpt A) {
 		result = fixedpt_rconst( fixedpt_toint(A) + 1);
 	}
 	else{
-		result = fixedpt_rconst( fixedpt_toint(A));
+		result = fixedpt_rconst( fixedpt_toint(A) + 1);
 	}
 
 	return result;

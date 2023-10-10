@@ -1,4 +1,4 @@
-#include "fixedptc.h"
+#include "./include/fixedptc.h"
 
 /**
  * Convert the given fixedpt number to a decimal string.

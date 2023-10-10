@@ -14,6 +14,10 @@ static int screen_w = 0, screen_h = 0;
 static uint32_t NDL_TimeStart = 0;
 struct timeval *tv;
 
+//record the canva width and height
+static int canva_width  = 0;
+static int canva_height = 0;
+
 #define FD_FB 3
 #define FD_EVENT 4 
 #define FD_DISPINFO 5
@@ -64,13 +68,20 @@ void NDL_OpenCanvas(int *w, int *h) {
       assert(0);
   }
 
+  canva_width  = *w;
+  canva_height = *h;
 
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  uint32_t len = 0;
 
-  uint32_t len = (w << 16) | h; //store the canava size
-
+if(w != 0 && h != 0){
+  len = (w << 16) | h; //store the canava size
+}
+else{
+  len = (canva_width << 16 ) | canva_height;
+}
   _write(FD_FB,pixels,len);
   
 }
