@@ -10,11 +10,28 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+    int cnt_w = 0;
+    int cnt_h = 0;
+  if(dstrect == NULL){//if dstrect is null the hole surface is need the refresh
+          for(cnt_h = 0; cnt_h < dst->h ; cnt_h++){
+            for(cnt_w = 0; cnt_w < dst->w ; cnt_w++){
+              *((uint32_t*)dst->pixels + cnt_w + cnt_h*dst->h) = color;
+          }
+      }
+  }
+  else{
+    for(cnt_h = 0; cnt_h < dstrect->h ; cnt_h++){
+      for(cnt_w = 0; cnt_w < dstrect->w ; cnt_w++){
+        *((uint32_t*) dst->pixels + (dstrect->y + cnt_h)*dst->h + (dstrect->x + cnt_w)) = color;
+      }
+    }
+  }
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 
   NDL_DrawRect(s->pixels, x, y, w, h);
+  
 }
 
 // APIs below are already implemented.

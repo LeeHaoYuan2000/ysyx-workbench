@@ -40,13 +40,29 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
 
-  if(ev.keycode != 0){
+//this is fot the event test,but not fit for the navy app any more
+  // if(ev.keycode != 0){
+  //     memset(buf,0,len);//reset the mem
+  //   if(ev.keydown == DOWN){
+  //       sprintf(buf,"kd %s",keyname[ev.keycode]);
+  //   }
+  //   else {
+  //       sprintf(buf,"ku %s",keyname[ev.keycode]);
+  //   }
+  //   return 1;
+  // }
+
+    if(ev.keycode != 0){
       memset(buf,0,len);//reset the mem
     if(ev.keydown == DOWN){
-        sprintf(buf,"kd %s",keyname[ev.keycode]);
+       // sprintf(buf,"kd %s",keyname[ev.keycode]);
+       *((char *)buf) = 0;
+       *((char *)buf + 1) = keyname[ev.keycode];
     }
     else {
-        sprintf(buf,"ku %s",keyname[ev.keycode]);
+       // sprintf(buf,"ku %s",keyname[ev.keycode]);
+       *((char *)buf) = 1;
+       *((char *)buf + 1) = keyname[ev.keycode];
     }
     return 1;
   }
