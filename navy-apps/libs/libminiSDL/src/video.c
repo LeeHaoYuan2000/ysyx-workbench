@@ -7,6 +7,52 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+
+  int src_x = 0;int src_y = 0;
+  int src_w = 0;int src_h = 0;
+
+  int dst_x = 0;int dst_y = 0;
+
+  if(srcrect == NULL){
+      src_x = 0;
+      src_y = 0;
+      src_w = src->w;
+      src_h = src->h;
+  }
+  else{
+      src_x = srcrect->x;
+      src_y = srcrect->y;
+      src_w = srcrect->w;
+      src_h = srcrect->h;
+  }
+
+  if(dstrect == NULL){
+      dst_x = 0;dst_y = 0;
+  }
+  else{
+      dst_x = dstrect->x;
+      dst_y = dstrect->y;
+  }
+
+  //copy the pixels to  dst
+  int cnt_x = 0;
+  int cnt_y = 0;
+
+  for(cnt_y = 0; cnt_y < src_h ; cnt_y ++){
+
+    if(cnt_y + dst_y > dst->h){
+      break;
+    }
+
+    for(cnt_x = 0; cnt_x < src_w ; cnt_x ++){
+        if(cnt_x + dst_x >= dst->w){
+          break;
+        }
+        *((uint32_t*)dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *((uint32_t*)src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w ); 
+    }
+  }
+
+
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -15,17 +61,21 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   if(dstrect == NULL){//if dstrect is null the hole surface is need the refresh
           for(cnt_h = 0; cnt_h < dst->h ; cnt_h++){
             for(cnt_w = 0; cnt_w < dst->w ; cnt_w++){
-              *((uint32_t*)dst->pixels + cnt_w + cnt_h*dst->h) = color;
+              *((uint32_t*)dst->pixels + cnt_w + cnt_h*dst->w) = color;
           }
       }
+
   }
   else{
     for(cnt_h = 0; cnt_h < dstrect->h ; cnt_h++){
       for(cnt_w = 0; cnt_w < dstrect->w ; cnt_w++){
-        *((uint32_t*) dst->pixels + (dstrect->y + cnt_h)*dst->h + (dstrect->x + cnt_w)) = color;
+        *((uint32_t*) dst->pixels + (dstrect->y + cnt_h)*dst->w + (dstrect->x + cnt_w)) = color;
       }
     }
   }
+
+  SDL_UpdateRect(dst->pixels, 0, 0, 0, 0);
+
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
