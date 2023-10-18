@@ -8,7 +8,7 @@ void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2
 unsigned long int write(int fd, void *buf, int len);
 unsigned long int brk(unsigned long int address, int increment);
 
-#define STRACE_ON
+//#define STRACE_ON
 
 void do_syscall(Context *c) {
   uintptr_t a[4];

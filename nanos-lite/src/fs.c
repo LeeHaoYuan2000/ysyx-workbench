@@ -85,6 +85,8 @@ int fs_open(const char *pathname, int flags, int mode){
     panic("there is no such file \n");
   }
 
+  file_offset[n] = 0;
+
   return n; //return the fd(file describe)
 }
 
