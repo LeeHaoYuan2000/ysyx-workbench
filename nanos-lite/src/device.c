@@ -57,12 +57,14 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     if(ev.keydown == DOWN){
        // sprintf(buf,"kd %s",keyname[ev.keycode]);
        *((char *)buf) = 0;
-       *((char *)buf + 1) = keyname[ev.keycode];
+       *((char *)buf + 1) = ev.keycode;
+       printf("key_down  %s %d\n",keyname[ev.keycode],ev.keycode);
     }
     else {
        // sprintf(buf,"ku %s",keyname[ev.keycode]);
        *((char *)buf) = 1;
-       *((char *)buf + 1) = keyname[ev.keycode];
+       *((char *)buf + 1) = ev.keycode;
+       printf("key_up    %s %d\n",keyname[ev.keycode],ev.keycode);
     }
     return 1;
   }

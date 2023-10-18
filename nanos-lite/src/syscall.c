@@ -66,6 +66,10 @@ void do_syscall(Context *c) {
     break;
 
     case SYS_read:
+          #ifdef STRACE_ON
+            strace(SYS_read,a[1],a[2],a[3]);
+          #endif
+
        c->GPRx = fs_read(a[1],(void*)a[2],a[3]);
     break;
 
@@ -113,6 +117,10 @@ void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2
     case SYS_write:
       printf(" SYS_write  a0:%d  a1:%x  a2:%d  \n",a0,a1,a2);
       break;
+
+    case SYS_read:
+      printf(" SYS_read   a0:%d  a1:%d  a2:%d  \n",a0,a1,a2);
+    break;
 
     case SYS_brk:
       printf(" SYS_brk   a0:%x  a1:%x  a2:%x  \n",a0,a1,a2);

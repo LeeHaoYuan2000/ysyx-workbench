@@ -68,7 +68,7 @@ int fs_open(const char *pathname, int flags, int mode){
 
     //initialize the data in the file_offset
     int i = 0;
-    while(i < sizeof(long int) * file_table_lenth){
+    while(i < file_table_lenth){
       file_offset[i] = 0;
       i++;
     }
@@ -99,8 +99,6 @@ size_t fs_read(int fd, void *buf, size_t len){
     panic("Please open the file before read !! \n");
   }
 
-
-
   switch (fd)
   {
   case FD_STDIN:
@@ -126,7 +124,11 @@ size_t fs_read(int fd, void *buf, size_t len){
   // if(len > file_size - file_offset[fd]){
   //   panic("read lenth is more than file size \n");
   // }
+
+  //  printf("ramdisk_offset: %d \n",disk_offset + file_offset[fd]);
     ramdisk_read(buf, disk_offset + file_offset[fd], len);
+    file_offset[fd] = file_offset[fd] + len;
+
     break;
   }
 
@@ -194,9 +196,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     default:
       break;
     }
-
     return file_offset[fd];
-
 }
 
 int fs_close(int fd){

@@ -51,7 +51,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
         *((uint32_t*)dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *((uint32_t*)src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w ); 
     }
   }
-
+  SDL_UpdateRect(dst, 0, 0, 0, 0);
 
 }
 
@@ -74,7 +74,7 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
     }
   }
 
-  SDL_UpdateRect(dst->pixels, 0, 0, 0, 0);
+  SDL_UpdateRect(dst, 0, 0, 0, 0);
 
 }
 
