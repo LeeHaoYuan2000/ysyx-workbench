@@ -56,7 +56,7 @@ void init_fs() {
 }
 
 
-long int *file_offset = NULL;
+unsigned long int *file_offset = NULL;
 
 int fs_open(const char *pathname, int flags, int mode){
 
@@ -64,15 +64,16 @@ int fs_open(const char *pathname, int flags, int mode){
   int file_table_lenth = sizeof(file_table) / sizeof(file_table[0]);
 
   if(file_offset == NULL){
-    file_offset = (long int *)malloc(sizeof(long int) * file_table_lenth);
+    file_offset = (unsigned long int *)malloc(sizeof(long int) * file_table_lenth);
 
     //initialize the data in the file_offset
+  }
+
     int i = 0;
     while(i < file_table_lenth){
       file_offset[i] = 0;
       i++;
     }
-  }
 
   while(n < file_table_lenth){
     if(strcmp(pathname , file_table[n].name) == 0){
@@ -85,7 +86,6 @@ int fs_open(const char *pathname, int flags, int mode){
     panic("there is no such file \n");
   }
 
-  file_offset[n] = 0;
 
   return n; //return the fd(file describe)
 }
@@ -123,11 +123,16 @@ size_t fs_read(int fd, void *buf, size_t len){
   break; 
   
   default:
-  // if(len > file_size - file_offset[fd]){
-  //   panic("read lenth is more than file size \n");
-  // }
 
-  //  printf("ramdisk_offset: %d \n",disk_offset + file_offset[fd]);
+    if(file_offset[fd] >  file_size){
+      printf("disk_offset > file_size\n");
+      printf("diskoffset is %d ,file size is  %d \n",disk_offset , file_size);
+      return -1;
+    }
+
+    else if(file_offset[fd] + len > file_size){
+      len = file_size -file_offset[fd];
+    }
     ramdisk_read(buf, disk_offset + file_offset[fd], len);
     file_offset[fd] = file_offset[fd] + len;
 
@@ -157,6 +162,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
     break;
   
       case FD_STDERR:
+        return file_table[FD_STDERR].write(buf, 0 , len);
     break;
 
       case FD_FB: //write date to the frame buffer
@@ -165,10 +171,16 @@ size_t fs_write(int fd, const void *buf, size_t len){
   
     default:
 
-    if(len >= file_size - file_offset[fd]){
-        panic("write lenth will out of mem");
-    }
+      if(file_offset[fd] > file_size){
+        return -1;
+      }
+      else if(file_offset[fd] + len > file_size){
+        len = file_size - file_offset[fd];
+      }
+
       ramdisk_write(buf, disk_offset + file_offset[fd], len);
+      file_offset[fd] = file_offset[fd] + len;
+
     break;
     }
 
@@ -202,6 +214,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 }
 
 int fs_close(int fd){
+  file_offset[fd] = 0;
   return 0;//sfs no need to maintain the open status, so always return 0;
 }
 

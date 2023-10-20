@@ -18,10 +18,9 @@ SDL_Surface* IMG_Load(const char *filename) {
 
   //to get the size of the file
   fseek(fp,0,SEEK_END);
-  int size = ftell(fp);
-  fseek(fp,0,SEEK_SET);
-
+  long size = ftell(fp);
   void *buf = malloc(size);//give size of the buf
+  fseek(fp,0,SEEK_SET);
 
   fread(buf, 1 , size ,fp);
 

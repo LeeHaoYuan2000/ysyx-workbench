@@ -95,6 +95,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
  Elf64_Ehdr elf_header;
 
+  printf("fd is %d \n",fd);
  fs_read(fd , (void *)&elf_header , sizeof(Elf64_Ehdr));//read elf_header 
 
  Elf64_Phdr* program_headers = (Elf64_Phdr*)malloc(sizeof(Elf64_Phdr) * elf_header.e_phnum);
