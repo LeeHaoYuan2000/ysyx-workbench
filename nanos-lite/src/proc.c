@@ -26,7 +26,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(NULL,"/bin/nterm-riscv64");//load program for the first time
+  naive_uload(NULL,"/bin/nterm");//load program for the first time
 
 }
 

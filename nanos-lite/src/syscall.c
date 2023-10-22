@@ -2,6 +2,7 @@
 #include "syscall.h"
 #include "../include/fs.h"
 #include "../include/device.h"
+#include "../include/loader.h"
 #include "sys/time.h"
 
 void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2);
@@ -83,6 +84,13 @@ void do_syscall(Context *c) {
 
     break;
 
+    case SYS_execve:
+      #ifdef STRACE_ON
+      strace(SYS_execve,a[1],a[2],a[3]);
+      #endif
+      naive_uload(NULL,(char *)a[1]);
+    break;
+
     case SYS_close:
 
       #ifdef STRACE_ON
@@ -97,8 +105,8 @@ void do_syscall(Context *c) {
     #ifdef STRACE_ON
      strace(SYS_exit,a[1],a[2],a[3]);
      #endif
-
-      halt(0); 
+      naive_uload(NULL,(char *)a[1]);
+      //halt(0); 
     break;
 
     
@@ -140,6 +148,10 @@ void strace(unsigned int type, unsigned int a0, unsigned int a1, unsigned int a2
 
     case SYS_lseek:
       printf(" SYS_lseek   a0:%d  a1:%d  a2:%d  \n",a0,a1,a2);
+    break;
+
+    case SYS_execve:
+      printf(" SYS_execve   Program:%s  \n",a0);
     break;
 
     default:
