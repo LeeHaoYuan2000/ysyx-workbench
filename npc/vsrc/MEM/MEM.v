@@ -41,14 +41,13 @@ parameter MEM_Read  = 1;
 parameter MEM_Write = 0;
 
 
+
 always@(*) begin
     if (MEM_Enable) begin
          case (Ctrl[3])
         1'b0:begin
         case(Ctrl)
             Load_8Bytes: begin
-                //pmem_read(MEM_Address, Data_From_MEM, 64'd8);// read data through dpi-c
-                //MEM_Data_out = Data_From_MEM;
 
                 MEM_Addr_Top = MEM_Address;
                 MEM_DataLenth_Top = 8;
@@ -56,8 +55,6 @@ always@(*) begin
                 MEM_Data_out = MEM_Dataiput_Top;
             end
             Load_2Bytes: begin 
-                // pmem_read(MEM_Address, Data_From_MEM, 64'd2);
-                // MEM_Data_out = {{48{1'b0}},Data_From_MEM[15:0]};
 
                 MEM_Addr_Top = MEM_Address;
                 MEM_DataLenth_Top = 2;
@@ -65,8 +62,6 @@ always@(*) begin
                 MEM_Data_out ={{48{1'b0}},MEM_Dataiput_Top[15:0]};
             end
             Load_1Bytes: begin 
-                // pmem_read(MEM_Address, Data_From_MEM, 64'd1);
-                // MEM_Data_out = {{56{1'b0}},Data_From_MEM[7:0]};
                 
                 MEM_Addr_Top = MEM_Address;
                 MEM_DataLenth_Top = 1;
@@ -74,8 +69,6 @@ always@(*) begin
                 MEM_Data_out ={{56{1'b0}},MEM_Dataiput_Top[7:0]};
             end
             Load_4Bytes_SEXT: begin 
-                // pmem_read(MEM_Address, Data_From_MEM, 64'd4);
-                // MEM_Data_out = {{32{Data_From_MEM[31]}},Data_From_MEM[31:0]};
                 
                 MEM_Addr_Top = MEM_Address;
                 MEM_DataLenth_Top = 4;
@@ -83,8 +76,6 @@ always@(*) begin
                 MEM_Data_out = {{32{MEM_Dataiput_Top[31]}},MEM_Dataiput_Top[31:0]};  
             end
             Load_2Bytes_SEXT: begin 
-                // pmem_read(MEM_Address, Data_From_MEM, 64'd2);
-                // MEM_Data_out = {{48{Data_From_MEM[15]}},Data_From_MEM[15:0]};
 
                 MEM_Addr_Top = MEM_Address;
                 MEM_DataLenth_Top = 2;
@@ -93,8 +84,7 @@ always@(*) begin
             end
 
             Load_4Bytes:begin
-                // pmem_read(MEM_Address, Data_From_MEM, 64'd4);
-                // MEM_Data_out = {{32{1'b0}},Data_From_MEM[31:0]};
+
 
                 MEM_Addr_Top = MEM_Address;
                 MEM_DataLenth_Top = 4;

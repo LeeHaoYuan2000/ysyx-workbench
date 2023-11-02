@@ -2,20 +2,21 @@ module IFU(
     input clk,
     input rst,
 
-    input INSTR_ENABLE,
-    input ALU_MEM_Finish,
+//IFU control signal    
+    input INSTR_ENABLE, //CU allow fetch next instruction
+    input ALU_MEM_Finish, //ALU or MEM operation done
+    output reg busy, //send busy signal to the CU
 
-    output reg busy,//send busy signal to the CU
-    output reg INSTR_VALID,
-
-    input AXI_READ_DONE,
+//PC input and instruction to next stage
     input  [63:0] PC_IN,
+    output reg [63:0] INSTR,
 
+//AXI
+    input AXI_READ_DONE,
+    output reg INSTR_VALID,
     output reg [63:0] AXI4_ADDR,
-    input [63:0] AXI4_DATA,
+    input [63:0] AXI4_DATA
 
-    output reg [63:0] INSTR
-    
 );
 
 //define the states of the IFU
@@ -28,9 +29,11 @@ reg [3:0] next_state    = IDLE;
 
 wire Go_READ_INSTR  = (current_state == IDLE) && INSTR_ENABLE;
 wire Go_HOLD        =  AXI_READ_DONE;
-wire Go_IDLE        = ALU_MEM_Finish;
+wire Go_IDLE        =  ALU_MEM_Finish;
 
-wire Send_Signal;
+reg Send_Signal;
+
+assign AXI4_ADDR[63:0] = PC_IN [63:0];
 
 //state machine 
 always@(posedge clk)begin
@@ -47,6 +50,7 @@ always@(*)begin
     case(current_state)
     IDLE:begin
         if(Go_READ_INSTR)begin
+            next_state = READ_INSTR;
         end
         else begin
             next_state = IDLE;
@@ -54,6 +58,7 @@ always@(*)begin
     end
     READ_INSTR:begin
         if(Go_HOLD)begin
+            next_state = HOLD;
         end
         else begin
             next_state = READ_INSTR;

@@ -10,7 +10,7 @@ module AXI4_READ_MASTER (
     input clk,
     input rst_n,
     input Send_Signal, //when Send_Signal is 1, then begin the send signal
-    output  Send_Finish, //when data received, send 1 to outside axi4 finished
+    output reg Send_Finish, //when data received, send 1 to outside axi4 finished
 
     input [63:0] ADDR,  //data address
     output reg [63:0] receive_DATA,
@@ -43,7 +43,7 @@ wire GO_Finish    = R_VALID;
 wire Go_IDLE      = ~Send_Signal;
 
 assign AR_ADDR      = ADDR;
-assign receive_DATA = BUF_DATA;
+assign receive_DATA[63:0] = R_DATA[63:0];
 
 assign AR_ADDR[63:0] = ADDR[63:0];
 
@@ -122,11 +122,10 @@ always@(posedge clk)begin
             R_READY  <= 1'b1;
 
             if(R_VALID)begin
-                receive_DATA[63:0] <=  R_DATA[63:0];
                 Send_Finish <= 1'b1;
             end
             else begin
-                receive_DATA[63:0] <= receive_DATA[63:0];
+                Send_Finish <= Send_Finish;
             end
         end
 
