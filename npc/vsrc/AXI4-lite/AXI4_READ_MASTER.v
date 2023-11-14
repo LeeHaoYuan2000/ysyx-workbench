@@ -22,11 +22,10 @@ module AXI4_READ_MASTER (
     input  AR_READY,
 
 //Read DATA Channel
-    input R_DATA[63:0],
+    input [63:0]R_DATA,
     input R_RESP, // this port may won`t use in this module
     input R_VALID, 
     output R_READY
-
 );
 
 localparam  IDLE            = 4'b0000;

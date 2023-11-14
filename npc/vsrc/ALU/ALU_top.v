@@ -1,10 +1,34 @@
 
 module ALU_top(
+    input clk,
+    input rst,
+
     input [63:0] src1,
     input [63:0] src2,
     input [3:0]  func_control,
     input [3:0]  inner_control,
-    output [63:0] result_out
+    output [63:0] result_out,
+
+    //CSR port
+    output [11:0] CSR_Read_Addr,
+    input  [63:0] CSR_Read_Data,
+
+    output [11:0] CSR_Write_Addr,
+    output [63:0] CSR_Write_Data,
+    output        Write_En,
+
+    output [63:0] mcause_Write_Data,
+    input  [63:9] mcause_Read_Data,
+    output        mcause_En,
+
+    output [63:0] mepc_Write_Data,
+    input  [63:0] mepc_Read_Data,
+    output [63:0] mepc_En,
+
+    output [63:0] mtvec_Write_Data,
+    input  [63:0] mtvec_Read_Data,
+    output mtvec_En, 
+
 );
 
 parameter MUX_Adder   = 4'd0;

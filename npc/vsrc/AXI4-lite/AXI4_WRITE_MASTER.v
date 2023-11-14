@@ -1,12 +1,15 @@
 /*
+https://www.realdigital.org/doc/a9fee931f7a172423e1ba73f66ca4081
 
+this is the documentation about AXI4-Lite
 */
 
 module AXI4_WRITE_MASTER (
 
     input clk;
     input rst,
-    input MEM_Enable,
+    input Start,
+    output Finish,
 
     input [63:0] WRITE_ADDR,
     input [63:0] WRITE_DATA,
@@ -40,11 +43,11 @@ localparam HOLD       = 4'b0100;
 reg [3:0] current_state;
 reg [3:0] next_state;
 
-wire  Go_Send_WADDR  = MEM_Enable;
+wire  Go_Send_WADDR  = Start;
 wire  Go_Send_WDATA  = AW_READY;
 wire  Go_Wait_RESP   = W_READY;
 wire  Go_HOLD        = B_VALID;
-wire  Go_IDLE        = ~MEM_Enable;
+wire  Go_IDLE        = ~Start;
 
 assign AW_ADDR = WRITE_ADDR;
 assign W_DATA  = WRITE_DATA;

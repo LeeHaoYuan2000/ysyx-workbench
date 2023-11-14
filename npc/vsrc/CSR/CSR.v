@@ -7,6 +7,7 @@ module CSR (
 
     input [11:0] write_address,
     input [63:0] wirte_date,
+    input write_en,
 
     input [63:0] mcause_in,
     output reg [63:0] mcause.
