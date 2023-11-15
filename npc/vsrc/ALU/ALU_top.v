@@ -39,6 +39,7 @@ parameter MUX_Logic   = 4'd4;
 parameter MUX_MUL     = 4'd5;
 parameter auipc       = 4'd6;
 parameter lui         = 4'd7;
+parameter MUX_CSR_OP  = 4'd8;
 
 wire [63:0] Adder_out;
 wire [63:0] Shift_out;
@@ -46,6 +47,7 @@ wire [63:0] Compare_out;
 wire [63:0] DIV_out;
 wire [63:0] Logic_out;
 wire [63:0] MUL_out;
+wire [63:0] CSR_OP_out;
 
 
 Adder ALU_adder(
@@ -90,6 +92,32 @@ DIV ALU_DIV(
     .result_out(DIV_out)
     );
 
+CSR_OP csr_op(
+    .src1(src1),
+    .src2(src2),
+    .control(inner_control),
+    .result_out(CSR_OP_out), //output R(rd) or mem address
+
+    .CSR_Read_Addr(CSR_Read_Addr),
+    .CSR_Read_Data(CSR_Read_Data),
+
+    .CSR_Write_Addr(CSR_Write_Addr),
+    .CSR_Write_Data(CSR_Write_Data),
+    .Write_En(Write_En),
+
+    .mcause_Write_Data(mcause_Write_Data),
+    .mcause_Read_Data(mcause_Read_Data),
+    .mcause_En(mcause_En),
+
+    .mepc_Write_Data(mepc_Write_Data),
+    .mepc_Read_Data(mepc_Read_Data),
+    .mepc_En(mepc_En),
+
+    .mtvec_Write_Data(mtvec_Write_Data),
+    .mtvec_Read_Data(mtvec_Read_Data),
+    .mtvec_En(mtvec_En)
+);
+
 MuxKeyWithDefault #(8,4,64) Adder_mux (result_out,func_control,64'd0,{
     MUX_Adder   , Adder_out,  
     MUX_Shift   , Shift_out, 
@@ -98,7 +126,8 @@ MuxKeyWithDefault #(8,4,64) Adder_mux (result_out,func_control,64'd0,{
     MUX_Logic   , Logic_out,  
     MUX_MUL     , MUL_out,
     auipc       , Adder_out,   
-    lui         , src2        
+    lui         , src2,
+    MUX_CSR_OP  , CSR_OP_out
 });
 
 

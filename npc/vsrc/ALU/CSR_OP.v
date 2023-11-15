@@ -18,11 +18,11 @@ module CSR_OP(
 
     output [63:0] mepc_Write_Data,
     input  [63:0] mepc_Read_Data,
-    output [63:0] mepc_En,
+    output        mepc_En,
 
     output [63:0] mtvec_Write_Data,
     input  [63:0] mtvec_Read_Data,
-    output mtvec_En, 
+    output mtvec_En
 );
 
 
@@ -67,7 +67,6 @@ always@(*)begin
 
     end
     default:begin
-
         result_out         <= 64'd0;
         CSR_Read_Addr      <= 12'd0;
         CSR_Write_Addr     <= 12'd0;
@@ -78,7 +77,6 @@ always@(*)begin
         mepc_En            <= 1'd0;
         mtvec_Write_Data   <= 64'd0;
         mtvec_En           <= 1'd0;
-
     end
     endcase
 end

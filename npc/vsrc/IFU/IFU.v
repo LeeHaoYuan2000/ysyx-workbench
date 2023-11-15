@@ -13,6 +13,7 @@ module IFU(
 
 //AXI
     input AXI_READ_DONE,
+    output reg Send_Signal,
     output reg INSTR_VALID,
     output reg [63:0] AXI4_ADDR,
     input [63:0] AXI4_DATA
@@ -31,7 +32,6 @@ wire Go_READ_INSTR  = (current_state == IDLE) && INSTR_ENABLE;
 wire Go_HOLD        =  AXI_READ_DONE;
 wire Go_IDLE        =  ALU_MEM_Finish;
 
-reg Send_Signal;
 
 assign AXI4_ADDR[63:0] = PC_IN [63:0];
 

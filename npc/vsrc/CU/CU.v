@@ -93,6 +93,7 @@ wire divuw  = Match_6_0_0111011 & Match_14_12_101 & Match_31_25_0000001;
 //取余数指令
 wire remw   = Match_6_0_0111011 & Match_14_12_110 & Match_31_25_0000001;
 
+wire rem    = Match_6_0_0110011 & Match_14_12_110 & Match_31_25_0000001; //add 11.15
 wire remu   = Match_6_0_0110011 & Match_14_12_111 & Match_31_25_0000001;
 wire remuw  = Match_6_0_0111011 & Match_14_12_111 & Match_31_25_0000001;
 
@@ -115,6 +116,7 @@ wire slliw  = Match_6_0_0011011 & Match_14_12_001 & Match_31_26_000000;
 wire sraiw  = Match_6_0_0011011 & Match_14_12_101 & Match_31_26_010000;
 
 wire sll    = Match_6_0_0110011 & Match_14_12_001 & Match_31_25_0000000;
+wire srl    = Match_6_0_0110011 & Match_14_12_101 & Match_31_25_0000000;
 
 
 //访存指令
@@ -153,18 +155,25 @@ wire bgeu   = Match_6_0_1100011 & Match_14_12_111;
 wire jal    = Match_6_0_1101111 ; 
 wire jalr   = Match_6_0_1100111 & Match_14_12_000;
 
+wire csrrw  = Match_6_0_1110011 & Match_14_12_001;
+wire csrrs  = Match_6_0_1110011 & Match_14_12_010;
+
 wire auipc  = Match_6_0_0010111; 
-wire lui    = Match_6_0_0110111 ;   
+wire lui    = Match_6_0_0110111;   
 wire ebreak = (instr[31:0] == 32'b0000000_00001_00000_000_00000_11100_11);
+
+wire ecall  = (instr[31:0] == 32'b0000000_00000_00000_000_00000_11100_11);
+wire mret   = (instr[31:0] == 32'b0011000_00010_00000_000_00000_11100_11);
 
 
 
 //Instruction types
-wire TypeI = (addi | addiw | sltiu | slli |
-            srli | srai | srliw | slliw |
-            sraiw |ld |lw | lbu |lh |lhu|
-            andi | xori | jalr | slti | lb |
-            lwu  | ori);
+wire TypeI = (addi |  addiw |  sltiu |  slli  |
+              srli |  srai  |  srliw |  slliw |
+             sraiw |  ld    |  lw    |  lbu   | 
+             lh    |  lhu   |  andi  |  xori  | 
+             jalr  |  slti  |  lb    |  lwu   | 
+             ori   |  csrrw |  csrrs |  ecall );
             
 wire TypeU = (auipc | lui);
 
@@ -174,12 +183,12 @@ wire TypeJ = (jal);
 
 wire TypeB = (bne | beq | bge | blt | bltu | bgeu);
 
-wire TypeR = (addw | subw | add | sub |
-             mulw | divw | mul | remw |
-             sltu | slt | sraw | sllw |
-             srlw | _or | _and | divu |
-             divuw| remu| remuw| sll  |
-             _xor );
+wire TypeR = (addw | subw | add   | sub |
+             mulw  | divw | mul   | remw |
+             sltu  | slt  | sraw  | sllw |
+             srlw  | _or  | _and  | divu |
+             divuw | remu | remuw | sll  |
+             _xor  | rem  | srl   | mret );
 
 //wire       instr_valid = (TypeI |  TypeU | TypeS | TypeJ | TypeB | TypeR); //make sure the instruction is valid
 
@@ -194,14 +203,16 @@ wire ALU_Branch   = (bne | beq | bge | blt | bltu | bgeu);
 wire ALU_Jump     = (jal );
 wire ALU_auipc    = (auipc);
 wire ALU_lui      = (lui);
+wire ALU_CSROP    = (csrrw | csrrs | ecall | mret);
 
 // The Inner Control of the ALU
 wire ALUInternal_Control_0 = (addi | add | mulw | divw | sraw | sraiw | andi | _and | bne |
-                             ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc | jal | lb | lwu);
+                             ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc | jal | lb | lwu
+                             csrrw );
 
-wire ALUInternal_Control_1 = (sub  | mul | remw | xori | beq | srliw | srlw | _xor);
-wire ALUInternal_Control_2 = (addiw | add | sllw | slliw | _or | bge | addw | divu | ori);
-wire ALUInternal_Control_3 = (subw | slt | srli | blt | divuw | slti);
+wire ALUInternal_Control_1 = (sub  | mul | remw | xori | beq | srliw | srlw | _xor | csrrs);
+wire ALUInternal_Control_2 = (addiw | add | sllw | slliw | _or | bge | addw | divu | ori | ecall );
+wire ALUInternal_Control_3 = (subw | slt | srli | blt | divuw | slti | mret);
 wire ALUInternal_Control_4 = (sltiu | sltu | slli | bltu | jalr | remu | sll);
 wire ALUInternal_Control_5 = (srai | remuw | bgeu );
 
@@ -227,7 +238,7 @@ assign C_NPC_Branch_Jump[1] = (jalr);
 wire [10:0]func_signal = {ALU_Adder    , ALU_Mul    , ALU_Div,
                           ALU_Compare  , ALU_Shift  , ALU_LS,
                           ALU_LogicOpt , ALU_Branch , ALU_Jump,
-                          ALU_auipc    , ALU_lui};
+                          ALU_auipc    , ALU_lui    , ALU_CSROP};
 
 wire [5:0] ALU_inside_signal = {ALUInternal_Control_0 , ALUInternal_Control_1,
                                 ALUInternal_Control_2 , ALUInternal_Control_3,
@@ -246,8 +257,9 @@ wire [3:0] MUX_Compare  = 4'd2;
 wire [3:0] MUX_DIV      = 4'd3;
 wire [3:0] MUX_Logic    = 4'd4;
 wire [3:0] MUX_MUL      = 4'd5;
-wire [3:0] _auipc        = 4'd6;
-wire [3:0] _lui          = 4'd7; 
+wire [3:0] _auipc       = 4'd6;
+wire [3:0] _lui         = 4'd7;
+wire [3:0] MUX_CSR_OP   = 4'd8; 
 
 wire [3:0] Inside_0 = 4'd0;
 wire [3:0] Inside_1 = 4'd1;
@@ -272,18 +284,19 @@ MuxKeyWithDefault #(6,6,4) ALU_Inside_choose (Inside_Control,ALU_inside_signal,4
     6'b00_0001,Inside_5
 }); 
 
-MuxKeyWithDefault #(11,11,4) func_choose (ALU_Control,func_signal,4'd15,{
-    11'b1000_0000_000,MUX_Adder,
-    11'b0100_0000_000,MUX_MUL,
-    11'b0010_0000_000,MUX_DIV,
-    11'b0001_0000_000,MUX_Compare,
-    11'b0000_1000_000,MUX_Shift,
-    11'b0000_0100_000,MUX_Adder,
-    11'b0000_0010_000,MUX_Logic,
-    11'b0000_0001_000,MUX_Compare,
-    11'b0000_0000_100,MUX_Adder,
-    11'b0000_0000_010,_auipc,
-    11'b0000_0000_001,_lui
+MuxKeyWithDefault #(12,12,4) func_choose (ALU_Control,func_signal,4'd15,{
+    12'b1000_0000_0000,MUX_Adder,
+    12'b0100_0000_0000,MUX_MUL,
+    12'b0010_0000_0000,MUX_DIV,
+    12'b0001_0000_0000,MUX_Compare,
+    12'b0000_1000_0000,MUX_Shift,
+    12'b0000_0100_0000,MUX_Adder,
+    12'b0000_0010_0000,MUX_Logic,
+    12'b0000_0001_0000,MUX_Compare,
+    12'b0000_0000_1000,MUX_Adder,
+    12'b0000_0000_0100,_auipc,
+    12'b0000_0000_0010,_lui,
+    12'b0000_0000_0010,MUX_CSR_OP
 }); 
    
 
