@@ -64,7 +64,7 @@ module top(
         .ALU_MEM_Finish(), //ALU or MEM operation done
         .busy(), //send busy signal to the CU
     //PC input and instruction to next stage
-        .PC_IN(),
+        .PC_IN(PC_Wire),
         .INSTR(),
 
     //AXI
@@ -90,100 +90,217 @@ module top(
     .receive_DATA(Data_IFU_AXI),
 
 //Read Address Channel
-    .AR_ADDR(),
-    .AR_VALID(),
-    .AR_PROT(), //won't be use in this module
-    .AR_READY(),
+    .AR_ADDR(AR_Addr_wire),
+    .AR_VALID(AR_Valid_wire),
+    .AR_PROT(AR_Port_Wire), //won't be use in this module
+    .AR_READY(AR_Ready_Wire),
 
 //Read DATA Channel
-    .R_DATA(),
-    .R_RESP(), // this port may won`t use in this module
-    .R_VALID(), 
-    .R_READY()
+    .R_DATA(R_Data_Wire),
+    .R_RESP(R_Resp_Wire), // this port may won`t use in this module
+    .R_VALID(R_Valid_wire), 
+    .R_READY(R_Ready_Wire)
     );
+
+
+    //MEM
+    MEM HY_MEM(
+    .clk(clk),
+    .rst(rst),
+    .MEM_Address(),
+    .Data_Write(),
+    .MEM_Enable(),
+    .Ctrl(),
+    .MEM_Data_out(),
+    .MEM_Finish(),
+
+    //AXI4 port
+        //axi4 write
+    .Write_Start(Write_Start_Wire),
+    .Finish_Write(Finish_Write_Wire),
+    .Write_ADDR(Write_Addr_wire),
+    .Write_Data(Write_Data_Wire),
+        //AXI4 read
+    .Read_Start(Read_Start_Wire),
+    .Finish_Read(Finishi_Read_Wire),
+    .Read_ADDR(Read_Addr_Wire),
+    .Read_Data(Read_Data_Wire)
+    );
+
+    //connection between AXI anb MEM
+    wire Write_Start_Wire;
+    wire Finish_Write_Wire;
+    wire [63:0] Write_Addr_wire;
+    wire [63:0] Write_Data_Wire;
+
+    wire Read_Start_Wire;
+    wire Finishi_Read_Wire;
+    wire [63:0]Read_Addr_Wire;
+    wire [63:0]Read_Data_Wire;
+
+
+    AXI4_READ_MASTER MEM_AXI_Read(
+    .clk(clk),
+    .rst_n(rst),
+    .Send_Signal(Read_Start_Wire), //when Send_Signal is 1, then begin the send signal
+    .Send_Finish(Finishi_Read_Wire), //when data received, send 1 to outside axi4 finished
+
+    .ADDR(Read_Addr_Wire),  //data address
+    .receive_DATA(Read_Data_Wire),
+
+//Read Address Channel
+    .AR_ADDR(MEM_AR_Addr_Wire),
+    .AR_VALID(MEM_AR_Valid_Wire),
+    .AR_PROT(MEM_AR_Port_Wire), //won't be use in this module
+    .AR_READY(MEM_AR_Ready_Wire),
+
+//Read DATA Channel
+    .R_DATA(MEM_R_Data_wire),
+    .R_RESP(MEM_R_Resp_Wire), // this port may won`t use in this module
+    .R_VALID(MEM_R_Valid_Wire), 
+    .R_READY(MEM_R_Ready_Wire)
+    );
+
+    AXI4_WRITE_MASTER MEM_AXI_Write(
+        .clk(clk),
+        .rst(rst),
+        .Start(Write_Start_Wire),
+        .Finish(Finish_Write_Wire),
+        .WRITE_ADDR(Write_Addr_wire),
+        .WRITE_DATA(Write_Data_Wire),
+        //WRite Address Channel
+        .AW_ADDR(MEM_AW_Addr_Wire), // this 
+        .AW_VALID(MEM_AW_Valid_Wire),
+        .AW_PORT(MEM_AW_Port_Wire), //normally ignore the pin in the AXI4-lite
+        .AW_READY(AW_Ready_Wire),
+        // Write Data Channel
+        .W_DATA(MEM_W_Data_Wire),
+        .W_STRB(MEM_W_STRB_Wire), //
+        .W_VALID(MEM_W_Valid_Wire),
+        .W_READY(MEM_W_Ready_Wire),
+        //Write Response Channel
+        .B_RESP(MEM_B_Resp_Wire),
+        .B_READY(MEM_B_Ready_Wire),
+        .B_VALID(MEM_B_Valid_Wire)
+    );
+
+
+
+    //IFU AXI connection
+    wire [63:0]AR_Addr_wire;
+    wire       AR_Valid_wire;
+    wire       AR_Port_Wire;
+    wire       AR_Ready_Wire;
+    wire [63:0]R_Data_Wire;
+    wire       R_Resp_Wire;
+    wire       R_Valid_wire;
+    wire       R_Ready_Wire;
+
+    //MEM AXI connection 
+    wire [63:0] MEM_AR_Addr_Wire;
+    wire        MEM_AR_Valid_Wire;
+    wire        MEM_AR_Port_Wire;
+    wire        MEM_AR_Ready_Wire;
+    wire [63:0] MEM_R_Data_wire;
+    wire        MEM_R_Resp_Wire;
+    wire        MEM_R_Valid_Wire;
+    wire        MEM_R_Ready_Wire;
+
+    wire [63:0] MEM_AW_Addr_Wire;
+    wire        MEM_AW_Valid_Wire;
+    wire        MEM_AW_Port_Wire;
+    wire        MEM_AW_Ready_Wire;
+    wire [63:0] MEM_W_Data_Wire;
+    wire        MEM_W_STRB_Wire;
+    wire        MEM_W_Valid_Wire;
+    wire        MEM_W_Ready_Wire;
+    wire        MEM_B_Resp_Wire;
+    wire        MEM_B_Ready_Wire;
+    wire        MEM_B_Valid_Wire;
+
 
 
     AXI4_InterConnect AXI4_Arbiter(
         //IFU prot 
-    input  IFU_READ_ENABLE,
+    .IFU_READ_ENABLE(),
 
     //Read Address Channel
-    input [63:0] AR_ADDR_IFU,
-    input AR_VALID_IFU,
-    input [2:0]AR_PROT_IFU, //won't be use in this module
-    output  AR_READY_IFU,
+    .AR_ADDR_IFU(AR_Addr_wire),
+    .AR_VALID_IFU(AR_Valid_wire),
+    .AR_PROT_IFU(AR_Port_Wire), //won't be use in this module
+    .AR_READY_IFU(AR_Ready_Wire),
 
     //Read DATA Channel
-    output [63:0]R_DATA_IFU,
-    output R_RESP_IFU, // this port may won`t use in this module
-    output R_VALID_IFU, 
-    input R_READY_IFU,
+    .R_DATA_IFU(R_Data_Wire),
+    .R_RESP_IFU(R_Resp_Wire), // this port may won`t use in this module
+    .R_VALID_IFU(R_Valid_wire), 
+    .R_READY_IFU(R_Ready_Wire),
 
 //MEM Read Port
-    input MEM_READ_ENABLE,
+    .MEM_READ_ENABLE(),
     //Read Address Channel
-    input [63:0] AR_ADDR_MEM,
-    input AR_VALID_MEM,
-    input [2:0]AR_PROT_MEM, //won't be use in this module
-    output  AR_READY_MEM,
+    .AR_ADDR_MEM(MEM_AR_Addr_Wire),
+    .AR_VALID_MEM(MEM_AR_Valid_Wire),
+    .AR_PROT_MEM(MEM_AR_Port_Wire), //won't be use in this module
+    .AR_READY_MEM(MEM_AR_Ready_Wire),
 
     //Read DATA Channel
-    output [63:0]R_DATA_MEM,
-    output R_RESP_MEM, // this port may won`t use in this module
-    output R_VALID_MEM, 
-    input  R_READY_MEM,
+    .R_DATA_MEM(MEM_R_Data_wire),
+    .R_RESP_MEM(MEM_R_Resp_Wire), // this port may won`t use in this module
+    .R_VALID_MEM(MEM_R_Valid_Wire), 
+    .R_READY_MEM(MEM_R_Ready_Wire),
 
 //MEM Write Prot
-    input MEM_WRITE_ENABLE,
+    .MEM_WRITE_ENABLE(),
 
     //WRite Address Channel
-    input  [63:0] AW_ADDR_MEM, // this 
-    input  AW_VALID_MEM,
-    input [2:0] AW_PORT_MEM, //normally ignore the pin in the AXI4-lite
-    output  AW_READY_MEM,
+    .AW_ADDR_MEM(MEM_AW_Addr_Wire), // this 
+    .AW_VALID_MEM(MEM_AW_Valid_Wire),
+    .AW_PORT_MEM(MEM_AW_Port_Wire), //normally ignore the pin in the AXI4-lite
+    .AW_READY_MEM(MEM_AW_Ready_Wire),
 
     // Write Data Channel
-    input [63:0] W_DATA_MEM,
-    input [7:0] W_STRB_MEM, //
-    input W_VALID_MEM,
-    output  W_READY_MEM,
+    .W_DATA_MEM(MEM_W_Data_Wire),
+    .W_STRB_MEM(MEM_W_STRB_Wire),//
+    .W_VALID_MEM(MEM_W_Valid_Wire),
+    .W_READY_MEM(MEM_W_Ready_Wire),
 
     //Write Response Channel
-    output B_RESP_MEM,
-    input B_READY_MEM,
-    output B_VALID_MEM,
+    .B_RESP_MEM(MEM_B_Resp_Wire),
+    .B_READY_MEM(MEM_B_Ready_Wire),
+    .B_VALID_MEM(MEM_B_Valid_Wire),
 
 //Slave port
     //Slave Read
     //Read Address Channel
-    output reg [63:0] AR_ADDR_Slave,
-    output reg AR_VALID_Slave,
-    output reg [2:0]AR_PROT_Slave, //won't be use in this module
-    input  AR_READY_Slave,
+    .AR_ADDR_Slave(),
+    .AR_VALID_Slave(),
+    .AR_PROT_Slave(), //won't be use in this module
+    .AR_READY_Slave(),
 
     //Read DATA Channel
-    input [63:0]R_DATA_Slave,
-    input R_RESP_Slave, // this port may won`t use in this module
-    input R_VALID_Slave, 
-    output R_READY_Slave,
+    .R_DATA_Slave(),
+    .R_RESP_Slave(), // this port may won`t use in this module
+    .R_VALID_Slave(), 
+    .R_READY_Slave(),
 
     //Slave Write
     //WRite Address Channel
-    output [63:0] AW_ADDR_Slave, // this 
-    output AW_VALID_Slave,
-    output[2:0] AW_PORT_Slave, //normally ignore the pin in the AXI4-lite
-    input  AW_READY_Slave,
+    .AW_ADDR_Slave(), // this 
+    .AW_VALID_Slave(),
+    .AW_PORT_Slave(), //normally ignore the pin in the AXI4-lite
+    .AW_READY_Slave(),
 
     // Write Data Channel
-    output [63:0] W_DATA_Slave,
-    output [7:0] W_STRB_Slave, //
-    output W_VALID_Slave,
-    input  W_READY_Slave,
+    .W_DATA_Slave(),
+    .W_STRB_Slave(), //
+    .W_VALID_Slave(),
+    .W_READY_Slave(),
 
     //Write Response Channel
-    input B_RESP_Slave,
-    output B_READY_Slave,
-    input B_VALID_Slave
+    .B_RESP_Slave(),
+    .B_READY_Slave(),
+    .B_VALID_Slave()
     );
 
 
@@ -232,21 +349,21 @@ module top(
     .RS2_Reg(RS2_Connector)
 );
 
-MEM HY_MEM(
-    .clk(clk),
-    .MEM_Address(ALU_Result_Connector),
-    .Data_Write(RS2_Connector),
-    .MEM_Enable(MEM_Enable_Connector),
-    .Ctrl(MEM_Ctrl_connector),
-    .MEM_Data_out(MEM_Result_Connector),
+// MEM HY_MEM(
+//     .clk(clk),
+//     .MEM_Address(ALU_Result_Connector),
+//     .Data_Write(RS2_Connector),
+//     .MEM_Enable(MEM_Enable_Connector),
+//     .Ctrl(MEM_Ctrl_connector),
+//     .MEM_Data_out(MEM_Result_Connector),
 
-    .MEM_Enable_Top( MEM_Enable ),
-    .MEM_Read_Top( MEM_Read ),
-    .MEM_DataLenth_Top( MEM_DataLenth ),
-    .MEM_Addr_Top( MEM_Addr ),
-    .MEM_Dataoutput_Top( MEM_Dataoutput ),
-    .MEM_Dataiput_Top( MEM_Datainput )
-);
+//     .MEM_Enable_Top( MEM_Enable ),
+//     .MEM_Read_Top( MEM_Read ),
+//     .MEM_DataLenth_Top( MEM_DataLenth ),
+//     .MEM_Addr_Top( MEM_Addr ),
+//     .MEM_Dataoutput_Top( MEM_Dataoutput ),
+//     .MEM_Dataiput_Top( MEM_Datainput )
+// );
 
 wire [63:0] RS1_Connector;
 wire [63:0] RS2_Connector;

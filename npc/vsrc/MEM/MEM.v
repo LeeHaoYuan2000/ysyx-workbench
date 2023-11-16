@@ -22,7 +22,7 @@ module MEM(
         output reg Read_Start,
         input      Finish_Read,
         output reg [63:0] Read_ADDR,
-        input  reg [63:0] Read_Data,
+        input  reg [63:0] Read_Data
 
     // output        MEM_Enable_Top,
     // output        MEM_Read_Top,

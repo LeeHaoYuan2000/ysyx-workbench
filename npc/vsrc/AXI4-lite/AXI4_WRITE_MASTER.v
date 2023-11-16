@@ -6,7 +6,7 @@ this is the documentation about AXI4-Lite
 
 module AXI4_WRITE_MASTER (
 
-    input clk;
+    input clk,
     input rst,
     input Start,
     output Finish,
