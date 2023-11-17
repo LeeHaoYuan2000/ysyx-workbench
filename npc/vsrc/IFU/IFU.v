@@ -6,6 +6,7 @@ module IFU(
     input INSTR_ENABLE, //CU allow fetch next instruction
     input ALU_MEM_Finish, //ALU or MEM operation done
     output reg busy, //send busy signal to the CU
+    output reg INSTR_VALID, //tell the ALU INSTR is valid
 
 //PC input and instruction to next stage
     input  [63:0] PC_IN,
@@ -14,7 +15,6 @@ module IFU(
 //AXI
     input AXI_READ_DONE,
     output reg Send_Signal,
-    output reg INSTR_VALID,
     output reg [63:0] AXI4_ADDR,
     input [63:0] AXI4_DATA
 

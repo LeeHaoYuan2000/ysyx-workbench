@@ -56,13 +56,93 @@ module top(
         .PC(PC_Wire)
     );
 
+    CSR HY_CSR(
+        .rst(rst),
+        .clk(clk),
+
+        .read_address(CSR_Read_Addr_Wire),
+        .read_result(CSR_Read_Result_Wire),
+
+        .write_address(CSR_Write_Addr_Wire),
+        .wirte_date(CSR_Write_Data_Wire),
+        .write_en(CSR_Write_en_Wire),
+
+        .mcause_in(mcause_in_Wire),
+        .mcause(mcause_Wire).
+        .mcause_wen(mcause_wen_Wire).
+
+        .mepc_in(mepc_in_Wire),
+        .mepc(mepc_Wire),
+        .mepc_wen(mepc_wen_Wire).
+
+        .mtvec_in(mtvec_in_Wire),
+        .mtvec(mtvec_Wire),
+        .mtvec_wen(mtvec_wen_Wire)
+    );
+
+    wire [11:0] CSR_Read_Addr_Wire;
+    wire [63:0] CSR_Read_Result_Wire;
+    wire [11:0] CSR_Write_Addr_Wire;
+    wire [63:0] CSR_Write_Data_Wire;
+    wire        CSR_Write_en_Wire;
+    wire [63:0] mcause_in_Wire;
+    wire [63:0] mcause_Wire;
+    wire        mcause_wen_Wire;
+    wire [63:0] mepc_in_Wire;
+    wire [63:0] mepc_Wire;
+    wire        mepc_wen_Wire;
+    wire [63:0] mtvec_in_Wire;
+    wire [63:0] mtvec_Wire;
+    wire        mtvec_wen_Wire;
+
+
+    ALU_top HY_ALU_TOP(
+    .clk(clk),
+    .rst(rst),
+
+    .src1(src1),
+    .src2(src2),
+    .func_control(ALU_Control_wire),
+    .inner_control(Insider_Control_Connector),
+    .MEM_Enable(), //CU tell ALU that this instruction need to access the MEM
+    .result_out(ALU_Result_Connector),
+
+    //CSR port
+    .CSR_Read_Addr(CSR_Read_Addr_Wire),
+    .CSR_Read_Data(CSR_Read_Result_Wire),
+
+    .CSR_Write_Addr(CSR_Write_Addr_Wire),
+    .CSR_Write_Data(CSR_Write_Data_Wire),
+    .Write_En(CSR_Write_en_Wire),
+
+    .mcause_Write_Data(mcause_in_Wire),
+    .mcause_Read_Data(mcause_Wire),
+    .mcause_En(mcause_wen_Wire),
+
+    .mepc_Write_Data(mepc_in_Wire),
+    .mepc_Read_Data(mepc_Wire),
+    .mepc_En(mepc_wen_Wire),
+
+    .mtvec_Write_Data(mtvec_in_Wire),
+    .mtvec_Read_Data(mtvec_Wire),
+    .mtvec_En(mtvec_wen_Wire),
+
+    .INSTR_Valid(INSTR_VALID_Wire),//IFU tell the ALU INSTR is valid
+    //output ,tell the ifu ALU operation is done 
+    .ALU_Finish(ALu_Finish_Wire)
+    );
+
+    wire INSTR_VALID_Wire;/// tell the ALU instr is ready
+    wire ALu_Finish_Wire; //send finish signal back to the IFU
+
     IFU IFU_Lee(
         .clk(clk),
         .rst(rst),
     //IFU control signal    
         .INSTR_ENABLE(), //CU allow fetch next instruction
-        .ALU_MEM_Finish(), //ALU or MEM operation done
+        .ALU_MEM_Finish(ALu_Finish_Wire), //ALU or MEM operation done
         .busy(), //send busy signal to the CU
+        .INSTR_VALID(INSTR_VALID_Wire),
     //PC input and instruction to next stage
         .PC_IN(PC_Wire),
         .INSTR(),
@@ -70,7 +150,6 @@ module top(
     //AXI
         .AXI_READ_DONE(Finish_IFU_AXI),
         .Send_Signal(Send_Signal_IFU_AXI), //send begin signal to axi 
-        .INSTR_VALID(),
         .AXI4_ADDR(Addr_IFU_AXI),
         .AXI4_DATA(Data_IFU_AXI)
     );
@@ -107,11 +186,11 @@ module top(
     MEM HY_MEM(
     .clk(clk),
     .rst(rst),
-    .MEM_Address(),
-    .Data_Write(),
-    .MEM_Enable(),
-    .Ctrl(),
-    .MEM_Data_out(),
+    .MEM_Address(ALU_Result_Connector),
+    .Data_Write(RS2_Connector),
+    .MEM_Enable(MEM_Enable_Connector),
+    .Ctrl(MEM_Ctrl_connector),
+    .MEM_Data_out(MEM_Result_Connector),
     .MEM_Finish(),
 
     //AXI4 port
@@ -337,7 +416,7 @@ module top(
     assign SEXT_result = SEXT_Connector;
 
 
-    CSR HY_RegFile(
+    REG HY_RegFile(
     .clk(clk),
     .rst(rst),
     .RS1(instruction[19:15]),
@@ -435,13 +514,13 @@ wire [63:0] ALU_Result_Connector;
 wire [3:0]  Insider_Control_Connector;
 assign ALU_Result = ALU_Result_Connector;
 
-ALU_top HY_ALU_top(
-    .src1(MUX_Reg_PC_2ALU_Result),
-    .src2(MUX_Reg_imm_2ALU_Result),
-    .func_control(ALU_Control_wire),
-    .inner_control(Insider_Control_Connector),
-    .result_out(ALU_Result_Connector)
-);
+// ALU_top HY_ALU_top(
+//     .src1(MUX_Reg_PC_2ALU_Result),
+//     .src2(MUX_Reg_imm_2ALU_Result),
+//     .func_control(ALU_Control_wire),
+//     .inner_control(Insider_Control_Connector),
+//     .result_out(ALU_Result_Connector)
+// );
 
 
 endmodule

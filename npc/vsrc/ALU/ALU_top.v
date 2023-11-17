@@ -7,6 +7,7 @@ module ALU_top(
     input [63:0] src2,
     input [3:0]  func_control,
     input [3:0]  inner_control,
+    input        MEM_Enable, //CU tell ALU that this instruction need to access the MEM
     output [63:0] result_out,
 
     //CSR port
@@ -27,9 +28,14 @@ module ALU_top(
 
     output [63:0] mtvec_Write_Data,
     input  [63:0] mtvec_Read_Data,
-    output mtvec_En, 
+    output mtvec_En,
 
+    input INSTR_Valid,//IFU tell the ALU INSTR is valid
+    //output ,tell the ifu ALU operation is done 
+    output ALU_Finish
 );
+
+assign ALU_Finish = INSTR_Valid ? (MEM_Enable ? 1'b0: 1'b1) : 1'b0;
 
 parameter MUX_Adder   = 4'd0;
 parameter MUX_Shift   = 4'd1;
