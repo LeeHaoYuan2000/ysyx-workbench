@@ -3,6 +3,10 @@ import "DPI-C" function void check_ebreak(input logic [7:0] ebreak_reg[]);
 
 module ControUnit(
     input  [31:0] instr,
+    input         IFU_Busy,
+    input         INSTR_ENABLE, //IFU can fetch the instr now
+    input         ALU_MEM_Finish, //ALU or MEM`s operation is done, the cpu can write back now
+
     input  Branch_Yes_No, //1 for branch , 0 for npc
 
     output [3:0] ALU_Control,
@@ -32,6 +36,8 @@ always @(*) begin
     ebreak_reg   = {8{ebreak}};
 //    isInstrEmpty = ~instr_valid;
 end
+
+assign INSTR_ENABLE = ~IFU_Busy;
 
 wire [6:0] instr_6_0;
 wire [2:0] instr_14_12;
@@ -223,8 +229,9 @@ wire ALU_Choose_imm = (addi | addiw | sltiu | slli | srli | srai | srliw | slliw
 
 wire ALU_Choose_PC  = (auipc | jal);
 
+//write back signal
+assign RegWriteEnable = ALU_MEM_Finish ? (~(bne | beq | bge | blt | bltu | bgeu | sd | sw | sb | sh)) : 1'b0;//1 for enable ,0 for disable
 
-assign RegWriteEnable = ~(bne | beq | bge | blt | bltu | bgeu | sd | sw | sb | sh);//1 for enable ,0 for disable
 assign C_ALU_MEM = (ld | lw | lbu | lh | lhu | lb | lwu | sd | sw | sb | sh);
 assign C_ALU_NPC_In = (jal | jalr); //将NPC 写入到 寄存器中
 assign C_RS2_imm = ALU_Choose_imm;

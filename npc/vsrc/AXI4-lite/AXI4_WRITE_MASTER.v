@@ -10,6 +10,7 @@ module AXI4_WRITE_MASTER (
     input rst,
     input Start,
     output Finish,
+    output Need_Write, //tell the AXI connector this compnonet will write
 
     input [63:0] WRITE_ADDR,
     input [63:0] WRITE_DATA,
@@ -120,31 +121,37 @@ always@(posedge clk)begin
         AW_VALID <= 1'b0;
         W_VALID  <= 1'b0;
         B_READY  <= 1'b0;
+        Need_Write <= 1'b0;
     end
     Send_WADDR:begin
-        B_READY  <= 1'b1;
-        AW_VALID <= 1'b1;
-        W_VALID  <= 1'b0;
+        B_READY    <= 1'b1;
+        AW_VALID   <= 1'b1;
+        W_VALID    <= 1'b0;
+        Need_Write <= 1'b1;
     end
     Send_WDATA:begin
         B_READY  <= 1'b1;
         AW_VALID <= 1'b0;
         W_VALID  <= 1'b1;
+        Need_Write <= 1'b1;
     end
     Wait_RESP:begin
         B_READY  <= 1'b1;
         AW_VALID <= 1'b0;
         W_VALID  <= 1'b0;
+        Need_Write <= 1'b1;
     end
     HOLD:begin
         B_READY  <= 1'b0;
         AW_VALID <= 1'b0;
         W_VALID  <= 1'b0;
+        Need_Write <= 1'b0;
     end
     default:begin
         AW_VALID <= 1'b0;
         W_VALID  <= 1'b0;
         B_READY  <= 1'b0;
+        Need_Write <= 1'b0;
     end
     endcase
 end

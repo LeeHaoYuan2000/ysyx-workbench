@@ -10,7 +10,7 @@ module IFU(
 
 //PC input and instruction to next stage
     input  [63:0] PC_IN,
-    output reg [63:0] INSTR,
+    output reg [31:0] INSTR,
 
 //AXI
     input AXI_READ_DONE,
@@ -90,11 +90,11 @@ always@(posedge clk)begin
         busy        <= 1'b1;
         Send_Signal <= 1'b1;
         if(AXI_READ_DONE)begin
-            INSTR[63:0] <= AXI4_DATA[63:0];
+            INSTR[31:0] <= AXI4_DATA[31:0];
             INSTR_VALID <= 1'b1;
         end
         else begin
-            INSTR[63:0] <= INSTR[63:0];
+            INSTR[31:0] <= INSTR[31:0];
         end
     end
     HOLD:begin

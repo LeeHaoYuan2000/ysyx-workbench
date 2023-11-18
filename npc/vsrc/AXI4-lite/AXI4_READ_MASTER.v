@@ -12,6 +12,8 @@ module AXI4_READ_MASTER (
     input Send_Signal, //when Send_Signal is 1, then begin the send signal
     output reg Send_Finish, //when data received, send 1 to outside axi4 finished
 
+    output Need_Read, // tell AXI4 connector this componet need read 
+
     input [63:0] ADDR,  //data address
     output reg [63:0] receive_DATA,
 
@@ -103,23 +105,23 @@ always@(posedge clk)begin
         case(next_state)
         IDLE:begin
             Send_Finish <= 1'b0;
-            AR_VALID <= 1'b0;
-            R_READY  <= 1'b0;
-
+            AR_VALID    <= 1'b0;
+            R_READY     <= 1'b0;
+            Need_Read   <= 1'b0;
         end
         READ_ADDR:begin
 
             AR_VALID <= 1'b1; //the read address is valid
             R_READY  <= 1'b0;
             Send_Finish <= 1'b0;
-
+            Need_Read   <= 1'b1;
         end
 
         READ_DATA:begin
 
-            AR_VALID <= 1'b0; //the read address is valid
-            R_READY  <= 1'b1;
-
+            AR_VALID    <= 1'b0; //the read address is valid
+            R_READY     <= 1'b1;
+            Need_Read   <= 1'b1;
             if(R_VALID)begin
                 Send_Finish <= 1'b1;
             end
@@ -132,12 +134,14 @@ always@(posedge clk)begin
             Send_Finish <= 1'b1;
             AR_VALID    <= 1'b0;
             R_READY     <= 1'b0;
+            Need_Read   <= 1'b0;
         end
 
         default:begin
             AR_VALID <= 1'b0;
             R_READY  <= 1'b0;
             Send_Finish <= 1'b0;
+            Need_Read   <= 1'b0;
         end
     endcase
 end

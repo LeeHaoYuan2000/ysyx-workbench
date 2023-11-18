@@ -23,7 +23,41 @@ module top(
     output C_RS2_imm_Connector_result,
     output C_ALU_MEM_Connector_result,
     output C_ALU_NPC_In_Connector_result,
-    output [1:0] C_NPC_Branch_Jump_Connector_result
+    output [1:0] C_NPC_Branch_Jump_Connector_result,
+
+
+//Slave port
+    //Slave Read
+    //Read Address Channel
+    output reg [63:0] AR_ADDR_TOP,
+    output reg        AR_VALID_TOP,
+    output reg [2:0]  AR_PROT_TOP, //won't be use in this module
+    input             AR_READY_TOP,
+
+    //Read DATA Channel
+    input [63:0]      R_DATA_TOP,
+    input             R_RESP_TOP, // this port may won`t use in this module
+    input             R_VALID_TOP, 
+    output            R_READY_TOP,
+
+    //Slave Write
+    //WRite Address Channel
+    output [63:0]     AW_ADDR_TOP, // this 
+    output            AW_VALID_TOP,
+    output[2:0]       AW_PORT_TOP, //normally ignore the pin in the AXI4-lite
+    input             AW_READY_TOP,
+
+    // Write Data Channel
+    output [63:0]     W_DATA_TOP,
+    output [7:0]      W_STRB_TOP, //
+    output            W_VALID_TOP,
+    input             W_READY_TOP,
+
+    //Write Response Channel
+    input             B_RESP_TOP,
+    output            B_READY_TOP,
+    input             B_VALID_TOP
+
 );
 
     parameter MUX_Output_RS1 = 1'b0;
@@ -95,7 +129,6 @@ module top(
     wire [63:0] mtvec_Wire;
     wire        mtvec_wen_Wire;
 
-
     ALU_top HY_ALU_TOP(
     .clk(clk),
     .rst(rst),
@@ -139,13 +172,13 @@ module top(
         .clk(clk),
         .rst(rst),
     //IFU control signal    
-        .INSTR_ENABLE(), //CU allow fetch next instruction
-        .ALU_MEM_Finish(ALu_Finish_Wire), //ALU or MEM operation done
-        .busy(), //send busy signal to the CU
+        .INSTR_ENABLE(INSTR_ENABLE_Wire), //CU allow fetch next instruction
+        .ALU_MEM_Finish(ALU_MEM_Finish_Wire), //ALU or MEM operation done
+        .busy(IFU_Busy_Wire), //send busy signal to the CU
         .INSTR_VALID(INSTR_VALID_Wire),
     //PC input and instruction to next stage
         .PC_IN(PC_Wire),
-        .INSTR(),
+        .INSTR(instruction),
 
     //AXI
         .AXI_READ_DONE(Finish_IFU_AXI),
@@ -159,11 +192,15 @@ module top(
     wire Addr_IFU_AXI;
     wire Data_IFU_AXI;
 
+    wire IFU_Need_Read_Wire;
+
     AXI4_READ_MASTER IFU_AXI_Read(
     .clk(clk),
     .rst_n(rst),
     .Send_Signal(Send_Signal_IFU_AXI), //when Send_Signal is 1, then begin the send signal
     .Send_Finish(Finish_IFU_AXI), //when data received, send 1 to outside axi4 finished
+
+    .Need_Read(IFU_Need_Read_Wire),
 
     .ADDR(Addr_IFU_AXI),  //data address
     .receive_DATA(Data_IFU_AXI),
@@ -181,7 +218,7 @@ module top(
     .R_READY(R_Ready_Wire)
     );
 
-
+    wire MEM_Finish_Wire;
     //MEM
     MEM HY_MEM(
     .clk(clk),
@@ -191,7 +228,7 @@ module top(
     .MEM_Enable(MEM_Enable_Connector),
     .Ctrl(MEM_Ctrl_connector),
     .MEM_Data_out(MEM_Result_Connector),
-    .MEM_Finish(),
+    .MEM_Finish(MEM_Finish_Wire),
 
     //AXI4 port
         //axi4 write
@@ -211,11 +248,13 @@ module top(
     wire Finish_Write_Wire;
     wire [63:0] Write_Addr_wire;
     wire [63:0] Write_Data_Wire;
+    wire        MEM_Need_Read_Wire;
 
     wire Read_Start_Wire;
     wire Finishi_Read_Wire;
     wire [63:0]Read_Addr_Wire;
     wire [63:0]Read_Data_Wire;
+    wire       MEM_Need_Read_Wire;
 
 
     AXI4_READ_MASTER MEM_AXI_Read(
@@ -223,6 +262,8 @@ module top(
     .rst_n(rst),
     .Send_Signal(Read_Start_Wire), //when Send_Signal is 1, then begin the send signal
     .Send_Finish(Finishi_Read_Wire), //when data received, send 1 to outside axi4 finished
+
+    .Need_Read(MEM_Need_Read_Wire),
 
     .ADDR(Read_Addr_Wire),  //data address
     .receive_DATA(Read_Data_Wire),
@@ -245,6 +286,7 @@ module top(
         .rst(rst),
         .Start(Write_Start_Wire),
         .Finish(Finish_Write_Wire),
+        .Need_Write(MEM_Need_Read_Wire),
         .WRITE_ADDR(Write_Addr_wire),
         .WRITE_DATA(Write_Data_Wire),
         //WRite Address Channel
@@ -301,7 +343,7 @@ module top(
 
     AXI4_InterConnect AXI4_Arbiter(
         //IFU prot 
-    .IFU_READ_ENABLE(),
+    .IFU_READ_ENABLE(IFU_Need_Read_Wire),
 
     //Read Address Channel
     .AR_ADDR_IFU(AR_Addr_wire),
@@ -316,7 +358,7 @@ module top(
     .R_READY_IFU(R_Ready_Wire),
 
 //MEM Read Port
-    .MEM_READ_ENABLE(),
+    .MEM_READ_ENABLE(MEM_Need_Read_Wire),
     //Read Address Channel
     .AR_ADDR_MEM(MEM_AR_Addr_Wire),
     .AR_VALID_MEM(MEM_AR_Valid_Wire),
@@ -330,7 +372,7 @@ module top(
     .R_READY_MEM(MEM_R_Ready_Wire),
 
 //MEM Write Prot
-    .MEM_WRITE_ENABLE(),
+    .MEM_WRITE_ENABLE(MEM_Need_Read_Wire),
 
     //WRite Address Channel
     .AW_ADDR_MEM(MEM_AW_Addr_Wire), // this 
@@ -352,34 +394,34 @@ module top(
 //Slave port
     //Slave Read
     //Read Address Channel
-    .AR_ADDR_Slave(),
-    .AR_VALID_Slave(),
-    .AR_PROT_Slave(), //won't be use in this module
-    .AR_READY_Slave(),
+    .AR_ADDR_Slave(AR_ADDR_TOP),
+    .AR_VALID_Slave(AR_VALID_TOP),
+    .AR_PROT_Slave(AR_PROT_TOP), //won't be use in this module
+    .AR_READY_Slave(AR_READY_TOP),
 
     //Read DATA Channel
-    .R_DATA_Slave(),
-    .R_RESP_Slave(), // this port may won`t use in this module
-    .R_VALID_Slave(), 
-    .R_READY_Slave(),
+    .R_DATA_Slave(R_DATA_TOP),
+    .R_RESP_Slave(R_RESP_TOP), // this port may won`t use in this module
+    .R_VALID_Slave(R_VALID_TOP), 
+    .R_READY_Slave(R_READY_TOP),
 
     //Slave Write
     //WRite Address Channel
-    .AW_ADDR_Slave(), // this 
-    .AW_VALID_Slave(),
-    .AW_PORT_Slave(), //normally ignore the pin in the AXI4-lite
-    .AW_READY_Slave(),
+    .AW_ADDR_Slave(AW_ADDR_TOP), // this 
+    .AW_VALID_Slave(AW_VALID_TOP),
+    .AW_PORT_Slave(AW_PORT_TOP), //normally ignore the pin in the AXI4-lite
+    .AW_READY_Slave(AW_READY_TOP),
 
     // Write Data Channel
-    .W_DATA_Slave(),
-    .W_STRB_Slave(), //
-    .W_VALID_Slave(),
-    .W_READY_Slave(),
+    .W_DATA_Slave(W_DATA_TOP),
+    .W_STRB_Slave(W_STRB_TOP), //
+    .W_VALID_Slave(W_VALID_TOP),
+    .W_READY_Slave(W_READY_TOP),
 
     //Write Response Channel
-    .B_RESP_Slave(),
-    .B_READY_Slave(),
-    .B_VALID_Slave()
+    .B_RESP_Slave(B_RESP_TOP),
+    .B_READY_Slave(B_READY_TOP),
+    .B_VALID_Slave(B_VALID_TOP)
     );
 
 
@@ -388,9 +430,18 @@ module top(
     wire [3:0]  ALU_Control_wire;
     assign SEXT_Control_out = SEXT_Control;
 
+    wire IFU_Busy_Wire;
+    wire INSTR_ENABLE_Wire;
+    wire ALU_MEM_Finish_Wire = ALu_Finish_Wire | MEM_Finish_Wire;
+
     ControUnit HY_CU(
         .instr(instruction),
+        .IFU_Busy(IFU_Busy_Wire),
+        .INSTR_ENABLE(INSTR_ENABLE_Wire), //IFU can fetch the instr now
+        .ALU_MEM_Finish(ALU_MEM_Finish_Wire), //ALU or MEM`s operation is done, the cpu can write back now
+
         .Branch_Yes_No(ALU_Result_Connector[0]), //1 for branch , 0 for npc
+
         .ALU_Control(ALU_Control_wire),
         .Inside_Control(Insider_Control_Connector),
         .SEXT_Control(SEXT_Control),
