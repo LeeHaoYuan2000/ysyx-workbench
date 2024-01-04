@@ -128,11 +128,11 @@ void print_wp(){
 bool check_wp(){
   WP* head_buf;
   head_buf = head;
-  bool* success;
+  int success;
   bool  change;
   change = false;
   while(head_buf != NULL){
-    head_buf->val = expr(head_buf->expr,success);
+    head_buf->val = expr(head_buf->expr,&success);
     if(head_buf->old_val != head_buf->val){
       head_buf->changed = 1;
       head_buf->old_val = head_buf->val;

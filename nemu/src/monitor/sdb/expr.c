@@ -27,7 +27,7 @@ const char *RVregs[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
-bool checkparentheses(int p,int q);
+int checkparentheses(int p,int q);
 int dominant_operator(int p, int q);
 
 enum {
@@ -92,11 +92,13 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[128];
+  char str[256];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[256] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
+
+int Divide_Is_Zero = 0;  //tell the expr the divide occur the zero
 
 static bool make_token(char *e) {
   
@@ -112,7 +114,7 @@ static bool make_token(char *e) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {/* rm_eo :Byte offset from string's start to substring's end.  */
         char *substr_start = e + position;                                        ///* rm_so:  Byte offset from string's start to substring's start.  */
         int substr_len = pmatch.rm_eo;
-        assert(substr_len <= 128);
+        assert(substr_len <= 256);
 
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
@@ -192,20 +194,20 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
           case Decimal:
-            memset(tokens[nr_token].str,'\0',128);  
+            memset(tokens[nr_token].str,'\0',256);  
             strncpy(tokens[nr_token].str,&e[position-substr_len],substr_len);
 
             printf("Decimal = %s \n",tokens[nr_token].str);
           break ;
 
           case Hex:
-            memset(tokens[nr_token].str,'\0',128);  
+            memset(tokens[nr_token].str,'\0',256);  
             strncpy(tokens[nr_token].str,&e[position-substr_len],substr_len);
             printf("Hex = %s \n",tokens[nr_token].str);
           break;
 
           case Reg:
-            memset(tokens[nr_token].str,'\0',128);  
+            memset(tokens[nr_token].str,'\0',256);  
             strncpy(tokens[nr_token].str,&e[position-substr_len],substr_len);
           break;
           default: //TODO();
@@ -234,7 +236,7 @@ uint32_t eval(int p,int q){//calculate all the expression
     /*
       Bad experssion
     */
-   printf("p:%d  q:%d\n",p,q);
+    printf("p:%d  q:%d\n",p,q);
     printf("There are errors in the expression,Please input the right one\n");
     assert(0);//use assert
   }
@@ -264,6 +266,10 @@ uint32_t eval(int p,int q){//calculate all the expression
           cnt++;
         }
 
+        if(!strcmp(tokens[p].str,"$pc")){
+          return result  = cpu.pc;
+        }
+
         if(cnt >=32){
           assert(0);
         }
@@ -290,7 +296,6 @@ uint32_t eval(int p,int q){//calculate all the expression
     else {
          val1 = eval(p,OP - 1);
     }
-    
     int val2 = eval(OP + 1,q);
 
     switch (tokens[OP].type)
@@ -313,16 +318,21 @@ uint32_t eval(int p,int q){//calculate all the expression
         return vaddr_read(val2,4);
       break;
       case '+':
-        return result = (val1 + val2);
+        return val1 + val2;
       break;
       case '-':
-        return result = (val1 - val2);
+        return (val1 - val2);
       break;
       case '*':
-        return result = (val1 * val2);
+        return (val1 * val2);
       break;
       case '/':
-        return result = (val1 / val2);
+         if(val2 == 0){
+           return 1;
+         }
+         else{
+          return (val1 / val2);
+         }
       break;
     
     default:
@@ -332,29 +342,56 @@ uint32_t eval(int p,int q){//calculate all the expression
   }
 }
 
- bool checkparentheses(int p,int q){
-  int parenthere = 0;
-  int i;
+ int checkparentheses(int p,int q){
+  // int parenthere = 0;
+  // int i;
+  // if(tokens[p].type == '(' && tokens[q].type == ')'){
+  //   for(i = p; i <= q; i++){
+  //     if(tokens[i].type == '('){
+  //       parenthere ++;
+  //     }
+  //     else if(tokens[i].type == ')'){
+  //       parenthere --;
+  //     }
+  //   }
+  //   if(parenthere == 0){
+  //       return true;
+  //   }
+  //   else {
+  //     return false; 
+  //   }
+  // }
+  // else{
+  //   return false;
+  // }
+  // return false;
+  printf("check parentthese!!1 \n");
+  int Left_parentthese_cnt = 0;
   if(tokens[p].type == '(' && tokens[q].type == ')'){
-    for(i = p; i <= q; i++){
-      if(tokens[i].type == '('){
-        parenthere ++;
+      Left_parentthese_cnt = 1;
+
+      for(int i = p + 1; i <= q;i++){
+        if(tokens[i].type == '('){
+          Left_parentthese_cnt ++;
+        }
+        else if(tokens[i].type == ')'){
+          Left_parentthese_cnt--;
+        }
+
+        if((Left_parentthese_cnt == 0)){
+          if(i == q ){
+            return 1;
+          }
+          else if(i != q){
+            return 0;
+          }
+        }
       }
-      else if(tokens[i].type == ')'){
-        parenthere --;
-      }
-    }
-    if(parenthere == 0){
-        return true;
-    }
-    else {
-      return false; 
-    }
   }
-  else{
-    return false;
+  else {
+    return 0;
   }
-  return false;
+ return 0;
 }
 
 int dominant_operator(int p, int q){ 
@@ -455,14 +492,38 @@ int dominant_operator(int p, int q){
   return opoint;
 }
 
-word_t expr(char *e, bool *success) {
+word_t expr(char *e, int *success) {
   word_t val;
 
+  int a = 0;
+  int b = 0;
+
+  Divide_Is_Zero = 0;
+
   if (!make_token(e)) {
-    *success = false;
+    *success = 0;
     return 0;
   }
-  val = eval(0,nr_token - 1);
+
+  for(int i = 0; i<128;i++){
+    if(tokens[i].type == '('){
+      a++;
+    }
+    else if(tokens[i].type == ')'){
+      b++;
+    }
+  }
+
+  //printf("( = %d  ) = %d \n",a,b);
+  val = eval(0,nr_token-1);
+
+   if(Divide_Is_Zero == 1){
+     *success = 0;
+   }
+   else{
+   *success = 1;
+   }
+
 
   return val;
 }

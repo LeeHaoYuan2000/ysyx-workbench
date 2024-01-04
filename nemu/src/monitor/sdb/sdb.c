@@ -19,10 +19,13 @@
 #include <readline/history.h>
 #include "sdb.h"
 #include <memory/vaddr.h>
+#include <utils.h>
 //#include <monitor/watchpoint.h>
-
+extern NEMUState nemu_state;
 
 static int is_batch_mode = false;
+static char *random_test_file = "/home/ubuntu/ysyx-workbench/nemu/src/monitor/sdb/input";
+static char expr_str[256];
 
 void init_regex();
 void init_wp_pool();
@@ -52,6 +55,7 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+  nemu_state.state = NEMU_QUIT;
   return -1;
 }
 
@@ -62,7 +66,7 @@ static int cmd_x(char *args);
 static int cmd_p(char *args);
 static int cmd_d(char *args);
 static int cmd_w(char *args);
-
+static int cmd_random_test(char *args);
 
 static struct {
   const char *name;
@@ -77,7 +81,8 @@ static struct {
   { "x","Display the value of the particular addr", cmd_x},
   { "p","display the value of EXPR", cmd_p},
   { "w","set the watchpoint",cmd_w},
-  { "d","delete the watchpoint",cmd_d}
+  { "d","delete the watchpoint",cmd_d},
+  { "expr_random_test","Test the expr function after gen the expr",cmd_random_test}
   /* TODO: Add more commands */
 };
 
@@ -95,7 +100,7 @@ static int cmd_d(char *args){
 static int cmd_w(char *args){
     char *exprWP = strtok(NULL," ");
     WP* newWP;
-    bool *success;
+    int success;
     if(expr == NULL){
       printf("Please input the right expr");
       return 0;
@@ -107,7 +112,7 @@ static int cmd_w(char *args){
     }
     else {
       strcpy(newWP->expr,exprWP);
-      newWP->val = expr(newWP->expr,success);
+      newWP->val = expr(newWP->expr,&success);
       newWP->old_val = newWP->val;
       addWPHead(newWP);
       printf("add a new WP\n");
@@ -207,14 +212,60 @@ static int cmd_help(char *args) {
 }
 
 static int cmd_p(char *args){//calculate the value of EXPR
-    bool *success;
+    int success = 0;
 
     if(args == NULL){
       printf("please input the right expr!");
     }
 
-  printf("result = %ld \n",expr(args,success));
+    printf("the exptr is : %s \n",args);
+
+      int long value = expr(args,&success);
+
+      if(success == 1){
+        printf("result = %ld \n",value);
+      }
+      else {
+        printf("The expr is wrong or there is zero in divide !!\n");
+     }
   return 0;
+}
+
+static int cmd_random_test(char *args){
+  FILE *fd = fopen(random_test_file,"r");
+  int i = 0;
+
+  if(fd == NULL){
+    printf("Open File Fail !!!,Please Check the file\n");
+    return 0;
+  }
+
+  while(!feof(fd)){ //read the file line by line and 
+   int success = 0;
+      memset(expr_str,'\0',256);
+      fgets(expr_str,1000,fd);
+      printf("%s \n",expr_str);
+
+      for(i = 0;i < strlen(expr_str); i++){
+          if(expr_str[i] == '\n'|| expr_str[i] == '\r'){
+            expr_str[i] = ' ';
+          }
+      }
+
+      int long value = expr(expr_str,&success);
+
+      if(success == 1){
+        printf("result = %ld \n",value);
+      }
+      else {
+        printf("The expr is wrong or there is zero in divide !!\n");
+     }
+  }
+
+
+  fclose(fd);
+
+  return 1;
 }
 
 void sdb_set_batch_mode() {
