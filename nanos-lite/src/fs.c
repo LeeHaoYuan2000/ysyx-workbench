@@ -63,6 +63,9 @@ int fs_open(const char *pathname, int flags, int mode){
   int n = 0;
   int file_table_lenth = sizeof(file_table) / sizeof(file_table[0]);
 
+  printf("file_table_lenth : %d \n",file_table_lenth);
+  printf("Open_File path:%s \n",pathname);
+
   if(file_offset == NULL){
     file_offset = (unsigned long int *)malloc(sizeof(long int) * file_table_lenth);
 
@@ -82,11 +85,12 @@ int fs_open(const char *pathname, int flags, int mode){
     n++;
   }
 
+  
   if(n >= file_table_lenth){
-    panic("there is no such file \n");
+    panic("there is no such file , index is %d \n",n);
   }
 
-
+  printf("the return fd is %d \n",n);
   return n; //return the fd(file describe)
 }
 
