@@ -26,7 +26,7 @@ void init_proc() {
   Log("Initializing processes...");
 
   // load program here
-  naive_uload(NULL,"/bin/pal");//load program for the first time
+  naive_uload(NULL,"/bin/pal-riscv64");//load program for the first time
 
 }
 
