@@ -7,7 +7,7 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
-
+  
   int src_x = 0;int src_y = 0;
   int src_w = 0;int src_h = 0;
 
@@ -33,7 +33,6 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
       dst_x = dstrect->x;
       dst_y = dstrect->y;
   }
-
   //copy the pixels to  dst
   int cnt_x = 0;
   int cnt_y = 0;
@@ -48,8 +47,16 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
         if(cnt_x + dst_x >= dst->w){
           break;
         }
-        *((uint32_t*)dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *((uint32_t*)src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w ); 
+        if(dst->format->BitsPerPixel == 8){
+          *((uint8_t*)dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *((uint8_t*)src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w );
+        }
+        else{
+          *((uint32_t*)dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *((uint32_t*)src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w ); 
+        }
+        
     }
+
+
   }
   SDL_UpdateRect(dst, 0, 0, 0, 0);
 
