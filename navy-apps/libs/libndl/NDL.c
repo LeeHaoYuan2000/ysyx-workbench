@@ -15,8 +15,8 @@ static uint32_t NDL_TimeStart = 0;
 struct timeval *tv;
 
 //record the canva width and height
-static int canva_width  = 0;
-static int canva_height = 0;
+int canva_width  = 0;
+int canva_height = 0;
 
 #define FD_FB 3
 #define FD_EVENT 4 
@@ -67,6 +67,8 @@ void NDL_OpenCanvas(int *w, int *h) {
   }
 
   if(*w > display_info[0] || *h > display_info[1]){
+      printf("*w is %d  ,*h is %d \n",*w ,*h);
+      printf("display_info[0]:%d  display_info[1]:%d \n",display_info[0],display_info[1]);
       assert(0);
   }
 

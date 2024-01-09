@@ -4,61 +4,104 @@
 #include <string.h>
 #include <stdlib.h>
 
+extern int canva_height; //get the canca height from the ndl
+extern int canva_width;  //get the canva width frome the ndl
+
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   
-  int src_x = 0;int src_y = 0;
-  int src_w = 0;int src_h = 0;
+  // int src_x = 0;int src_y = 0;
+  // int src_w = 0;int src_h = 0;
 
-  int dst_x = 0;int dst_y = 0;
+  // int dst_x = 0;int dst_y = 0;
 
-  if(srcrect == NULL){
-      src_x = 0;
-      src_y = 0;
-      src_w = src->w;
-      src_h = src->h;
+  // if(srcrect == NULL){
+  //     src_x = 0;
+  //     src_y = 0;
+  //     src_w = src->w;
+  //     src_h = src->h;
+  // }
+  // else{
+  //     src_x = srcrect->x;
+  //     src_y = srcrect->y;
+  //     src_w = srcrect->w;
+  //     src_h = srcrect->h;
+  // }
+
+  // if(dstrect == NULL){
+  //     dst_x = 0;dst_y = 0;
+  // }
+  // else{
+  //     dst_x = dstrect->x;
+  //     dst_y = dstrect->y;
+  // }
+  // //copy the pixels to  dst
+  // int cnt_x = 0;
+  // int cnt_y = 0;
+
+  // for(cnt_y = 0; cnt_y < src_h ; cnt_y ++){
+
+  //   if(cnt_y + dst_y > dst->h){
+  //     break;
+  //   }
+
+  //   for(cnt_x = 0; cnt_x < src_w ; cnt_x ++){
+  //       if(cnt_x + dst_x >= dst->w){
+  //         break;
+  //       }
+  //       if(dst->format->BitsPerPixel == 8){
+  //         *(dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *(src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w );
+  //       }
+  //       else{
+  //         *((uint32_t*)dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *((uint32_t*)src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w ); 
+  //       }
+        
+  //   }
+
+
+  // }
+  //SDL_UpdateRect(dst, 0, 0, 0, 0);
+
+
+   int w,h,dst_x,dst_y,src_x,src_y;
+
+  if(srcrect == NULL){     // entire surface.
+    w = src->w; h = src->h;
+    src_x = 0; src_y = 0;
   }
   else{
-      src_x = srcrect->x;
-      src_y = srcrect->y;
-      src_w = srcrect->w;
-      src_h = srcrect->h;
+    w = srcrect->w; h = srcrect->h;
+    src_x = srcrect->x; src_y = srcrect->y;
   }
 
   if(dstrect == NULL){
-      dst_x = 0;dst_y = 0;
+    dst_x = 0; dst_y = 0;
   }
   else{
-      dst_x = dstrect->x;
-      dst_y = dstrect->y;
+    dst_x = dstrect->x; dst_y = dstrect->y;
   }
-  //copy the pixels to  dst
-  int cnt_x = 0;
-  int cnt_y = 0;
 
-  for(cnt_y = 0; cnt_y < src_h ; cnt_y ++){
-
-    if(cnt_y + dst_y > dst->h){
-      break;
+  if (dst->format->BitsPerPixel == 32){
+    uint32_t *dst_pixels = (uint32_t *)dst->pixels;
+    uint32_t *src_pixels = (uint32_t *)src->pixels;
+    for(int j = 0; j< h; j++){
+      for(int i = 0; i< w; i++){
+        dst_pixels[(dst_y+j)*(dst->w)+(dst_x+i)] = src_pixels[(src_y+j)*(src->w)+(src_x+i)];
+      }
     }
-
-    for(cnt_x = 0; cnt_x < src_w ; cnt_x ++){
-        if(cnt_x + dst_x >= dst->w){
-          break;
-        }
-        if(dst->format->BitsPerPixel == 8){
-          *((uint8_t*)dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *((uint8_t*)src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w );
-        }
-        else{
-          *((uint32_t*)dst->pixels +(dst_x + cnt_x) + (dst_y + cnt_y)*dst->w ) = *((uint32_t*)src->pixels + (src_x + cnt_x) + (src_y + cnt_y)*src_w ); 
-        }
-        
-    }
-
-
   }
-  SDL_UpdateRect(dst, 0, 0, 0, 0);
+  else if (dst->format->BitsPerPixel == 8){
+    for(int j = 0; j< h; j++){
+      for(int i = 0; i< w; i++){
+        dst->pixels[(dst_y+j)*(dst->w)+(dst_x+i)] = src->pixels[(src_y+j)*(src->w)+(src_x+i)];
+      }
+    }
+  }
+  else{
+    printf("SDL_BlitSurface: miniSDL do not support BitsPerPixel == %d.",dst->format->BitsPerPixel);
+    assert(0);
+  }
 
 }
 
@@ -68,7 +111,13 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   if(dstrect == NULL){//if dstrect is null the hole surface is need the refresh
           for(cnt_h = 0; cnt_h < dst->h ; cnt_h++){
             for(cnt_w = 0; cnt_w < dst->w ; cnt_w++){
-              *((uint32_t*)dst->pixels + cnt_w + cnt_h*dst->w) = color;
+             // if(dst->format->BitsPerPixel == 8){
+            //    *((uint8_t*)dst->pixels + cnt_w + cnt_h*dst->w) = (uint8_t)color;
+             // }
+             // else {
+                *((uint32_t*)dst->pixels + cnt_w + cnt_h*dst->w) = color;
+              //}
+              
           }
       }
 
@@ -76,18 +125,90 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   else{
     for(cnt_h = 0; cnt_h < dstrect->h ; cnt_h++){
       for(cnt_w = 0; cnt_w < dstrect->w ; cnt_w++){
-        *((uint32_t*) dst->pixels + (dstrect->y + cnt_h)*dst->w + (dstrect->x + cnt_w)) = color;
+        if(dst->format->BitsPerPixel == 8){
+          *( dst->pixels + (dstrect->y + cnt_h)*dst->w + (dstrect->x + cnt_w)) = (uint8_t)color;
+        }
+        else {
+          *((uint32_t*) dst->pixels + (dstrect->y + cnt_h)*dst->w + (dstrect->x + cnt_w)) = color;
+        }
+        
       }
     }
   }
 
-  SDL_UpdateRect(dst, 0, 0, 0, 0);
+  //SDL_UpdateRect(dst, 0, 0, 0, 0);
+
+  // int x,y,w,h;
+  // if(dstrect == NULL){
+  //   x = 0; y = 0; 
+  //   w= dst->w; h = dst->h;
+  // }
+  // else{
+  //   w = dstrect->w; h = dstrect->h;
+  //   x = dstrect->x; y = dstrect->y;
+  // }
+
+  // uint32_t *pixels = (uint32_t *)dst->pixels;
+  // for(int j = 0; j< h; j++){
+  //   for(int i = 0; i< w; i++){
+  //     pixels[(y+j)*(dst->w)+(x+i)] = color;
+  //   }
+  // }
 
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 
-  NDL_DrawRect(s->pixels, x, y, w, h);
+  // if(s->format->BitsPerPixel == 8){
+  //   uint32_t size = 0; 
+  //   if(w == 0 && h == 0){
+  //     size = s->w * s->h;
+  //     uint32_t * pixel = (uint32_t *)malloc(sizeof(uint32_t) * size);
+  //     for(int i = 0; i < size ; i++){
+  //        SDL_Color color = s->format->palette->colors[s->pixels[i]]; 
+  //       pixel[i] = (uint32_t)color.a<<24 || (uint32_t)color.r<<16 || (uint32_t)color.g << 8 || (uint32_t)color.b;
+  //     }
+  //     NDL_DrawRect(s->pixels, x, y, w, h);
+  //     free(pixel);
+  //   }
+  //   else {
+  //     size = w * h;
+  //     uint32_t * pixel = (uint32_t *)malloc(sizeof(uint32_t) * size);
+  //     for(int i = 0; i < size ; i++){
+  //       SDL_Color color = s->format->palette->colors[s->pixels[i]]; 
+  //       pixel[i] = (uint32_t)color.a<<24 || (uint32_t)color.r<<16 || (uint32_t)color.g << 8 || (uint32_t)color.b;
+  //     }
+  //     NDL_DrawRect(s->pixels, x, y, w, h);
+  //     free(pixel);
+  //   }
+
+  // }
+  // else { // BItsPerpixel 32bits
+  //   NDL_DrawRect(s->pixels, x, y, w, h);
+  // }
+
+    if(x == 0 && y == 0 && w == 0 && h == 0){
+    x = 0; y = 0; w= s->w; h = s->h;
+  }
+  
+  if (s->format->BitsPerPixel == 32){
+    NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h);
+  }
+  else if (s->format->BitsPerPixel == 8)
+  {
+    int len = w * h;
+    uint32_t * pixels = (uint32_t *)malloc(4*len);
+    for(int i=0; i<len; i++){
+      SDL_Color pixel = s->format->palette->colors[s->pixels[i]];
+      pixels[i] = (uint32_t)pixel.a<<24 | (uint32_t)pixel.r<<16 | (uint32_t)pixel.g<<8 | (uint32_t)pixel.b;
+    }
+    NDL_DrawRect(pixels,x,y,w,h);
+    free(pixels);
+  }
+  else{
+    printf("SDL_UpdateRect: miniSDL do not support BitsPerPixel == %d.",s->format->BitsPerPixel);
+    assert(0);
+  }
   
 }
 
