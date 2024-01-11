@@ -3,13 +3,15 @@
 #include "../include/sdl-event.h"
 
 #define keyname(k) #k,
-#define SDL_NUM_SCANCODES 256
-static uint8_t keystate[SDL_NUM_SCANCODES]={};
+
+#define ARRLEN(arr) (int)(sizeof(arr) / sizeof(arr[0]))
 
 static const char *keyname[] = {
   "NONE",
   _KEYS(keyname)
 };
+
+uint8_t keystate[256];
 
 int SDL_PushEvent(SDL_Event *ev) {
   return 0;
@@ -22,16 +24,12 @@ int SDL_PollEvent(SDL_Event *ev) {
   if(NDL_PollEvent(buf,sizeof(buf))){
       ev->key.keysym.sym  = buf[1]; //to get the keycode
       ev->type = buf[0];//get the event type is key_down or key_up
-      keystate[buf[1]] = 1;
+      keystate[buf[1]] = ev->type == SDL_KEYDOWN ? 1 : 0;
       return 1;
     }
     else{
       ev->key.keysym.sym  = 0;
       ev->type = SDL_KEYUP;
-      //reset the keystate into unpressed
-      for(int i = 0; i < SDL_NUM_SCANCODES; i++){
-        keystate[i] = 0;
-      }
       return 0;
     }
 
@@ -44,16 +42,12 @@ int SDL_WaitEvent(SDL_Event *event) {
     if(NDL_PollEvent(buf,sizeof(buf))){
       event->key.keysym.sym  = buf[1]; //to get the keycode
       event->type = buf[0];//get the event type is key_down or key_up
-      keystate[buf[1]] = 1;
+      keystate[buf[1]] = event->type == SDL_KEYDOWN ? 1 : 0;
       break;
     }
     else{
       event->key.keysym.sym  = 0;
       event->type = SDL_KEYUP;
-            //reset the keystate into unpressed
-      for(int i = 0; i < SDL_NUM_SCANCODES; i++){
-        keystate[i] = 0;
-      }
     }
   }
 
@@ -66,8 +60,8 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
 
-  if(numkeys != (int *)0){
-    *numkeys = SDL_NUM_SCANCODES;
+  if(numkeys != NULL){
+    *numkeys = 256;
   }
   return keystate;
 }
