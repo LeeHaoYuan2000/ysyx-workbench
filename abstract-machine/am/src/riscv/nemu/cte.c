@@ -2,6 +2,8 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+#define CONTEXT_SIZE_64bits  ((32 + 3 + 1) * 8)
+#define OFFSET_EPC           (34 * 8)
 
 static Context* (*user_handler)(Event, Context*) = NULL;
 
@@ -46,7 +48,14 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  void *start = kstack.start;
+  void *end   = kstack.end - 1;
+  
+  void *Context_Start           = end - CONTEXT_SIZE_64bits; //Context is stored in the end of stack 
+  *(uint64_t*)(Context_Start + OFFSET_EPC ) = (uint64_t)(entry - 4); // enter the Application after restore the context
+
+  printf("start addr:0x%x   end addr:0x%x  Context_start addr:0x%x  entry_addr :0x%x\n",start ,end ,Context_Start,(char *)(entry - 4));
+  return (Context *)Context_Start;
 }
 
 void yield() {
