@@ -1,113 +1,79 @@
 module IFU(
     input clk,
     input rst,
+//PC in adn INSTR to the reg file
+    input  [63:0]       PC_IN,
+    output reg [31:0]   INSTR,
 
-//IFU control signal    
-    input INSTR_ENABLE, //CU allow fetch next instruction
-    input ALU_MEM_Finish, //ALU or MEM operation done
-    output reg busy, //send busy signal to the CU
-    output reg INSTR_VALID, //tell the ALU INSTR is valid
+//control signals of the AXI4-lite
+    output reg  read_instr_start,
+    input       read_instr_finish,
 
-//PC input and instruction to next stage
-    input  [63:0] PC_IN,
-    output reg [31:0] INSTR,
+//Signals to the ALU that instr in valid    
+    output reg  instr_arrive,
+    input       instr_ex_complete,
 
-//AXI
-    input AXI_READ_DONE,
-    output reg Send_Signal,
-    output reg [63:0] AXI4_ADDR,
-    input [63:0] AXI4_DATA
-
+// send pc and get instr from AXI4
+    output reg [63:0] PC_addr,
+    input [31:0]      INSTR_READ
 );
 
-//define the states of the IFU
-localparam IDLE       = 4'b0000;
-localparam READ_INSTR = 4'b0001;
-localparam HOLD       = 4'b0010;
-
-reg [3:0] current_state = IDLE;
-reg [3:0] next_state    = IDLE;
-
-wire Go_READ_INSTR  = (current_state == IDLE) && INSTR_ENABLE;
-wire Go_HOLD        =  AXI_READ_DONE;
-wire Go_IDLE        =  ALU_MEM_Finish;
-
-
-assign AXI4_ADDR[63:0] = PC_IN [63:0];
-
-//state machine 
+//read_instr_start
 always@(posedge clk)begin
     if(rst)begin
-        current_state <= IDLE;
+        read_instr_start <= 1'b0;
+    end
+    else if(!read_instr_finish && !instr_arrive && !instr_ex_complete && !read_instr_start)begin
+        read_instr_start <= 1'b1;
+    end
+    else if(read_instr_finish && !read_instr_start)begin
+        read_instr_start <= 1'b0;
     end
     else begin
-        current_state <= next_state;
+        read_instr_start <= read_instr_start;
     end
-
 end
 
-always@(*)begin
-    case(current_state)
-    IDLE:begin
-        if(Go_READ_INSTR)begin
-            next_state = READ_INSTR;
-        end
-        else begin
-            next_state = IDLE;
-        end
-    end
-    READ_INSTR:begin
-        if(Go_HOLD)begin
-            next_state = HOLD;
-        end
-        else begin
-            next_state = READ_INSTR;
-        end
-    end
-    HOLD:begin
-        if(Go_IDLE)begin
-            next_state = IDLE;
-        end
-        else begin
-            next_state = HOLD;
-        end
-    end
-    default:begin
-        next_state = IDLE;
-    end
-    endcase
-end
+//instr_arrive
 
 always@(posedge clk)begin
-    case(next_state)
-    IDLE:begin
-        busy        <= 1'b0;
-        Send_Signal <= 1'b0;
+    if(rst)begin
+        instr_arrive <= 1'b0;
+    end
+    else if(read_instr_finish && !instr_arrive)begin
+         instr_arrive <= 1'b1;
+    end
+    else if(instr_arrive && instr_ex_complete)begin
+         instr_arrive <= 1'b0;
+    end
+    else begin
+         instr_arrive <= instr_arrive;
+    end
+end
 
-        INSTR_VALID <= 1'b0;
+//PC_addr
+always@(posedge clk)begin
+    if(rst)begin
+        PC_addr <= 64'd0;
     end
-    READ_INSTR:begin
-        busy        <= 1'b1;
-        Send_Signal <= 1'b1;
-        if(AXI_READ_DONE)begin
-            INSTR[31:0] <= AXI4_DATA[31:0];
-            INSTR_VALID <= 1'b1;
-        end
-        else begin
-            INSTR[31:0] <= INSTR[31:0];
-        end
+    else if(!read_instr_finish && !instr_arrive && !instr_ex_complete && !read_instr_start)begin
+        PC_addr <= PC_IN;
     end
-    HOLD:begin
-        busy        <= 1'b1;
-        Send_Signal <= 1'b1;
-        INSTR_VALID <= 1'b1;
+    else begin
+        PC_addr <= PC_addr;
     end
-    default:begin
-        busy        <= 1'b0;
-        Send_Signal <= 1'b0;
-        INSTR_VALID <= 1'b0;
     end
-    endcase
+//INSTR
+always@(posedge clk)begin
+    if(rst)begin
+        INSTR <= 32'b0;
+    end
+    else if(read_instr_finish && !instr_arrive)begin
+        INSTR <= INSTR_READ;
+    end
+    else begin
+        INSTR <= INSTR;
+    end
 end
 
 
