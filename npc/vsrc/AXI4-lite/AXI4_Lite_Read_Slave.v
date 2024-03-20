@@ -1,6 +1,6 @@
 module AXI4_LITE_READ_SLAVE(
 input CLK,
-input RST_N,
+input RST,
 
 //Read Address Channel
 input [63:0]     AR_ADDR, 
@@ -28,7 +28,7 @@ input [63:0]  DATA_OUTSIDE
 
     //Give Read_SIGNAl
         always @(posedge CLK) begin
-        if(RST_N == 1'b0) begin
+        if(RST) begin
             Read_SIGNAL        <= 1'b0;
         end
         else if(AR_VALID && Read_SIGNAL == 0) begin
@@ -44,7 +44,7 @@ input [63:0]  DATA_OUTSIDE
 
     //Give Address
     always @(posedge CLK) begin
-        if(RST_N == 1'b0) begin
+        if(RST) begin
             data_address[63:0] <= 64'b0;
         end
         else if(AR_VALID) begin
@@ -56,7 +56,7 @@ input [63:0]  DATA_OUTSIDE
     end
 
     always@(posedge CLK)begin
-        if(RST_N == 0)begin
+        if(RST)begin
             AR_READY <= 1'b0;
         end
         else if (AR_VALID && ~AR_READY)begin
@@ -70,7 +70,7 @@ input [63:0]  DATA_OUTSIDE
 
 //Read Data
     always @(posedge CLK) begin
-        if(RST_N == 1'b0) begin
+        if(RST) begin
             data_buf <= 64'b0;
         end
         else if(DATA_ARRIVE && ~R_VALID) begin
@@ -86,7 +86,7 @@ input [63:0]  DATA_OUTSIDE
 
 //
     always @(posedge CLK) begin
-        if(RST_N == 1'b0) begin
+        if(RST) begin
             R_VALID <= 1'b0;
         end
         else if(DATA_ARRIVE && ~R_VALID) begin
@@ -103,7 +103,7 @@ input [63:0]  DATA_OUTSIDE
 
 //Read Response
 always@(posedge CLK)begin
-        if(RST_N == 1'b0) begin
+        if(RST) begin
             R_RESP[1:0] = 2'b00;
         end
         else if(DATA_ARRIVE && ~R_VALID) begin

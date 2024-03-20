@@ -1,6 +1,6 @@
 module AXI4_LITE_WRITE_SLAVE(
 input CLK,
-input RST_N,
+input RST,
 
 input [63:0]AW_ADDR,
 input AW_VALID,
@@ -26,7 +26,7 @@ assign DATA      = W_DATA;
 assign DATA_ADDR = AW_ADDR;
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         AW_READY <= 1'b0;
     end
     else if(~AW_READY && AW_VALID && W_VALID)begin
@@ -41,7 +41,7 @@ always@(posedge CLK)begin
 end
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         W_READY <= 1'b0;
     end
     else if(~W_READY && W_VALID && AW_VALID)begin
@@ -56,7 +56,7 @@ always@(posedge CLK)begin
 end
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         DATA_ARRIVE <= 0;
     end
     else if(~W_READY && W_VALID && AW_VALID)begin
@@ -71,7 +71,7 @@ always@(posedge CLK)begin
 end
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         B_VALID <= 0;
     end
     else if(~B_VALID && DATA_RECIVED)begin

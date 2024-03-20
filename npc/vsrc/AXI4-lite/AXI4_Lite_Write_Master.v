@@ -1,6 +1,6 @@
 module AXI4_LITE_WRITE_MASTER(
     input CLK,
-    input RST_N,
+    input RST,
 
     //write address channel
     output reg [63:0] AW_ADDR,
@@ -33,7 +33,7 @@ assign W_DATA  = WRITE_DATA;
 assign AW_ADDR = WRITE_ADDR;
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         w_req  <= 0;
         w_lock <= 0;
     end
@@ -57,7 +57,7 @@ end
 
 //AW_VALID
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         AW_VALID <= 0;
     end
     else if(w_req && ~AW_VALID)begin
@@ -73,7 +73,7 @@ end
 
 //W_VALID
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         W_VALID <= 1'b0;
     end
     else if(w_req && ~W_VALID)begin
@@ -89,7 +89,7 @@ end
 
 //B_response
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         B_READY <= 1'b0;
     end
     else if(B_VALID && ~B_READY)begin
@@ -104,7 +104,7 @@ always@(posedge CLK)begin
 end
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         WRITE_DONE <= 1'b0;
     end
     else if(B_VALID && B_READY)begin

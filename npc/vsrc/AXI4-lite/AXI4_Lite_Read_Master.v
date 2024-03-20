@@ -1,6 +1,6 @@
 module AXI4_LITE_READ_MASTER(
     input CLK,
-    input RST_n,
+    input RST,
 
     //Read Adress Channel 
     output  reg [63:0] AR_ADDR,
@@ -24,7 +24,7 @@ module AXI4_LITE_READ_MASTER(
 reg lock_state;
 
 always@(posedge CLK)begin
-    if(RST_n == 0)begin
+    if(RST)begin
         lock_state <= 1'b0;
     end
     else if(~lock_state && R_Request)begin
@@ -40,7 +40,7 @@ end
 
 // AR_VALID Signal
 always@(posedge CLK)begin
-    if(RST_n == 0)begin
+    if(RST)begin
         AR_VALID <= 1'b0;
     end
     else if(R_Request && ~AR_VALID && ~lock_state)begin
@@ -56,7 +56,7 @@ end
 
 //AR_ADDR
 always@(posedge CLK)begin
-    if(RST_n == 0)begin
+    if(RST)begin
         AR_ADDR  <= 64'b0;
     end
     else if(R_Request && ~AR_VALID)begin
@@ -73,7 +73,7 @@ end
 
 
 always@(posedge CLK)begin
-    if(RST_n == 0)begin
+    if(RST)begin
         R_READY <=1'b0;
     end
     else if(~R_READY && R_VALID)begin
@@ -86,7 +86,7 @@ end
 
 //Read the Data
 always@(posedge CLK)begin
-    if(RST_n == 0)begin
+    if(RST)begin
         Data_Out  <= 64'b0;
     end
     else if(~R_READY && R_VALID)begin
@@ -100,7 +100,7 @@ end
 
 //R_Finish control
 always@(posedge CLK)begin
-    if(RST_n == 0)begin
+    if(RST)begin
         R_Finish <= 1'b0;
     end
     else if(~R_READY && R_VALID)begin

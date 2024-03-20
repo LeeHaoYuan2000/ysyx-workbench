@@ -1,6 +1,6 @@
 module RR_ARBITER (
     input CLK,
-    input RST_N,
+    input RST,
     input [1:0]req,
     input reg_release,
     output [1:0]grant
@@ -21,7 +21,7 @@ assign       grant      = (cur_state == Arbiter_State) ? result_req[1 : 0]: 2'b0
 
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST)begin
         cur_state <= IDLE;
     end
     else begin
@@ -52,7 +52,7 @@ always@(*)begin
 end
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST_N)begin
         req_shot <= 2'b00;
     end
     else if(cur_state == IDLE && next_state == Arbiter_State)begin
@@ -67,7 +67,7 @@ always@(posedge CLK)begin
 end
 
 always@(posedge CLK)begin
-    if(RST_N == 0)begin
+    if(RST_N)begin
         pri <= 2'b01;
     end
     else if(next_state == Arbiter_State)begin

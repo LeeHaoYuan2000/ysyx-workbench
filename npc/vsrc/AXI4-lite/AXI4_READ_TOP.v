@@ -1,6 +1,6 @@
 module AXI4_READ_TOP(
     input CLK,
-    input RST_N,
+    input RST,
 
     input read_req_instr, // Instructon fetch 
     input read_req_ex,    // excute read
@@ -33,7 +33,7 @@ assign aribter_release = ex_finish | instr_finish;
 
 RR_ARBITER rr_arbiter(
     .CLK(CLK),
-    .RST_N(RST_N),
+    .RST_N(RST),
     .req(req_combine),
     .reg_release(aribter_release),
     .grant(choose_channel)
@@ -69,7 +69,7 @@ RR_ARBITER rr_arbiter(
 
     AXI4_READ_MODUAL AXI4_READ_MODUAL(
     .CLK(CLK),
-    .RST_N(RST_N),
+    .RST_N(RST),
 
     .R_Addr(read_addr),
     .R_Request(read_req),

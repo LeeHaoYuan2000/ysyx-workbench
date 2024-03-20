@@ -1,6 +1,6 @@
 module AXI4_WRITE_MODUAL(
     input CLK,
-    input RST_N,
+    input RST,
 
     input [63:0] WRITE_ADDR,
     input [63:0] WRITE_DATA,
@@ -30,7 +30,7 @@ wire B_READY;
 
 AXI4_LITE_WRITE_SLAVE write_slave(
     .CLK        (CLK),
-    .RST_N      (RST_N),
+    .RST        (RST),
 
     .AW_ADDR    (AW_ADDR),
     .AW_VALID   (AW_VALID),
@@ -55,7 +55,7 @@ AXI4_LITE_WRITE_SLAVE write_slave(
 AXI4_LITE_WRITE_MASTER write_master(
 
     .CLK        (CLK),
-    .RST_N      (RST_N),
+    .RST        (RST),
 
     //write address channel
     .AW_ADDR    (AW_ADDR),

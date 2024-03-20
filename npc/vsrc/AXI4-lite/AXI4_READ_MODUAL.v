@@ -1,6 +1,6 @@
 module AXI4_READ_MODUAL(
     input CLK,
-    input RST_N,
+    input RST,
 
 //to the host
     // signal from outside
@@ -30,7 +30,7 @@ module AXI4_READ_MODUAL(
 
 AXI4_LITE_READ_MASTER read_master(
     .CLK(CLK),
-    .RST_n(RST_N),
+    .RST(RST),
 
     //Read Adress Channel 
     .AR_ADDR(AR_ADDR),
@@ -53,7 +53,7 @@ AXI4_LITE_READ_MASTER read_master(
 
 AXI4_LITE_READ_SLAVE read_slave(
 .CLK        (CLK),
-.RST_N      (RST_N),
+.RST      (RST),
 
 //Read Address Channel
 .AR_ADDR    (AR_ADDR), 
