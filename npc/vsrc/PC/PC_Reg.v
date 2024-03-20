@@ -2,11 +2,22 @@
 module PC_Reg(
     input clk,
     input rst,
+    input enable,
     input [63:0]PC_Next,
     output [63:0]PC
 );
 
-    Reg #(64,64'h0000_0000_8000_0000) pc_reg (clk,rst,PC_Next,PC,1'b1); //64bits PC
+    always@(posedge clk)begin
+        if(rst)begin
+            pc <= 64'b0000_0000_8000_0000;
+        end
+        else if(enable)begin
+            pc <= PC_Next;
+        end
+        else begin
+            pc <= pc;
+        end
+    end
 
 endmodule
 
