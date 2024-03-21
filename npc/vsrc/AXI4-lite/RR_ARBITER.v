@@ -52,7 +52,7 @@ always@(*)begin
 end
 
 always@(posedge CLK)begin
-    if(RST_N)begin
+    if(RST)begin
         req_shot <= 2'b00;
     end
     else if(cur_state == IDLE && next_state == Arbiter_State)begin
@@ -67,7 +67,7 @@ always@(posedge CLK)begin
 end
 
 always@(posedge CLK)begin
-    if(RST_N)begin
+    if(RST)begin
         pri <= 2'b01;
     end
     else if(next_state == Arbiter_State)begin

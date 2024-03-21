@@ -4,7 +4,6 @@
 #include "Vtop.h"
 #include "Vtop__Syms.h"
 #include "verilated_vcd_c.h"
-#include "verilated_dpi.h"
 
 //============================================================
 // Constructors
@@ -13,26 +12,15 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     : vlSymsp{new Vtop__Syms(_vcontextp__, _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
     , rst{vlSymsp->TOP.rst}
-    , instr_in{vlSymsp->TOP.instr_in}
-    , SEXT_result{vlSymsp->TOP.SEXT_result}
-    , PC_Test{vlSymsp->TOP.PC_Test}
-    , SEXT_Control_out{vlSymsp->TOP.SEXT_Control_out}
-    , RS1_OUTPUT{vlSymsp->TOP.RS1_OUTPUT}
-    , RS2_OUTPUT{vlSymsp->TOP.RS2_OUTPUT}
-    , ALU_Result{vlSymsp->TOP.ALU_Result}
-    , MEM_Enable{vlSymsp->TOP.MEM_Enable}
-    , MEM_Read{vlSymsp->TOP.MEM_Read}
-    , MEM_DataLenth{vlSymsp->TOP.MEM_DataLenth}
-    , MEM_Addr{vlSymsp->TOP.MEM_Addr}
-    , MEM_Dataoutput{vlSymsp->TOP.MEM_Dataoutput}
-    , MEM_Datainput{vlSymsp->TOP.MEM_Datainput}
-    , WriteBack_Enable_result{vlSymsp->TOP.WriteBack_Enable_result}
-    , C_RS1_PC_Connector_result{vlSymsp->TOP.C_RS1_PC_Connector_result}
-    , C_RS2_imm_Connector_result{vlSymsp->TOP.C_RS2_imm_Connector_result}
-    , C_ALU_MEM_Connector_result{vlSymsp->TOP.C_ALU_MEM_Connector_result}
-    , C_ALU_NPC_In_Connector_result{vlSymsp->TOP.C_ALU_NPC_In_Connector_result}
-    , C_NPC_Branch_Jump_Connector_result{vlSymsp->TOP.C_NPC_Branch_Jump_Connector_result}
-    , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
+    , READ_DATA{vlSymsp->TOP.READ_DATA}
+    , READ_FINISH{vlSymsp->TOP.READ_FINISH}
+    , READ_SIGNAL{vlSymsp->TOP.READ_SIGNAL}
+    , READ_ADDR{vlSymsp->TOP.READ_ADDR}
+    , ec_finish{vlSymsp->TOP.ec_finish}
+    , ex_data{vlSymsp->TOP.ex_data}
+    , INSTR_ARRIVE{vlSymsp->TOP.INSTR_ARRIVE}
+    , INSTR_Complete{vlSymsp->TOP.INSTR_Complete}
+    , INSTR_DATA{vlSymsp->TOP.INSTR_DATA}
     , rootp{&(vlSymsp->TOP)}
 {
 }
@@ -79,7 +67,7 @@ static void _eval_initial_loop(Vtop__Syms* __restrict vlSymsp) {
             Verilated::debug(1);
             __Vchange = Vtop___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ubuntu/ysyx-workbench/npc/vsrc/top.v", 2, "",
+            VL_FATAL_MT("vsrc/top.v", 2, "",
                 "Verilated model didn't DC converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {
@@ -110,7 +98,7 @@ void Vtop::eval_step() {
             Verilated::debug(1);
             __Vchange = Vtop___024root___change_request(&(vlSymsp->TOP));
             Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("/home/ubuntu/ysyx-workbench/npc/vsrc/top.v", 2, "",
+            VL_FATAL_MT("vsrc/top.v", 2, "",
                 "Verilated model didn't converge\n"
                 "- See https://verilator.org/warn/DIDNOTCONVERGE");
         } else {

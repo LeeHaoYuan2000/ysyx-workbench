@@ -6,6 +6,11 @@ VSRC +=  $(shell find $(abspath ./vsrc) -name "*.v" -or -name "*.sv")
 TOP_MODULE := top
 SEARCHPATH := $(abspath ./vsrc)
 
+CSRC_WAVE += ./sim.cpp
+VSRC_WAVE += ./vsrc/top.v ./vsrc/PC/PC_Reg.v ./vsrc/PC/PC_Adder.v ./vsrc/IFU/IFU.v
+VSRC_WAVE += ./vsrc/Example/Reg.v
+VSRC_WAVE += $(shell find $(abspath ./vsrc/AXI4-lite) -name "*.v" -or -name "*.sv")
+
 # 2.verilator flags:
 VERILATOR_FLAGS += -I${SEARCHPATH}
 VERILATOR_FLAGS += --top ${TOP_MODULE}
@@ -38,6 +43,10 @@ sim:
 gtkwave:
 	gtkwave $(shell find -name "*.vcd")
 
-.PHONY: clean all show compile
+compile_just_wave:${CSRC_WAVE} ${VSRC_WAVE}
+	@verilator ${VERILATOR_FLAGS} ${VSRC_WAVE} ${CSRC_WAVE} 
+	./obj_dir/Vtop
+
+.PHONY: clean all show compile 
 
 include ../Makefile

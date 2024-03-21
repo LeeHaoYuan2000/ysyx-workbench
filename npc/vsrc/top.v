@@ -3,21 +3,25 @@ module top(
     input clk,
     input rst,
 
+//  connect to the ram
     input  [63:0] READ_DATA,
     input         READ_FINISH,
     output        READ_SIGNAL,
     output [63:0] READ_ADDR,
 
+    output  reg ec_finish,
+    output  reg [63:0] ex_data,
+
 
     //vertifify signal
     output       INSTR_ARRIVE,
     input        INSTR_Complete,
-    input [63:0] INSTR_DATA
+    output reg [31:0] INSTR_DATA
 );
 //---------wire------------------------------------------------------
     wire [63:0] PC_TO_IFU;
     wire [63:0] INSTR_TO_IFU;
-    wire [63:0] INSTR_ADDR
+    wire [63:0] INSTR_ADDR;
     wire        READ_INSTR_START; //send signal to axi4
     wire        READ_INSTR_FINISH; //axi4 send finish singal to ifu
 
@@ -53,7 +57,7 @@ module top(
 
 // send pc and get instr from AXI4
     .PC_addr            (INSTR_ADDR),
-    .INSTR_READ         (INSTR_TO_IFU)
+    .INSTR_READ         (INSTR_TO_IFU[31:0])
     );
 
 
@@ -64,12 +68,12 @@ module top(
     .read_req_instr     (READ_INSTR_START), // Instructon fetch signal
     .read_req_ex        (1'b0),                 // excute read
     .instr_finish       (READ_INSTR_FINISH),
-    .ex_finish          (1'b0),
+    .ex_finish          (ec_finish),
 
     .instr_addr     (INSTR_ADDR),
     .ex_addr        (64'd0),
     .instr_data     (INSTR_TO_IFU),
-    .ex_data        (64'd0),
+    .ex_data        (ex_data),
 
     // to the ram
     .Read_SIGNAL    (READ_SIGNAL),

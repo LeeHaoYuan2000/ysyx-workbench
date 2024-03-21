@@ -9,13 +9,11 @@
 #define VERILATED_VTOP_H_  // guard
 
 #include "verilated_heavy.h"
-#include "svdpi.h"
 
 class Vtop__Syms;
 class Vtop___024root;
 class VerilatedVcdC;
 class Vtop_VerilatedVcd;
-class Vtop___024unit;
 
 
 // This class is the main interface to the Verilated model
@@ -31,30 +29,19 @@ class Vtop VL_NOT_FINAL {
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clk,0,0);
     VL_IN8(&rst,0,0);
-    VL_IN(&instr_in,31,0);
-    VL_OUT64(&SEXT_result,63,0);
-    VL_OUT64(&PC_Test,63,0);
-    VL_OUT8(&SEXT_Control_out,2,0);
-    VL_OUT64(&RS1_OUTPUT,63,0);
-    VL_OUT64(&RS2_OUTPUT,63,0);
-    VL_OUT64(&ALU_Result,63,0);
-    VL_OUT8(&MEM_Enable,0,0);
-    VL_OUT8(&MEM_Read,0,0);
-    VL_OUT8(&MEM_DataLenth,3,0);
-    VL_OUT64(&MEM_Addr,63,0);
-    VL_OUT64(&MEM_Dataoutput,63,0);
-    VL_IN64(&MEM_Datainput,63,0);
-    VL_OUT8(&WriteBack_Enable_result,0,0);
-    VL_OUT8(&C_RS1_PC_Connector_result,0,0);
-    VL_OUT8(&C_RS2_imm_Connector_result,0,0);
-    VL_OUT8(&C_ALU_MEM_Connector_result,0,0);
-    VL_OUT8(&C_ALU_NPC_In_Connector_result,0,0);
-    VL_OUT8(&C_NPC_Branch_Jump_Connector_result,1,0);
+    VL_IN64(&READ_DATA,63,0);
+    VL_IN8(&READ_FINISH,0,0);
+    VL_OUT8(&READ_SIGNAL,0,0);
+    VL_OUT64(&READ_ADDR,63,0);
+    VL_OUT8(&ec_finish,0,0);
+    VL_OUT64(&ex_data,63,0);
+    VL_OUT8(&INSTR_ARRIVE,0,0);
+    VL_IN8(&INSTR_Complete,0,0);
+    VL_OUT(&INSTR_DATA,31,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
     // Otherwise the application code can consider these internals.
-    Vtop___024unit* const __PVT____024unit;
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.

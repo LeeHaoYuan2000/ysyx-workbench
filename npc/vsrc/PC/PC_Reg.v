@@ -4,18 +4,18 @@ module PC_Reg(
     input rst,
     input enable,
     input [63:0]PC_Next,
-    output [63:0]PC
+    output reg [63:0]PC
 );
 
     always@(posedge clk)begin
         if(rst)begin
-            pc <= 64'b0000_0000_8000_0000;
+            PC <= 64'h0000_0000_8000_0000;
         end
         else if(enable)begin
-            pc <= PC_Next;
+            PC <= PC_Next;
         end
         else begin
-            pc <= pc;
+            PC <= PC;
         end
     end
 

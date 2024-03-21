@@ -43,26 +43,11 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-	device \
-	map \
-	mmio \
-	keyboard \
-	serial \
-	timer \
-	vga \
-	RegFile \
-	difftest \
-	initMEM \
-	sdb \
-	sim_init \
-	sim_main \
+	sim \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
-	/home/ubuntu/ysyx-workbench/npc/csrc \
-	/home/ubuntu/ysyx-workbench/npc/csrc/initSys \
-	/home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device \
-	/home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device/io \
+	. \
 
 
 ### Default rules...
@@ -74,31 +59,7 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-device.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device/device.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-map.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device/io/map.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-mmio.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device/io/mmio.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-keyboard.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device/keyboard.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-serial.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device/serial.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-timer.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device/timer.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-vga.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/Device/vga.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-RegFile.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/RegFile.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-difftest.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/difftest.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-initMEM.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/initMEM.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-sdb.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/sdb.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-sim_init.o: /home/ubuntu/ysyx-workbench/npc/csrc/initSys/sim_init.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-sim_main.o: /home/ubuntu/ysyx-workbench/npc/csrc/sim_main.cpp
+sim.o: ./sim.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
