@@ -1,10 +1,8 @@
-import "DPI-C" function void check_ebreak(input logic [7:0] ebreak_reg[]);
+//import "DPI-C" function void check_ebreak(input logic [7:0] ebreak_reg[]);
 //import "DPI-C" function void instr_invalid(input logic isInstrEmpty[]);
 
 module ControUnit(
     input  [31:0] instr,
-    input         IFU_Busy,
-    input         INSTR_ENABLE, //IFU can fetch the instr now
     input         ALU_MEM_Finish, //ALU or MEM`s operation is done, the cpu can write back now
 
     input  Branch_Yes_No, //1 for branch , 0 for npc
@@ -24,10 +22,10 @@ module ControUnit(
     output MEM_Enable
 );
 
-initial begin
-    check_ebreak(ebreak_reg);
+//initial begin
+//    check_ebreak(ebreak_reg);
 //    instr_invalid(isInstrEmpty);
-end
+//end
 
 reg [7:0] ebreak_reg;
 //reg isInstrEmpty ;
@@ -36,8 +34,6 @@ always @(*) begin
     ebreak_reg   = {8{ebreak}};
 //    isInstrEmpty = ~instr_valid;
 end
-
-assign INSTR_ENABLE = ~IFU_Busy;
 
 wire [6:0] instr_6_0;
 wire [2:0] instr_14_12;
@@ -213,7 +209,7 @@ wire ALU_CSROP    = (csrrw | csrrs | ecall | mret);
 
 // The Inner Control of the ALU
 wire ALUInternal_Control_0 = (addi | add | mulw | divw | sraw | sraiw | andi | _and | bne |
-                             ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc | jal | lb | lwu
+                             ld | lw | lbu | lh | lhu | sd | sw | sb | sh | auipc | jal | lb | lwu |
                              csrrw );
 
 wire ALUInternal_Control_1 = (sub  | mul | remw | xori | beq | srliw | srlw | _xor | csrrs);
@@ -242,7 +238,7 @@ assign C_NPC_Branch_Jump[1] = (jalr);
 
 
 
-wire [10:0]func_signal = {ALU_Adder    , ALU_Mul    , ALU_Div,
+wire [11:0]func_signal = {ALU_Adder    , ALU_Mul    , ALU_Div,
                           ALU_Compare  , ALU_Shift  , ALU_LS,
                           ALU_LogicOpt , ALU_Branch , ALU_Jump,
                           ALU_auipc    , ALU_lui    , ALU_CSROP};

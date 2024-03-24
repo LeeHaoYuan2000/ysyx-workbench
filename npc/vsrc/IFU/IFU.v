@@ -26,7 +26,7 @@ always@(posedge clk)begin
     else if(!read_instr_finish && !instr_arrive && !instr_ex_complete && !read_instr_start)begin
         read_instr_start <= 1'b1;
     end
-    else if(read_instr_finish && !read_instr_start)begin
+    else if(read_instr_finish && read_instr_start)begin
         read_instr_start <= 1'b0;
     end
     else begin

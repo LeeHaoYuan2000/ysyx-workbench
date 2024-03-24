@@ -14,8 +14,11 @@
   void sim();
   //void instr_read();
   void data_send();
+  void check_data_arrive_ifu();
 
-  long long data = 0x80000000;
+  long long data = 0b0110011;
+unsigned  int rs1 = 0;
+unsigned  int rs2 = 1;
 
 int main(){
     contextp = new VerilatedContext;
@@ -60,10 +63,10 @@ void sim(){
         tfp->dump(contextp->time());
         contextp->timeInc(1);
         top->clk = 1;
-  //      ex_read();
-   //     instr_read();
+
         top->eval();
         data_send();
+        check_data_arrive_ifu();
         tfp->dump(contextp->time());
         
         contextp->timeInc(1);
@@ -103,12 +106,31 @@ void sim_exit(){
 
 // }
 void data_send(){
+    long long instr = 0;
+
     if(top->READ_SIGNAL && !top->READ_FINISH){
-        top->READ_FINISH  = 1;
-        top->READ_DATA    =  data;
+        top ->READ_FINISH  = 1;
+        instr = 0b0110011 | (rs1 << 15) |(rs2 << 20);
+        top->READ_DATA    =  instr;
     }
     else if(top->READ_FINISH){
-        data = data >> 1;
+        //reg number is 32 for risc-v
+        if(rs1 == 31){
+            rs1 = 0;
+        }
+        if(rs2 == 31){
+            rs2 = 0;
+        }
         top->READ_FINISH = 0;
+
+        rs1++; rs2++;
+    }
+}
+void check_data_arrive_ifu(){
+    if(top->INSTR_ARRIVE && !top->INSTR_Complete){
+        top->INSTR_Complete = 1;
+    }
+    else {
+        top->INSTR_Complete = 0;
     }
 }

@@ -8,8 +8,10 @@ SEARCHPATH := $(abspath ./vsrc)
 
 CSRC_WAVE += ./sim.cpp
 VSRC_WAVE += ./vsrc/top.v ./vsrc/PC/PC_Reg.v ./vsrc/PC/PC_Adder.v ./vsrc/IFU/IFU.v
-VSRC_WAVE += ./vsrc/Example/Reg.v
+VSRC_WAVE += ./vsrc/Example/Reg.v ./vsrc/REG/REG.v ./vsrc/MUX/MUX.v ./vsrc/SEXT/SEXT.v
+VSRC_WAVE += ./vsrc/CU/CU.v
 VSRC_WAVE += $(shell find $(abspath ./vsrc/AXI4-lite) -name "*.v" -or -name "*.sv")
+VSRC_WAVE += $(shell find $(abspath ./vsrc/ALU) -name "*.v" -or -name "*.sv")
 
 # 2.verilator flags:
 VERILATOR_FLAGS += -I${SEARCHPATH}
