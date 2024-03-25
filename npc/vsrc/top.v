@@ -12,10 +12,6 @@ module top(
     output  reg ec_finish,
     output  reg [63:0] ex_data,
 
-    output reg [63:0] RS1_Reg,
-    output reg [63:0] RS2_Reg,
-    output reg [63:0] SEXT_out,
-
     //vertifify signal
     output       INSTR_ARRIVE,
     input        INSTR_Complete,
@@ -27,11 +23,16 @@ module top(
     wire [63:0] INSTR_ADDR;
     wire        READ_INSTR_START; //send signal to axi4
     wire        READ_INSTR_FINISH; //axi4 send finish singal to ifu
+    wire [63:0] RS1_Reg;
+    wire [63:0] RS2_Reg;
+    wire [63:0] SEXT_out;
+
 
     wire [63:0] PC_NEXT;
 
     wire [63:0] ALU_Number_1;
     wire [63:0] ALU_Number_2;
+    wire [63:0] ALU_Result;
 
     wire [3:0] ALU_Control;
     wire [3:0] ALU_Inside_Control;
@@ -109,7 +110,7 @@ REG reg_file(
     .RS2            (INSTR_DATA[24:20]),
     .RD             (INSTR_DATA[11:7]),
     .RD_Back        (64'd0),
-    .Enable_Control ('d0), //Write Back enable
+    .Enable_Control (RegWriteEnable), //Write Back enable
     .RS1_Reg        (RS1_Reg),
     .RS2_Reg        (RS2_Reg)
 );
@@ -162,7 +163,7 @@ ALU_top alu(
     .func_control       (ALU_Control),
     .inner_control      (ALU_Inside_Control),
     .MEM_Enable         (MEM_Enable), //CU tell ALU that this instruction need to access the MEM
-    .result_out         (),
+    .result_out         (ALU_Result),
 
     //CSR port
     .CSR_Read_Addr      (CSR_Read_Addr),
@@ -182,13 +183,10 @@ ALU_top alu(
 
     .mtvec_Write_Data   (mtvec_Write_Data),
     .mtvec_Read_Data    (mtvec_Read_Data),
-    .mtvec_En           (mtvec_En),
-
-    .INSTR_Valid        (),//IFU tell the ALU INSTR is valid
-    //output ,tell the ifu ALU operation is done 
-    .ALU_Finish         ()
+    .mtvec_En           (mtvec_En)
+    
 );
-
+// wire connect the 
 wire [11:0] CSR_Read_Addr;
 wire [63:0] CSR_Read_Data;
 
@@ -206,7 +204,7 @@ wire mepc_En;
 
 wire [63:0] mtvec_Write_Data;
 wire [63:0] mtvec_Read_Data;
-wire mtvec_En
+wire mtvec_En;
 
 CSR csr(
     .rst            (rst),
@@ -220,12 +218,12 @@ CSR csr(
     .write_en       (Write_En),
 
     .mcause_in      (mcause_Write_Data),
-    .mcause         (mcause_Read_Data).
-    .mcause_wen     (mcause_En).
+    .mcause         (mcause_Read_Data),
+    .mcause_wen     (mcause_En),
 
     .mepc_in        (mepc_Write_Data),
     .mepc           (mepc_Read_Data),
-    .mepc_wen       (mepc_En).
+    .mepc_wen       (mepc_En),
 
     .mtvec_in       (mtvec_Write_Data),
     .mtvec          (mtvec_Read_Data),

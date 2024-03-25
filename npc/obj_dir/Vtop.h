@@ -35,9 +35,6 @@ class Vtop VL_NOT_FINAL {
     VL_OUT64(&READ_ADDR,63,0);
     VL_OUT8(&ec_finish,0,0);
     VL_OUT64(&ex_data,63,0);
-    VL_OUT64(&RS1_Reg,63,0);
-    VL_OUT64(&RS2_Reg,63,0);
-    VL_OUT64(&SEXT_out,63,0);
     VL_OUT8(&INSTR_ARRIVE,0,0);
     VL_IN8(&INSTR_Complete,0,0);
     VL_OUT(&INSTR_DATA,31,0);

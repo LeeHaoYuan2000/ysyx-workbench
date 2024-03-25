@@ -19,23 +19,19 @@ module ALU_top(
     output        Write_En,
 
     output [63:0] mcause_Write_Data,
-    input  [63:9] mcause_Read_Data,
+    input  [63:0] mcause_Read_Data,
     output        mcause_En,
 
     output [63:0] mepc_Write_Data,
     input  [63:0] mepc_Read_Data,
-    output [63:0] mepc_En,
+    output        mepc_En,
 
     output [63:0] mtvec_Write_Data,
     input  [63:0] mtvec_Read_Data,
-    output mtvec_En,
-
-    input INSTR_Valid,//IFU tell the ALU INSTR is valid
-    //output ,tell the ifu ALU operation is done 
-    output ALU_Finish
+    output        mtvec_En
 );
 
-assign ALU_Finish = INSTR_Valid ? (MEM_Enable ? 1'b0: 1'b1) : 1'b0;
+//assign ALU_Finish = INSTR_Valid ? (MEM_Enable ? 1'b0: 1'b1) : 1'b0;
 
 parameter MUX_Adder   = 4'd0;
 parameter MUX_Shift   = 4'd1;
@@ -124,7 +120,7 @@ CSR_OP csr_op(
     .mtvec_En(mtvec_En)
 );
 
-MuxKeyWithDefault #(8,4,64) Adder_mux (result_out,func_control,64'd0,{
+MuxKeyWithDefault #(9,4,64) Adder_mux (result_out,func_control,64'd0,{
     MUX_Adder   , Adder_out,  
     MUX_Shift   , Shift_out, 
     MUX_Compare , Compare_out,

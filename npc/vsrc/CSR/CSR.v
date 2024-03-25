@@ -2,24 +2,24 @@ module CSR (
     input rst,
     input clk,
 
-    input [11:0]  read_address,
-    output [63:0] read_result,
+    input      [11:0]  read_address,
+    output reg [63:0]   read_result,
 
-    input [11:0] write_address,
-    input [63:0] wirte_date,
-    input write_en,
+    input      [11:0]   write_address,
+    input      [63:0]   wirte_date,
+    input               write_en,
 
-    input [63:0] mcause_in,
-    output reg [63:0] mcause.
-    input mcause_wen.
+    input      [63:0]   mcause_in,
+    output reg [63:0]   mcause,
+    input               mcause_wen,
 
-    input [63:0] mepc_in,
-    output reg [63:0] mepc,
-    input mepc_wen.
+    input      [63:0]   mepc_in,
+    output reg [63:0]   mepc,
+    input               mepc_wen,
 
-    input [63:0] mtvec_in,
-    output reg [63:0] mtvec,
-    input mtvec_wen
+    input      [63:0]   mtvec_in,
+    output reg [63:0]   mtvec,
+    input               mtvec_wen
 );
 
 reg [63:0] mcause_reg;
@@ -68,15 +68,15 @@ end
 always@(*)begin
     case (read_address)
         mtvec_address:begin
-            read_result <= mtvec_reg;
+            read_result = mtvec_reg;
         end
         mepc_address:begin
-            read_result <= mepc_reg;
+            read_result = mepc_reg;
         end
         mcause_address:begin
-            read_result <= mcause_reg;
+            read_result = mcause_reg;
         end
-        default:read_result <= 64'd0;
+        default:read_result = 64'd0;
     endcase
 end
 
@@ -85,14 +85,27 @@ always@(posedge clk)begin
     case (write_address)
         mtvec_address:begin
              mtvec_reg <= wirte_date;
+
+             mepc_reg   <= mepc_reg;
+             mcause_reg <= mcause_reg;
         end
         mepc_address:begin
-             mepc_reg  <= wirte_date;
+             mepc_reg   <= wirte_date;
+
+             mtvec_reg  <= mtvec_reg;
+             mcause_reg <= mcause_reg;
         end
         mcause_address:begin
              mcause_reg <= wirte_date;
+
+             mtvec_reg  <= mtvec_reg;
+             mepc_reg   <= mepc_reg;
         end
-        default: 
+        default: begin
+            mtvec_reg  <= mtvec_reg;
+            mepc_reg   <= mepc_reg;
+            mcause_reg <= mcause_reg;
+        end
     endcase
 end
 

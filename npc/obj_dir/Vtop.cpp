@@ -18,9 +18,6 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , READ_ADDR{vlSymsp->TOP.READ_ADDR}
     , ec_finish{vlSymsp->TOP.ec_finish}
     , ex_data{vlSymsp->TOP.ex_data}
-    , RS1_Reg{vlSymsp->TOP.RS1_Reg}
-    , RS2_Reg{vlSymsp->TOP.RS2_Reg}
-    , SEXT_out{vlSymsp->TOP.SEXT_out}
     , INSTR_ARRIVE{vlSymsp->TOP.INSTR_ARRIVE}
     , INSTR_Complete{vlSymsp->TOP.INSTR_Complete}
     , INSTR_DATA{vlSymsp->TOP.INSTR_DATA}
