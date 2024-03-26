@@ -231,6 +231,32 @@ CSR csr(
 );
 
 
+MEM mem(
+    .clk        (),
+    .rst        (),
+
+    .MEM_ADDR_FROM_ALU  (),
+    .MEM_DATA_FROM_ALU  (),
+
+    .RESULT_FROM_ALU    (),
+    .MEM_Enable         (),
+    .Ctrl               (),
+
+    //axi4 read
+    .MEM_READ_REQ       (),
+    .MEM_READ_FINISH    (),
+    .MEM_READ_ADDR      (),
+    .MEM_READ_DATA      (),
+
+    //axi4 write
+    .MEM_WRITE_REQ      (),
+    .MEM_WRITE_FINISH   (),
+    .MEM_WRITE_ADDR     (),
+    .MEM_WRITE_DATA     (),
+
+    .RESULT             (),
+    .FINISH             ()
+);
 
 
 endmodule

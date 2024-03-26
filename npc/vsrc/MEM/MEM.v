@@ -1,36 +1,30 @@
-//import "DPI-C" function void pmem_read(input longint raddr,output longint rdata,input longint len);
-//import "DPI-C" function void pmem_write(input longint waddr,input longint wdata,input byte wmask);
 
 
 module MEM(
-    input         clk,
-    input         rst,
-    input  [63:0] MEM_Address,
-    input  [63:0] Data_Write,
-    input         MEM_Enable,
-    input  [3:0]  Ctrl,
-    output reg [63:0]MEM_Data_out,//内部数据通路
-    output reg    MEM_Finish,
+    input clk,
+    input rst,
 
-    //AXI4 port
-        //axi4 write
-        output reg Write_Start,
-        input      Finish_Write,
-        output reg [63:0] Write_ADDR,
-        output reg [63:0] Write_Data,
-        //axi4 read
-        output reg Read_Start,
-        input      Finish_Read,
-        output reg [63:0] Read_ADDR,
-        input  reg [63:0] Read_Data
+    input [63:0]    MEM_ADDR_FROM_ALU,
+    input [63:0]    MEM_DATA_FROM_ALU,
 
-    // output        MEM_Enable_Top,
-    // output        MEM_Read_Top,
-    // output [3:0]  MEM_DataLenth_Top,
-    // output [63:0] MEM_Addr_Top,
-    // output [63:0] MEM_Dataoutput_Top,
-    // input  [63:0] MEM_Dataiput_Top
- 
+    input           RESULT_FROM_ALU,
+    input           MEM_Enable,
+    input [3:0]     Ctrl,
+
+    //axi4 read
+    output reg      MEM_READ_REQ,
+    input           MEM_READ_FINISH,
+    output [63:0]   MEM_READ_ADDR,
+    input  [63:0]   MEM_READ_DATA,
+
+    //axi4 write
+    output reg      MEM_WRITE_REQ,
+    input           MEM_WRITE_FINISH,
+    output [63:0]   MEM_WRITE_ADDR,
+    output [63:0]   MEM_WRITE_DATA,
+
+    output [63:0]   RESULT,
+    output          FINISH
 );
 
 parameter Load_8Bytes       = 4'b0000;
@@ -45,108 +39,74 @@ parameter Store_4Byte   = 4'b1001;
 parameter Store_2Byte   = 4'b1010;
 parameter Store_1Byte   = 4'b1011;
 
-/* verilator lint_off UNOPTFLAT */
+reg [63:0] READ_DATA_BUF;
+reg [63:0] WRITE_DATA_BUF;
 
-// assign MEM_Enable_Top = MEM_Enable;
+wire [63:0] READ_DATA_RESULT;
 
-// parameter MEM_Read  = 1;
-// parameter MEM_Write = 0;
+assign RESULT = READ_DATA_RESULT;
+assign FINISH = MEM_READ_FINISH | MEM_WRITE_FINISH;
 
-localparam IDLE            = 4'b0000;
-localparam Load_Data       = 4'b0001;
-localparam Store_Data      = 4'b0010;
-localparam Finish_MEM      = 4'b0011;
-
-wire  Go_Load_Data  = (MEM_Enable) && (~Ctrl[3]);
-wire  Go_Store_Data = (MEM_Enable) && (~Ctrl[3]);
-wire  GO_Finish_MEM = Finish_Read || Finish_Write;
-wire  Go_IDLE       = ~MEM_Enable;
-
-reg [3:0] current_state;
-reg [3:0] next_state;
-
-assign Write_ADDR = MEM_Address;
-assign Read_ADDR  = MEM_Address;
-assign Write_Data = Data_Write;
-
-reg [63:0] Read_Data_Buffer;
-
+//read data from axi4
 always@(posedge clk)begin
     if(rst)begin
-        current_state <= IDLE;
+
+        MEM_READ_REQ        <= 1'b0;
+        MEM_READ_ADDR       <= 'b0;
+        READ_DATA_BUF       <= 'b0;
+
+    end
+    else if(MEM_Enable && !Ctrl[3] && !MEM_READ_REQ)begin
+
+        MEM_READ_REQ        <= 1'b1;
+        MEM_READ_ADDR       <= MEM_ADDR_FROM_ALU;
+        READ_DATA_BUF       <= MEM_READ_DATA;
+
+    end
+    else if(MEM_READ_REQ && MEM_READ_FINISH)begin
+
+        MEM_READ_REQ        <= 1'b0;
+        MEM_READ_ADDR       <= MEM_ADDR_FROM_ALU;
+        READ_DATA_BUF       <= MEM_READ_DATA;
+
     end
     else begin
-        current_state <= next_state;
+
+        MEM_READ_REQ        <= MEM_READ_REQ;
+        MEM_READ_ADDR       <= MEM_ADDR_FROM_ALU;
+        READ_DATA_BUF       <= MEM_READ_DMEM_WRITE_REQATA;
+
     end
 end
 
-always@(*)begin
-    IDLE:begin
-        if(Go_Load_Data)begin
-            next_state = Load_Data;
-        end
-        else if(Go_Store_Data)begin
-            next_state = Store_Data;
-        end
-        else begin
-            next_state = IDLE;
-        end
-    end    
-    Load_Data:begin
-        if(GO_Finish_MEM)begin
-            next_State = Finish_MEM;
-        end
-        else begin
-            next_state = Load_Data;
-        end
-    end
-    Store_Data:begin
-        if(GO_Finish_MEM)begin
-            next_State = Finish_MEM;
-        end
-        else begin
-            next_state = Store_Data;
-        end
-    end
-    Finish_MEM:begin
-        if(Go_IDLE)begin
-            next_State = IDLE;
-        end
-        else begin
-            next_state = Finish_MEM;
-        end
-    end
-    default:begin
-        next_State = IDLE;
-    end
-end
-
+//write data to axi4
 always@(posedge clk)begin
-    IDLE:begin
-        Write_Start <= 1'b0;
-        Read_Start  <= 1'b0;
-         MEM_Finish <= 1'b0;
+    if(rst)begin
+
+        MEM_WRITE_REQ   <= 1'b0;
+        MEM_WRITE_ADDR  <= 'd0;
+        MEM_WRITE_DATA  <= 'd0;
+
     end
-    Load_Data:begin
-        Write_Start <= 1'b0;
-        Read_Start  <= 1'b1;
-        if(Finish_Read)begin
-            Read_Data_Buffer <= Read_Data;
-        end
-        else begin
-            Read_Data_Buffer <= Read_Data_Buffer;
-        end
-    end 
-    Store_Data:begin
-        Write_Start <= 1'b1;
-        Read_Start  <= 1'b0;
+    else if(Ctrl[3] && MEM_Enable && !MEM_WRITE_REQ)begin
+
+        MEM_WRITE_REQ   <= 1'b1;
+        MEM_WRITE_ADDR  <= MEM_WRITE_ADDR;
+        MEM_WRITE_DATA  <= WRITE_DATA_BUF;
+
     end
-    Finish_MEM:begin
-        MEM_Finish <= 1'b1;
-        Write_Start <= 1'b0;
-        Read_Start  <= 1'b0;
+    else if(MEM_WRITE_REQ && MEM_WRITE_FINISH)begin
+
+        MEM_WRITE_REQ   <= 1'b0;
+        MEM_WRITE_ADDR  <= MEM_WRITE_ADDR;
+        MEM_WRITE_DATA  <= WRITE_DATA_BUF;
+
     end
-    default:begin
+    else begin
+
+        MEM_WRITE_REQ   <= MEM_WRITE_REQ;
+        MEM_WRITE_ADDR  <= MEM_WRITE_ADDR;
+        MEM_WRITE_DATA  <= WRITE_DATA_BUF;
 
     end
 end
@@ -157,112 +117,69 @@ always@(*) begin
         1'b0:begin
         case(Ctrl)
             Load_8Bytes: begin
-                MEM_Addr_Top = MEM_Address;
-                MEM_DataLenth_Top = 8;
-                MEM_Read_Top = MEM_Read;
-                MEM_Data_out = MEM_Dataiput_Top;
+
+                READ_DATA_RESULT = READ_DATA_BUF;
             end
             Load_2Bytes: begin 
 
-                MEM_Addr_Top = MEM_Address;
-                MEM_DataLenth_Top = 2;
-                MEM_Read_Top = MEM_Read;
-                MEM_Data_out ={{48{1'b0}},MEM_Dataiput_Top[15:0]};
+                READ_DATA_RESULT ={{48{1'b0}},READ_DATA_BUF[15:0]};
             end
             Load_1Bytes: begin 
                 
-                MEM_Addr_Top = MEM_Address;
-                MEM_DataLenth_Top = 1;
-                MEM_Read_Top = MEM_Read;
-                MEM_Data_out ={{56{1'b0}},MEM_Dataiput_Top[7:0]};
+                READ_DATA_RESULT ={{56{1'b0}},READ_DATA_BUF[7:0]};
             end
             Load_4Bytes_SEXT: begin 
                 
-                MEM_Addr_Top = MEM_Address;
-                MEM_DataLenth_Top = 4;
-                MEM_Read_Top = MEM_Read;
-                MEM_Data_out = {{32{MEM_Dataiput_Top[31]}},MEM_Dataiput_Top[31:0]};  
+                READ_DATA_RESULT = {{32{READ_DATA_BUF[31]}},READ_DATA_BUF[31:0]};  
             end
             Load_2Bytes_SEXT: begin 
 
-                MEM_Addr_Top = MEM_Address;
-                MEM_DataLenth_Top = 2;
-                MEM_Read_Top = MEM_Read;
-                MEM_Data_out = {{48{MEM_Dataiput_Top[15]}},MEM_Dataiput_Top[15:0]};
+                READ_DATA_RESULT = {{48{READ_DATA_BUF[15]}},READ_DATA_BUF[15:0]};
             end
 
             Load_4Bytes:begin
 
-
-                MEM_Addr_Top = MEM_Address;
-                MEM_DataLenth_Top = 4;
-                MEM_Read_Top = MEM_Read;
-                MEM_Data_out = {{32{1'b0}},MEM_Dataiput_Top[31:0]};
+                READ_DATA_RESULT = {{32{1'b0}},READ_DATA_BUF[31:0]};
             end
             default: begin 
-                // pmem_read(MEM_Address, Data_From_MEM, 8);
-                // MEM_Data_out = Data_From_MEM;
 
-                MEM_Addr_Top = MEM_Address;
-                MEM_DataLenth_Top = 8;
-                MEM_Read_Top = MEM_Read;
-                MEM_Data_out = MEM_Dataiput_Top;
+                READ_DATA_RESULT = READ_DATA_BUF;
             end
             endcase
     end
 
-    // 1'b1:begin
+    1'b1:begin
 
-    //     case(Ctrl)
-    //     Store_8Byte: begin
-    //         //pmem_write(MEM_Address,Data_Write,8);
+        case(Ctrl)
+        Store_8Byte: begin
 
-    //         MEM_Addr_Top = MEM_Address;
-    //         MEM_Read_Top = MEM_Write;
-    //         MEM_DataLenth_Top = 8;
-    //         MEM_Dataoutput_Top = Data_Write;
-    //     end
-    //     Store_4Byte: begin 
-    //        // pmem_write(MEM_Address,{{32{Data_Write[31]}},{Data_Write[31:0]}},4);
+            WRITE_DATA_BUF = MEM_DATA_FROM_ALU;
+        end
+        Store_4Byte: begin 
 
-    //        MEM_Addr_Top = MEM_Address;
-    //        MEM_Read_Top = MEM_Write;
-    //        MEM_DataLenth_Top = 4;
-    //        MEM_Dataoutput_Top = {{32{Data_Write[31]}},{Data_Write[31:0]}};
-    //     end
-    //     Store_2Byte: begin 
-    //        // pmem_write(MEM_Address,{{48{Data_Write[15]}},{Data_Write[15:0]}},2);
+           WRITE_DATA_BUF = {{32{MEM_DATA_FROM_ALU[31]}},{MEM_DATA_FROM_ALU[31:0]}};
+        end
+        Store_2Byte: begin 
 
-    //        MEM_Addr_Top = MEM_Address;
-    //        MEM_Read_Top = MEM_Write;
-    //     MEM_DataLenth_Top = 2;
-    //     MEM_Dataoutput_Top = {{48{Data_Write[15]}},{Data_Write[15:0]}};
-    //     end
-    //     Store_1Byte: begin 
-    //        //pmem_write(MEM_Address,{{56{Data_Write[7]}},{Data_Write[7:0]}},1);
+            WRITE_DATA_BUF = {{48{MEM_DATA_FROM_ALU[15]}},{MEM_DATA_FROM_ALU[15:0]}};
+        end
+        Store_1Byte: begin 
+ 
+           WRITE_DATA_BUF = {{56{MEM_DATA_FROM_ALU[7]}},{MEM_DATA_FROM_ALU[7:0]}};
+        end
+        default: begin 
 
-    //        MEM_Addr_Top = MEM_Address;
-    //        MEM_Read_Top = MEM_Write;
-    //        MEM_DataLenth_Top = 1;
-    //        MEM_Dataoutput_Top = {{56{Data_Write[7]}},{Data_Write[7:0]}};
-    //     end
-    //     default: begin 
-    //        // pmem_write(MEM_Address,Data_Write,8);
-
-    //        MEM_Addr_Top = MEM_Address;
-    //        MEM_Read_Top = MEM_Write;
-    //        MEM_DataLenth_Top = 8;
-    //        MEM_Dataoutput_Top = Data_Write;
-    //     end
-    //     endcase
-    // end
+           WRITE_DATA_BUF = MEM_DATA_FROM_ALU;
+        end
+        endcase
+    end
     
-        default:MEM_Data_out = 64'hffffff;
+        default:WRITE_DATA_BUF = 64'hffffff;
     endcase
         
     end
     else begin
-        MEM_Data_out = 64'hffff;
+        WRITE_DATA_BUF = 64'hffff;
     end
 
    
