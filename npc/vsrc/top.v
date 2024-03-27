@@ -9,6 +9,12 @@ module top(
     output        READ_SIGNAL,
     output [63:0] READ_ADDR,
 
+//Fetch data from ram
+    output DATA_ARRIVE,
+    input  DATA_RECIVED,
+    output [63:0] DATA,
+    output [63:0] DATA_ADDR
+
     output  reg ec_finish,
     output  reg [63:0] ex_data,
 
@@ -16,6 +22,7 @@ module top(
     output       INSTR_ARRIVE,
     input        INSTR_Complete,
     output reg [31:0] INSTR_DATA
+
 );
 //---------wire------------------------------------------------------
     wire [63:0] PC_TO_IFU;
@@ -45,6 +52,13 @@ module top(
     wire [1:0] NPC_Branch_Jump;
     wire [3:0] MEM_Ctrl;
     wire       MEM_Enable;
+
+    //mem AXI4
+    wire        MEM_READ_REQ;
+    wire        MEM_READ_FINISH;
+    wire [63:0] MEM_READ_ADDR_AXI;
+    wire [63:0] MEM_READ_DATA_AXI;
+    wire        MEM_Finish;
 
 
     PC_Reg pc(
@@ -86,14 +100,14 @@ module top(
     .RST                (rst),
 
     .read_req_instr     (READ_INSTR_START), // Instructon fetch signal
-    .read_req_ex        (1'b0),                 // excute read
+    .read_req_ex        (MEM_READ_REQ),                 // excute read
     .instr_finish       (READ_INSTR_FINISH),
-    .ex_finish          (ec_finish),
+    .ex_finish          (MEM_READ_FINISH),
 
     .instr_addr     (INSTR_ADDR),
-    .ex_addr        (64'd0),
+    .ex_addr        (MEM_READ_ADDR_AXI),
     .instr_data     (INSTR_TO_IFU),
-    .ex_data        (ex_data),
+    .ex_data        (MEM_READ_DATA_AXI),
 
     // to the ram
     .Read_SIGNAL    (READ_SIGNAL),
@@ -232,30 +246,49 @@ CSR csr(
 
 
 MEM mem(
-    .clk        (),
-    .rst        (),
+    .clk        (clk),
+    .rst        (rst),
 
-    .MEM_ADDR_FROM_ALU  (),
-    .MEM_DATA_FROM_ALU  (),
+    .MEM_ADDR_FROM_ALU  (ALU_Result),
+    .MEM_DATA_FROM_ALU  (RS2_Reg),
 
-    .RESULT_FROM_ALU    (),
-    .MEM_Enable         (),
-    .Ctrl               (),
+    .MEM_Enable         (MEM_Enable),
+    .Ctrl               (MEM_Ctrl),
 
     //axi4 read
-    .MEM_READ_REQ       (),
-    .MEM_READ_FINISH    (),
-    .MEM_READ_ADDR      (),
-    .MEM_READ_DATA      (),
+    .MEM_READ_REQ       (MEM_READ_REQ),
+    .MEM_READ_FINISH    (MEM_READ_FINISH),
+    .MEM_READ_ADDR      (MEM_READ_ADDR_AXI),
+    .MEM_READ_DATA      (MEM_READ_DATA_AXI),
 
     //axi4 write
-    .MEM_WRITE_REQ      (),
-    .MEM_WRITE_FINISH   (),
-    .MEM_WRITE_ADDR     (),
-    .MEM_WRITE_DATA     (),
+    .MEM_WRITE_REQ      (MEM_WRITE_START),
+    .MEM_WRITE_FINISH   (MEM_WRITE_FINISH),
+    .MEM_WRITE_ADDR     (MEM_WRITE_ADDR),
+    .MEM_WRITE_DATA     (MEM_WRITE_DATA),
 
     .RESULT             (),
-    .FINISH             ()
+    .FINISH             (MEM_Finish)
+);
+
+wire        MEM_WRITE_START;
+wire        MEM_WRITE_FINISH;
+wire [63:0] MEM_WRITE_ADDR;
+wire [63:0] MEM_WRITE_DATA;
+
+AXI4_WRITE_MODUAL write_mem(
+    .CLK        (clk),
+    .RST        (rst),
+
+    .WRITE_ADDR     (MEM_WRITE_ADDR),
+    .WRITE_DATA     (MEM_WRITE_DATA),
+    .WRITE_START    (MEM_WRITE_START),
+    .WRITE_DONE     (MEM_WRITE_FINISH),
+
+    .DATA_ARRIVE    (DATA_ARRIVE),
+    .DATA_RECIVED   (DATA_RECIVED),
+    .DATA           (DATA),
+    .DATA_ADDR      (DATA_ADDR)
 );
 
 

@@ -7,7 +7,6 @@ module MEM(
     input [63:0]    MEM_ADDR_FROM_ALU,
     input [63:0]    MEM_DATA_FROM_ALU,
 
-    input           RESULT_FROM_ALU,
     input           MEM_Enable,
     input [3:0]     Ctrl,
 
