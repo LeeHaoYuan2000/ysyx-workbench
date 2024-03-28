@@ -36,6 +36,7 @@ module top(
 
 
     wire [63:0] PC_NEXT;
+    wire [63:0] PC_Final; //PC back rhe pc register
 
     wire [63:0] ALU_Number_1;
     wire [63:0] ALU_Number_2;
@@ -59,6 +60,7 @@ module top(
     wire [63:0] MEM_READ_ADDR_AXI;
     wire [63:0] MEM_READ_DATA_AXI;
     wire        MEM_Finish;
+    wire [63:0] MEM_RESULT;
 
 
     PC_Reg pc(
@@ -267,7 +269,7 @@ MEM mem(
     .MEM_WRITE_ADDR     (MEM_WRITE_ADDR),
     .MEM_WRITE_DATA     (MEM_WRITE_DATA),
 
-    .RESULT             (),
+    .RESULT             (MEM_RESULT),
     .FINISH             (MEM_Finish)
 );
 
@@ -290,6 +292,35 @@ AXI4_WRITE_MODUAL write_mem(
     .DATA           (DATA),
     .DATA_ADDR      (DATA_ADDR)
 );
+
+wire [63:0] Final_Reault;
+wire [63:0] PC_Branch;
+
+Branch_adder(
+    .current_pc     (PC_TO_IFU),
+    .imm            (SEXT_out),
+    .new_pc         (PC_Branch)
+);
+
+
+// Choose the final result is from the ALu or the MEM
+MuxKeyWithDefault #(2,1,64) MUX_Result_ALU_MEM (Final_Reault,MUX_ALU_MEM,64'd0,{
+    1'b0,ALU_Result,  // ALU Result
+    1'd1,MEM_RESULT  // MEM_Result
+});
+
+MuxKeyWithDefault #(3,2,64) MUX_PCNEXT_PCJUMP (PC_Final,MUX_ALU_MEM,64'd0,{
+    2'b0,PC_NEXT,    // NPC
+    2'd1,PC_Branch     // Branch
+    2'd2,ALU_Result
+});
+
+MuxKeyWithDefault #(2,1,64) MUX_WRITEBACK_ALU_PC (PC_Final,MUX_ALU_NPC_In,64'd0,{
+    1'b0,Final_Reault,    // ALU to reg
+    1'd1,PC_NEXT      // PC NEXT to REG
+});
+
+
 
 
 endmodule
